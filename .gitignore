@@ -41,8 +41,6 @@ build
 
 # Logs
 logs
-*.log
-npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
@@ -90,9 +88,6 @@ typings/
 
 # Optional npm cache directory
 .npm
-
-# Optional eslint cache
-.eslintcache
 
 # Microbundle cache
 .rpt2_cache/
@@ -144,27 +139,16 @@ dist
 # TernJS port file
 .tern-port
 
-.DS_Store
 node_modules
-/dist
 
 # local env files
 .env.local
 .env.*.local
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Editor directories and files
-.idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw*
 .history/
-package-lock.json
-yarn.lock
