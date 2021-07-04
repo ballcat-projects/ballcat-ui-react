@@ -85,8 +85,12 @@ export const request: RequestConfig = {
         .json()
         .then((json) => {
           if (option.url) {
-            // 验证码接口特殊处理
-            if (option.url === 'captcha/get' || option.url === 'captcha/check') {
+            // 部分接口特殊处理
+            if (
+              option.url === 'captcha/get' ||
+              option.url === 'captcha/check' ||
+              option.url === 'oauth/token'
+            ) {
               return res;
             }
           }
@@ -105,7 +109,8 @@ export const request: RequestConfig = {
   ],
   errorConfig: {
     adaptor: (data: any, ctx: any) => {
-      if (ctx.req.url.startsWith('/api/captcha')) {
+      const { url } = ctx.req;
+      if (url.startsWith('/api/captcha') || url.startsWith('/api/oauth/token')) {
         return { ...data, oldSuccess: data.success, success: true };
       }
       return data;

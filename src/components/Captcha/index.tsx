@@ -75,8 +75,8 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
       mode: 'fixed',
       vSpace: 5,
       imgSize: {
-        width: 310,
-        height: 200,
+        width: 330,
+        height: 155,
       },
       barSize: {
         width: 310,
@@ -87,10 +87,10 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
         height: 50,
       },
       setSize: {
-        imgHeight: 200,
-        imgWidth: 310,
-        barHeight: 0,
-        barWidth: 0,
+        imgHeight: 155,
+        imgWidth: 330,
+        barHeight: 40,
+        barWidth: 310,
       },
       // 验证码背景图片
       backImgBase: '',
@@ -437,9 +437,9 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
               <div
                 className="verify-bar-area"
                 style={{
-                  width: this.state.setSize.imgWidth,
-                  height: barSize.height,
-                  lineHeight: barSize.height,
+                  width: `${setSize.imgWidth}px`,
+                  height: `${barSize.height}px`,
+                  lineHeight: `${barSize.height}px`,
                 }}
                 ref={(bararea) => this.setBarArea(bararea)}
               >
@@ -448,11 +448,12 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
                 <div
                   className="verify-left-bar"
                   style={{
-                    width:
+                    width: `${
                       this.state.leftBarWidth !== undefined
                         ? this.state.leftBarWidth
-                        : barSize.height,
-                    height: barSize.height,
+                        : barSize.height
+                    }px`,
+                    height: `${barSize.height}px`,
                     borderColor: this.state.leftBarBorderColor,
                     transition: transitionWidth,
                   }}
@@ -480,9 +481,9 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
                       className="verify-sub-block"
                       style={{
                         width: `${Math.floor((setSize.imgWidth * 47) / 310)}px`,
-                        height: this.state.setSize.imgHeight,
+                        height: `${setSize.imgHeight}px`,
                         top: `-${setSize.imgHeight + vSpace}px`,
-                        backgroundSize: `${setSize.imgWidth} ${this.state.setSize.imgHeight}`,
+                        backgroundSize: `${setSize.imgWidth}px ${setSize.imgHeight}px`,
                       }}
                     >
                       {this.state.blockBackImgBase ? (

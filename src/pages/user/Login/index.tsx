@@ -13,7 +13,7 @@ import { FormattedMessage, history, Link, SelectLang, useIntl, useModel } from '
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-
+import { pwd } from '@/utils/Encrypt';
 import VerifySlide from '@/components/Captcha';
 
 import styles from './index.less';
@@ -55,6 +55,7 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
@@ -69,15 +70,15 @@ const Login: React.FC = () => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      const msg = await login({ ...values, type, password: pwd.encrypt(`${values.password}`) });
+      if (msg && msg.access_token) {
         message.success(
           intl.formatMessage({
             id: 'pages.login.success',
             defaultMessage: '登录成功！',
           }),
         );
-        await fetchUserInfo();
+        // await fetchUserInfo();
         goto();
         return;
       }

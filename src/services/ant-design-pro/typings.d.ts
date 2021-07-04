@@ -24,9 +24,14 @@ declare namespace API {
   };
 
   type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
+    access_token: string;
+    expires_in: number;
+    info: { userId: number; username: string; nickname: string; avatar: string; type: number };
+    permissions: string[];
+    refresh_token: string;
+    roles: string[];
+    scope: string;
+    token_type: string;
   };
 
   type PageParams = {
