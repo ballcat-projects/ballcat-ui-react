@@ -44,6 +44,7 @@
     "@umijs/route-utils": "^1.0.36",
     "antd": "^4.14.0",
     "classnames": "^2.2.6",
+    "crypto-js": "^4.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
     "omit.js": "^2.0.2",
@@ -51,8 +52,8 @@
     "react-dev-inspector": "^1.1.1",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.0.4",
-    "umi": "^v3.4.0",
-    "crypto-js": "^4.0.0"
+    "react-transition-group": "^4.4.2",
+    "umi": "^v3.4.0"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.0.2",

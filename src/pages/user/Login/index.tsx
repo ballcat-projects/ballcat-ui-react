@@ -6,13 +6,15 @@ import {
   UserOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, Space, message, Tabs } from 'antd';
+import { Alert, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import { FormattedMessage, history, Link, SelectLang, useIntl, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+
+import VerifySlide from '@/components/Captcha';
 
 import styles from './index.less';
 
@@ -43,6 +45,12 @@ const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
+  // 是否使用登录验证码
+  const [captcha] = useState<boolean>(true);
+  const [captchaSow, setCaptchaSow] = useState<boolean>(false);
+  // const [vs, setVs] = useState<RefObject<VerifySlide>>();
+  const [vs, setVs] = useState<VerifySlide>();
+  const [loginParams, setLoginParams] = useState<API.LoginParams>({});
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
@@ -57,17 +65,18 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const loginHandler = async (values: API.LoginParams) => {
     setSubmitting(true);
     try {
       // 登录
       const msg = await login({ ...values, type });
       if (msg.status === 'ok') {
-        const defaultloginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultloginSuccessMessage);
+        message.success(
+          intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！',
+          }),
+        );
         await fetchUserInfo();
         goto();
         return;
@@ -75,15 +84,35 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
-      const defaultloginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
-
-      message.error(defaultloginFailureMessage);
+      message.error(
+        intl.formatMessage({
+          id: 'pages.login.failure',
+          defaultMessage: '登录失败，请重试！',
+        }),
+      );
     }
     setSubmitting(false);
   };
+
+  const handleSubmit = async () => {
+    if (captcha) {
+      if (!vs) {
+        message.error(
+          intl.formatMessage({
+            id: 'pages.login.module.failure',
+            defaultMessage: '登录验证模块加载失败!',
+          }),
+        );
+        return;
+      }
+      // 弹出验证码框
+      setCaptchaSow(true);
+      vs.refresh();
+    } else {
+      await loginHandler(loginParams);
+    }
+  };
+
   const { status, type: loginType } = userLoginState;
 
   return (
@@ -91,6 +120,17 @@ const Login: React.FC = () => {
       <div className={styles.lang} data-lang>
         {SelectLang && <SelectLang />}
       </div>
+      <VerifySlide
+        // @ts-ignore
+        ref={setVs}
+        isSlideShow={captchaSow}
+        close={() => {
+          setCaptchaSow(false);
+        }}
+        success={async (captchaVerification) => {
+          await loginHandler({ ...loginParams, captchaVerification });
+        }}
+      />
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
@@ -126,7 +166,8 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              handleSubmit(values as API.LoginParams);
+              setLoginParams(values as API.LoginParams);
+              await handleSubmit();
             }}
           >
             <Tabs activeKey={type} onChange={setType}>

@@ -60,7 +60,7 @@ const customerRequestInterceptor: RequestInterceptor = (
 } => {
   // 处理请求地址
   const newUrl = `/api/${url.startsWith('/') ? url.substring(1) : url}`;
-  const headers = { Authorization: '', ...options.headers };
+  const headers: any = { ...options.headers };
 
   // 添加token
   const token = localStorage.getItem('access-key');
@@ -79,11 +79,17 @@ export const request: RequestConfig = {
   requestType: 'json',
   requestInterceptors: [customerRequestInterceptor],
   responseInterceptors: [
-    (res) => {
+    (res, option) => {
       return res
         .clone()
         .json()
         .then((json) => {
+          if (option.url) {
+            // 验证码接口特殊处理
+            if (option.url === 'captcha/get' || option.url === 'captcha/check') {
+              return res;
+            }
+          }
           if (json && json.code !== 200) {
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw {
@@ -97,6 +103,14 @@ export const request: RequestConfig = {
         });
     },
   ],
+  errorConfig: {
+    adaptor: (data: any, ctx: any) => {
+      if (ctx.req.url.startsWith('/api/captcha')) {
+        return { ...data, oldSuccess: data.success, success: true };
+      }
+      return data;
+    },
+  },
   errorHandler: (error: any) => {
     const { response, message } = error;
 
@@ -108,7 +122,7 @@ export const request: RequestConfig = {
     } else {
       notification.error({
         description: message,
-        message: '请求异常',
+        message: '操作异常',
       });
     }
     throw error;

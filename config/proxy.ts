@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/api/': {
-      // target: 'http://192.168.1.5:16520/',
+      // target: 'http://192.168.1.5:30301/',
       target: 'http://preview.ballcat.cn/api/',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },

@@ -22,12 +22,12 @@ export async function outLogin(options?: { [key: string]: any }) {
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   body.grant_type = 'password';
 
-  return request<API.LoginResult>('/api/oauth/token', {
+  return request<API.LoginResult>('oauth/token', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: 'Basic dWk6dWk=',
     },
-    data: body,
+    params: body,
     ...(options || {}),
   });
 }
