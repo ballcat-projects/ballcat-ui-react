@@ -63,8 +63,9 @@ const customerRequestInterceptor: RequestInterceptor = (
   const headers = { Authorization: '', ...options.headers };
 
   // 添加token
-  if (!headers.Authorization) {
-    headers.Authorization = `Bearer ${localStorage.getItem('access-key')}`;
+  const token = localStorage.getItem('access-key');
+  if (!headers.Authorization && token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
   return { url: newUrl, options: { ...options, headers } };
