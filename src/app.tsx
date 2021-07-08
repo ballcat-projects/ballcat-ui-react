@@ -1,8 +1,8 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import { notification } from 'antd';
+import { message, notification } from 'antd';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
+import { history, Link, useIntl } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
@@ -96,11 +96,17 @@ const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
         };
       }
 
+      message.success(
+        useIntl().formatMessage({
+          id: 'global.operate.complete',
+          defaultMessage: 'success',
+        }),
+      );
       return response;
     });
 };
 const errorHandler = (error: ResponseError) => {
-  const { response, message } = error;
+  const { response, message: msg } = error;
   if (!response) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
@@ -108,7 +114,7 @@ const errorHandler = (error: ResponseError) => {
     });
   } else {
     notification.error({
-      description: message,
+      description: msg,
       message: '操作异常',
     });
   }

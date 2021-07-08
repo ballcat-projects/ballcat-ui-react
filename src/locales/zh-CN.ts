@@ -7,6 +7,7 @@ import settings from './zh-CN/settings';
 import pages from './zh-CN/pages';
 
 export default {
+  'global.operate.complete': '操作完成!',
   'navBar.lang': '语言',
   'layout.user.link.help': '帮助',
   'layout.user.link.privacy': '隐私',

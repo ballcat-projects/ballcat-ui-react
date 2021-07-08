@@ -60,36 +60,34 @@ const Login: React.FC = () => {
    */
   const loginHandler = async (values: API.LoginParams) => {
     setSubmitting(true);
-    try {
-      // 登录
-      login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
-        .then((res) => {
-          message.success(
-            intl.formatMessage({
-              id: 'pages.login.success',
-              defaultMessage: '登录成功！',
-            }),
-          );
-          // eslint-disable-next-line no-console
-          console.log(initialState?.user?.access_token);
-          setInitialState({ user: { ...res } });
-          goto();
-        })
-        .catch(() => {
-          // 如果失败去设置用户错误信息
-          setUserLoginState({ status: 'error', type });
-        });
-      // 如果失败去设置用户错误信息
-      setUserLoginState({ status: 'error', type });
-    } catch (error) {
-      message.error(
-        intl.formatMessage({
-          id: 'pages.login.failure',
-          defaultMessage: '登录失败，请重试！',
-        }),
-      );
-    }
-    setSubmitting(false);
+    // 登录
+    login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
+      .then((res) => {
+        message.success(
+          intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！',
+          }),
+        );
+        // eslint-disable-next-line no-console
+        console.log(initialState?.user?.access_token);
+        setInitialState({ user: { ...res } });
+        localStorage.setItem('ballcat_user', JSON.stringify(res));
+        goto();
+      })
+      .catch(() => {
+        message.error(
+          intl.formatMessage({
+            id: 'pages.login.failure',
+            defaultMessage: '登录失败，请重试！',
+          }),
+        );
+        // 如果失败去设置用户错误信息
+        setUserLoginState({ status: 'error', type });
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   /**
