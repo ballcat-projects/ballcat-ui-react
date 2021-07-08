@@ -22,3 +22,35 @@ declare module 'bizcharts-plugin-slider';
 declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefined;
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
+
+declare namespace GLOBAL {
+  type Router = {
+    hidden: boolean;
+    icon: string;
+    id: number;
+    keepAlive: boolean;
+    parentId: number;
+    path: string;
+    remarks: string;
+    targetType: number;
+    title: string;
+    type: number;
+    uri: string;
+  };
+
+  type UserInfo = {
+    info: {
+      avatar?: string;
+      nickname?: string;
+      type: number;
+      userId: number;
+      username: string;
+    };
+    permissions: string[];
+    access_token: string;
+    refresh_token: string;
+    roles: string[];
+    scope: 'server';
+    token_type: 'bearer';
+  };
+}

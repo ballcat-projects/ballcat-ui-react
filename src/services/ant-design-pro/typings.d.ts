@@ -2,6 +2,8 @@
 /* eslint-disable */
 
 declare namespace API {
+  type CurrenDetails = {};
+
   type CurrentUser = {
     name?: string;
     avatar?: string;
@@ -24,14 +26,8 @@ declare namespace API {
   };
 
   type LoginResult = {
-    access_token: string;
-    expires_in: number;
-    info: { userId: number; username: string; nickname: string; avatar: string; type: number };
-    permissions: string[];
-    refresh_token: string;
-    roles: string[];
-    scope: string;
-    token_type: string;
+    status?: string;
+    type?: string;
   };
 
   type PageParams = {

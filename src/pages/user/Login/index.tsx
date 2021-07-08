@@ -55,35 +55,32 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      setInitialState({
-        ...initialState,
-        currentUser: userInfo,
-      });
-    }
-  };
-
+  /**
+   * 登录请求处理
+   */
   const loginHandler = async (values: API.LoginParams) => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await login({ ...values, type, password: pwd.encrypt(`${values.password}`) });
-      if (msg && msg.access_token) {
-        message.success(
-          intl.formatMessage({
-            id: 'pages.login.success',
-            defaultMessage: '登录成功！',
-          }),
-        );
-        // await fetchUserInfo();
-        goto();
-        return;
-      }
+      login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
+        .then((res) => {
+          message.success(
+            intl.formatMessage({
+              id: 'pages.login.success',
+              defaultMessage: '登录成功！',
+            }),
+          );
+          // eslint-disable-next-line no-console
+          console.log(initialState?.user?.access_token);
+          setInitialState({ user: { ...res } });
+          goto();
+        })
+        .catch(() => {
+          // 如果失败去设置用户错误信息
+          setUserLoginState({ status: 'error', type });
+        });
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState({ status: 'error', type });
     } catch (error) {
       message.error(
         intl.formatMessage({
@@ -95,6 +92,9 @@ const Login: React.FC = () => {
     setSubmitting(false);
   };
 
+  /**
+   * 登录处理
+   */
   const handleSubmit = async () => {
     if (captcha) {
       if (!vs) {
