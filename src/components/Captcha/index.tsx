@@ -258,8 +258,8 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
   async refresh() {
     await this.getData();
     this.setState({
-      moveBlockLeft: '',
-      leftBarWidth: '',
+      moveBlockLeft: undefined,
+      leftBarWidth: undefined,
       text: '向右滑动完成验证',
       moveBlockBackgroundColor: '#fff',
       leftBarBorderColor: '#337AB7',
@@ -379,7 +379,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
       iconClass,
     } = this.state;
     return (
-      <div className="mask" style={{ display: isSlideShow ? 'block' : 'none' }}>
+      <div className="mask" style={{ display: isSlideShow ? 'block' : 'none', userSelect: 'none' }}>
         <div className="verifybox" style={{ maxWidth: `${imgSize.width + 30}px` }}>
           <div className="verifybox-top">
             请完成安全验证
