@@ -11,24 +11,6 @@ export type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
-/**
- * 退出登录，并且将当前的 url 保存
- */
-const loginOut = async () => {
-  await outLogin();
-  const { query = {}, pathname } = history.location;
-  const { redirect } = query;
-  // Note: There may be security issues, please note
-  if (window.location.pathname !== '/user/login' && !redirect) {
-    history.replace({
-      pathname: '/user/login',
-      search: stringify({
-        redirect: pathname,
-      }),
-    });
-  }
-};
-
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -41,11 +23,24 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     }) => {
       const { key } = event;
       if (key === 'logout' && initialState) {
-        setInitialState({ ...initialState, currentUser: undefined });
-        loginOut();
+        outLogin().then(() => {
+          setInitialState({ ...initialState, user: undefined });
+          //  退出登录，并且将当前的 url 保存
+          const { query = {}, pathname } = history.location;
+          const { redirect } = query;
+          // Note: There may be security issues, please note
+          if (window.location.pathname !== '/user/login' && !redirect) {
+            history.replace({
+              pathname: '/user/login',
+              search: stringify({
+                redirect: pathname,
+              }),
+            });
+          }
+        });
         return;
       }
-      history.push(`/account/${key}`);
+      history.push(`/user/${key}`);
     },
     [initialState, setInitialState],
   );
@@ -66,9 +61,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     return loading;
   }
 
-  const { currentUser } = initialState;
+  const { user } = initialState;
 
-  if (!currentUser || !currentUser.name) {
+  if (!user?.info?.nickname) {
     return loading;
   }
 
@@ -98,8 +93,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        <Avatar size="small" className={styles.avatar} src={user?.info?.avatar} alt="avatar" />
+        <span className={`${styles.name} anticon`}>{user?.info?.nickname}</span>
       </span>
     </HeaderDropdown>
   );

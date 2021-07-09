@@ -2,12 +2,10 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import { message, notification } from 'antd';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
-import { history, Link, useIntl } from 'umi';
+import { history, useIntl } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -22,29 +20,17 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
   user?: GLOBAL.UserInfo;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
-  const fetchUserInfo = async () => {
-    try {
-      return await queryCurrentUser();
-    } catch (error) {
-      history.push(loginPath);
-    }
-    return undefined;
-  };
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    const cache = localStorage.getItem('ballcat_user');
     return {
-      fetchUserInfo,
-      currentUser,
+      user: cache ? JSON.parse(cache) : {},
       settings: {},
     };
   }
   return {
-    fetchUserInfo,
     settings: {},
   };
 }
@@ -58,7 +44,7 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
   const headers: any = { ...options.headers };
 
   // 添加token
-  const token = localStorage.getItem('access-key');
+  const token = localStorage.getItem('access-token');
   if (!headers.Authorization && token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -82,6 +68,14 @@ const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
           return response;
         }
       }
+
+      if (response.status === 401) {
+        // token 鉴权异常
+        localStorage.removeItem('ballcat_user');
+        localStorage.removeItem('access-token');
+        window.location.reload();
+      }
+
       if (json && json.code !== 200) {
         // 登录接口, 通过是否存在token判断成功或失败
         if (option.url === 'oauth/token' && json.access_token) {
@@ -92,7 +86,7 @@ const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
         throw {
           response,
           data: json,
-          message: json.message,
+          message: json.message || json.error,
         };
       }
 
@@ -143,28 +137,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.user?.info?.nickname,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (!initialState?.user?.info && location.pathname !== loginPath) {
         history.push(loginPath);
       }
     },
-    links: isDev
-      ? [
-          <Link to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>openAPI 文档</span>
-          </Link>,
-          <Link to="/~docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
-        ]
-      : [],
+    links: isDev ? [] : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

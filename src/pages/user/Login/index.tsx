@@ -48,7 +48,6 @@ const Login: React.FC = () => {
   // 是否使用登录验证码
   const [captcha] = useState<boolean>(true);
   const [captchaSow, setCaptchaSow] = useState<boolean>(false);
-  // const [vs, setVs] = useState<RefObject<VerifySlide>>();
   const [vs, setVs] = useState<VerifySlide>();
   const [loginParams, setLoginParams] = useState<API.LoginParams>({});
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -69,10 +68,11 @@ const Login: React.FC = () => {
             defaultMessage: '登录成功！',
           }),
         );
-        // eslint-disable-next-line no-console
-        console.log(initialState?.user?.access_token);
-        setInitialState({ user: { ...res } });
+        setInitialState({ ...initialState, user: { ...res } });
+        // 缓存用户信息
         localStorage.setItem('ballcat_user', JSON.stringify(res));
+        // 缓存token
+        localStorage.setItem('access-token', res.access_token);
         goto();
       })
       .catch(() => {
