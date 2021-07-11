@@ -1,9 +1,16 @@
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
- * */
-export default function access(initialState: { currentUser?: API.CurrentUser | undefined }) {
-  const { currentUser } = initialState || {};
+ */
+import type { MenuDataItem } from '@ant-design/pro-layout';
+import type { GLOBAL } from '@/typings';
+
+export default function access(initialState: {
+  menuArray: MenuDataItem[];
+  user?: GLOBAL.UserInfo;
+}) {
+  const { menuArray } = initialState || {};
+
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
+    canAdmin: menuArray,
   };
 }

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Tag, message } from 'antd';
+import { message, Tag } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel } from 'umi';
 import { getNotices } from '@/services/ant-design-pro/api';
 
 import NoticeIcon from './NoticeIcon';
+// @ts-ignore
 import styles from './index.less';
 
 export type GlobalHeaderRightProps = {
@@ -72,7 +73,7 @@ const getUnreadData = (noticeData: Record<string, API.NoticeIconItem[]>) => {
 
 const NoticeIconView = () => {
   const { initialState } = useModel('@@initialState');
-  const { currentUser } = initialState || {};
+  const { user } = initialState || {};
   const [notices, setNotices] = useState<API.NoticeIconItem[]>([]);
 
   useEffect(() => {
@@ -110,7 +111,8 @@ const NoticeIconView = () => {
   return (
     <NoticeIcon
       className={styles.action}
-      count={currentUser && currentUser.unreadCount}
+      // 通知数量
+      count={user ? 0 : 2}
       onItemClick={(item) => {
         changeReadState(item.id!);
       }}

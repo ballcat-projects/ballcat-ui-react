@@ -4,6 +4,7 @@ import React from 'react';
 import { useModel, SelectLang } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
+// @ts-ignore
 import styles from './index.less';
 
 export type SiderTheme = 'light' | 'dark';
@@ -43,7 +44,7 @@ const GlobalHeaderRight: React.FC = () => {
           },
         ]}
         // onSearch={value => {
-        //   console.log('input', value);
+        //
         // }}
       />
       <span

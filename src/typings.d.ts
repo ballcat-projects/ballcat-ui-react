@@ -1,3 +1,5 @@
+import type { MenuDataItem } from '@ant-design/pro-layout';
+
 declare module 'slash2';
 declare module '*.css';
 declare module '*.less';
@@ -24,6 +26,20 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefine
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 
 declare namespace GLOBAL {
+  type Is = {
+    settings?: Partial<LayoutSettings>;
+    menuArray?: MenuDataItem[];
+    updateRouter?: () => void;
+    routerLoad?: boolean;
+    user?: GLOBAL.UserInfo;
+  };
+
+  type R<T> = {
+    code: number;
+    message: string;
+    data: T;
+  };
+
   type Router = {
     hidden: boolean;
     icon: string;
@@ -32,10 +48,17 @@ declare namespace GLOBAL {
     parentId: number;
     path: string;
     remarks: string;
-    targetType: number;
+    /**
+     * 1 组件, 2 内链, 3 外链
+     */
+    targetType: 1 | 2 | 3;
     title: string;
-    type: number;
+    /**
+     * 0: 目录 1: 菜单 2: 按钮
+     */
+    type: 0 | 1 | 2;
     uri: string;
+    children?: Router[];
   };
 
   type UserInfo = {

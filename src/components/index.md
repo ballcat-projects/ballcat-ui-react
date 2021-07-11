@@ -84,9 +84,7 @@ export default () => {
           value: 'Pro Layout',
         },
       ]}
-      onSearch={(value) => {
-        console.log('input', value);
-      }}
+      onSearch={(value) => {}}
     />
   );
 };
