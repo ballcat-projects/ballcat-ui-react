@@ -1,13 +1,12 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import { message, notification } from 'antd';
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
+import type { RequestConfig } from 'umi';
 import { history, useIntl } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
-import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
+import { getMenu } from '@/utils/RouteUtils';
+import type { GLOBAL } from '@/typings';
 
-const isDev = process.env.NODE_ENV === 'development';
+// const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -18,21 +17,28 @@ export const initialStateConfig = {
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
-export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings>;
-  user?: GLOBAL.UserInfo;
-}> {
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
-    const cache = localStorage.getItem('ballcat_user');
-    return {
-      user: cache ? JSON.parse(cache) : {},
-      settings: {},
-    };
-  }
-  return {
+export async function getInitialState(): Promise<GLOBAL.Is> {
+  const is: GLOBAL.Is = {
     settings: {},
   };
+  const menuArray: any[] = [];
+
+  is.menuArray = menuArray;
+  // 如果是登录页面，不执行
+  if (history.location.pathname !== loginPath) {
+    // await updateRouter();
+    const cache = localStorage.getItem('ballcat_user');
+
+    if (cache) {
+      const menus = await getMenu();
+      menuArray.push(...menus);
+    } else {
+      history.push('/user/login');
+    }
+
+    is.user = cache ? JSON.parse(cache) : {};
+  }
+  return is;
 }
 
 /**
@@ -90,12 +96,14 @@ const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
         };
       }
 
-      message.success(
-        useIntl().formatMessage({
-          id: 'global.operate.complete',
-          defaultMessage: 'success',
-        }),
-      );
+      if (option.url !== 'system/menu/router') {
+        message.success(
+          useIntl().formatMessage({
+            id: 'global.operate.complete',
+            defaultMessage: 'success',
+          }),
+        );
+      }
       return response;
     });
 };
@@ -129,28 +137,4 @@ export const request: RequestConfig = {
     },
   },
   errorHandler,
-};
-
-// ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
-  return {
-    rightContentRender: () => <RightContent />,
-    disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.user?.info?.nickname,
-    },
-    footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.user?.info && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
-    links: isDev ? [] : [],
-    menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
-    ...initialState?.settings,
-  };
 };

@@ -10,12 +10,12 @@ import { Alert, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { FormattedMessage, history, Link, SelectLang, useIntl, useModel } from 'umi';
-import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import { pwd } from '@/utils/Encrypt';
 import VerifySlide from '@/components/Captcha';
 
+// @ts-ignore
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -37,7 +37,7 @@ const goto = () => {
   setTimeout(() => {
     const { query } = history.location;
     const { redirect } = query as { redirect: string };
-    history.push(redirect || '/');
+    window.location.href = redirect || '/';
   }, 10);
 };
 
@@ -61,18 +61,18 @@ const Login: React.FC = () => {
     setSubmitting(true);
     // 登录
     login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
-      .then((res) => {
+      .then(async (res) => {
         message.success(
           intl.formatMessage({
             id: 'pages.login.success',
             defaultMessage: '登录成功！',
           }),
         );
-        setInitialState({ ...initialState, user: { ...res } });
         // 缓存用户信息
         localStorage.setItem('ballcat_user', JSON.stringify(res));
         // 缓存token
         localStorage.setItem('access-token', res.access_token);
+        setInitialState({ ...initialState, user: { ...res } });
         goto();
       })
       .catch(() => {
@@ -347,7 +347,6 @@ const Login: React.FC = () => {
           </Space>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
