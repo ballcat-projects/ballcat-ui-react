@@ -4,10 +4,11 @@ import type {
   Settings,
 } from '@ant-design/pro-layout';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import RightContent from '@/components/RightContent';
 import { dynamic, history, Link, useIntl, useModel } from 'umi';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
+import HeaderContent from '@/components/HeaderContent';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -37,6 +38,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     },
   } = props;
 
+  const [collapsed, setCollapsed] = useState(false);
   const { formatMessage } = useIntl();
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -73,7 +75,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       logo={'./logo.svg'}
       formatMessage={formatMessage}
       {...props}
-      // onCollapse={handleMenuCollapse}
+      collapsedButtonRender={false}
+      collapsed={collapsed}
+      onCollapse={setCollapsed}
+      headerContentRender={() => <HeaderContent collapsed={collapsed} onCollapse={setCollapsed} />}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
         if (!initialState?.user?.info && location.pathname !== '/user/login') {
