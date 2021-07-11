@@ -9,6 +9,7 @@ import RightContent from '@/components/RightContent';
 import { dynamic, history, Link, useIntl, useModel } from 'umi';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import HeaderContent from '@/components/HeaderContent';
+import settings from '../../config/defaultSettings';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -73,6 +74,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   return (
     <ProLayout
       logo={'./logo.svg'}
+      {...settings}
       formatMessage={formatMessage}
       {...props}
       collapsedButtonRender={false}

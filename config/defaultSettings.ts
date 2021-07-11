@@ -3,6 +3,7 @@ import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
+  iconfontUrl: string;
 } = {
   navTheme: 'dark',
   primaryColor: '#1890ff',
@@ -13,7 +14,7 @@ const Settings: LayoutSettings & {
   title: 'Ball Cat',
   pwa: false,
   logo: './logo.svg',
-  iconfontUrl: '',
+  iconfontUrl: '//at.alicdn.com/t/font_2663734_syyfxo5beoj.js',
 };
 
 export default Settings;
