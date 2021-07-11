@@ -14,4 +14,7 @@ export default {
   'component.noticeIcon.cleared': '清空了',
   'component.noticeIcon.empty': '暂无数据',
   'component.noticeIcon.view-more': '查看更多',
+
+  'component.global.header.content.fold': '折叠菜单',
+  'component.global.header.content.reload': '重新加载',
 };

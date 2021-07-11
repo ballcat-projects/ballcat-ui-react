@@ -5,6 +5,7 @@ import type { AutoCompleteProps } from 'antd/es/auto-complete';
 import React, { useRef } from 'react';
 
 import classNames from 'classnames';
+// @ts-ignore
 import styles from './index.less';
 
 export type HeaderSearchProps = {

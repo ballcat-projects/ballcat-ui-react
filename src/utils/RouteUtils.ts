@@ -32,13 +32,21 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
         locale: false,
         path: `${path}${menuPath}`,
         name: val.title,
-        extra: true,
+        // 只有菜单页要求全匹配
+        exact: val.type === 1,
         meta: val,
       };
 
       // 目录处理
       if (val.type === 0) {
         const childrenArray = serializationRemoteList(list, val.id, menuPath);
+        // 需要添加一个404的路由, 否则 二级,三级的不存在路由 会在右边展示空白
+        childrenArray.push({
+          component: dynamic({
+            loader: () => import('@/pages/exception/404'),
+            loading: LoadingComponent,
+          }),
+        });
         menu.routes = childrenArray;
         menu.children = childrenArray;
       }
@@ -48,7 +56,6 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
         // 组件
         if (val.targetType === 1) {
           component = dynamic({
-            // loader: () => import('@/pages/system/role'),
             loader: () => {
               // TODO 导入模块异常时, 展示异常页面. import是异步.无法捕获.
               return import(`@/pages/${val.uri}`);

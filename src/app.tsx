@@ -1,10 +1,11 @@
 import { PageLoading } from '@ant-design/pro-layout';
 import { message, notification } from 'antd';
 import type { RequestConfig } from 'umi';
-import { history, useIntl } from 'umi';
+import { dynamic, history, useIntl } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
+import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 
 // const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -38,6 +39,13 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
 
     is.user = cache ? JSON.parse(cache) : {};
   }
+
+  menuArray.push({
+    component: dynamic({
+      loader: () => import('@/pages/exception/404'),
+      loading: LoadingComponent,
+    }),
+  });
   return is;
 }
 

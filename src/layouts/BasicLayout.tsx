@@ -6,10 +6,11 @@ import type {
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
 import RightContent from '@/components/RightContent';
-import { dynamic, history, Link, useIntl, useModel } from 'umi';
+import { history, Link, useIntl, useModel } from 'umi';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import HeaderContent from '@/components/HeaderContent';
 import settings from '../../config/defaultSettings';
+import { Breadcrumb } from 'antd';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -27,6 +28,35 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
     };
   });
 
+// @ts-ignore
+const breadcrumbRender = (
+  path: string,
+  routes: { locale: boolean | undefined; path: string; name: string; routes: any[] }[],
+  fm: (id: string, dm?: string) => string,
+) => {
+  const list = [];
+  for (let i = 0; i < routes.length; i += 1) {
+    const route = routes[i];
+    const { path: rp, name: rn, locale } = route;
+    if (rp && rp !== '/') {
+      if (path.startsWith(rp)) {
+        let name = rn;
+        if (locale === undefined || locale === null || locale) {
+          // 国际化失败, 则用key展示
+          name = fm(`menu.${rn}`, rn);
+        }
+
+        list.push(<Breadcrumb.Item key={rp}>{name}</Breadcrumb.Item>);
+        if (rp !== path && route?.routes) {
+          // @ts-ignore
+          list.push(...breadcrumbRender(path, route.routes));
+        }
+      }
+    }
+  }
+  return list;
+};
+
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
     children,
@@ -40,25 +70,19 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   } = props;
 
   const [collapsed, setCollapsed] = useState(false);
+  const [reload, setReload] = useState(false);
   const { formatMessage } = useIntl();
   const { initialState, setInitialState } = useModel('@@initialState');
 
   useEffect(() => {
-    if (!initialState?.routerLoad && initialState?.menuArray) {
-      const c404 = {
-        component: dynamic({
-          loader: () => import('@/pages/exception/404'),
-          loading: LoadingComponent,
-        }),
-      };
-      initialState.menuArray.push(c404);
+    if (!route.children) {
+      route.children = [];
+    }
+    if (!route.routes) {
+      route.routes = [];
+    }
 
-      if (!route.children) {
-        route.children = [];
-      }
-      if (!route.routes) {
-        route.routes = [];
-      }
+    if (!initialState?.routerLoad && initialState?.menuArray) {
       for (let i = 0; i < initialState.menuArray.length; i += 1) {
         const menu = initialState.menuArray[i];
         // @ts-ignore
@@ -71,16 +95,32 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
   }, [initialState]);
 
+  const fm = (id: string, defaultMessage?: string) => {
+    return formatMessage({ id, defaultMessage });
+  };
+
   return (
     <ProLayout
       logo={'./logo.svg'}
       {...settings}
       formatMessage={formatMessage}
       {...props}
+      route={route}
       collapsedButtonRender={false}
       collapsed={collapsed}
       onCollapse={setCollapsed}
-      headerContentRender={() => <HeaderContent collapsed={collapsed} onCollapse={setCollapsed} />}
+      headerContentRender={() => {
+        return (
+          <HeaderContent
+            // @ts-ignore
+            breadcrumbData={breadcrumbRender(location.pathname, route.routes, fm)}
+            collapsed={collapsed}
+            onCollapse={setCollapsed}
+            onReload={setReload}
+            fm={fm}
+          />
+        );
+      }}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
         if (!initialState?.user?.info && location.pathname !== '/user/login') {
@@ -98,13 +138,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         }
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
-      breadcrumbRender={(routers = []) => [
-        {
-          path: '/',
-          breadcrumbName: formatMessage({ id: 'menu.home' }),
-        },
-        ...routers,
-      ]}
       itemRender={(nr, params, routes, paths) => {
         const first = routes.indexOf(nr) === 0;
         return first ? (
@@ -116,9 +149,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
     >
-      <WaterMark content={initialState?.user?.info?.nickname} style={{ height: '100%' }}>
-        {children}
-      </WaterMark>
+      {reload ? (
+        <LoadingComponent />
+      ) : (
+        <WaterMark content={initialState?.user?.info?.nickname} style={{ height: '100%' }}>
+          {children}
+        </WaterMark>
+      )}
     </ProLayout>
   );
 };

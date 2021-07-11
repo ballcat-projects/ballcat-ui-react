@@ -14,4 +14,7 @@ export default {
   'component.noticeIcon.cleared': 'Cleared',
   'component.noticeIcon.empty': 'No notifications',
   'component.noticeIcon.view-more': 'View more',
+
+  'component.global.header.content.fold': 'collapseMenu',
+  'component.global.header.content.reload': 'reload',
 };
