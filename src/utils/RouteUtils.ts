@@ -63,12 +63,17 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
             loading: LoadingComponent,
           });
         }
-        // 内联
+        // 内链
         else if (val.targetType === 2) {
           component = dynamic({
             loader: () => import('@/components/Inline'),
             loading: LoadingComponent,
           });
+        }
+        // 外链
+        else {
+          menu.target = '_blank';
+          menu.path = val.uri;
         }
         menu.component = component;
       }
