@@ -129,13 +129,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       onMenuHeaderClick={() => history.push('/')}
       menuItemRender={(menuItemProps, defaultDom) => {
-        if (
-          menuItemProps.isUrl ||
-          !menuItemProps.path ||
-          location.pathname === menuItemProps.path
-        ) {
+        if (!menuItemProps.path || location.pathname === menuItemProps.path) {
           return defaultDom;
         }
+
+        if (menuItemProps.isUrl) {
+          return (
+            <a target={menuItemProps.target} href={menuItemProps.path}>
+              {menuItemProps.name}
+            </a>
+          );
+        }
+
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
       itemRender={(nr, params, routes, paths) => {
