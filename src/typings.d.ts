@@ -25,6 +25,24 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefine
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 
+export type R<T> = {
+  code: number;
+  message: string;
+  data: T;
+};
+
+export type QueryParam<T> = {
+  current: number;
+  size: number;
+  sortFields: string[];
+  sortOrders: ('desc' | 'asc')[];
+} & T;
+
+export type PageResult<T> = {
+  total: number;
+  records: T[];
+};
+
 declare namespace GLOBAL {
   type Is = {
     settings?: Partial<LayoutSettings>;
@@ -32,12 +50,6 @@ declare namespace GLOBAL {
     updateRouter?: () => void;
     routerLoad?: boolean;
     user?: GLOBAL.UserInfo;
-  };
-
-  type R<T> = {
-    code: number;
-    message: string;
-    data: T;
   };
 
   type Router = {

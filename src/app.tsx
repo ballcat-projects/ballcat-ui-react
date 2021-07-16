@@ -63,13 +63,18 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  return { url: newUrl, options: { ...options, headers } };
+  let { sendMessage } = options;
+  if (sendMessage === undefined || sendMessage === null) {
+    sendMessage = true;
+  }
+
+  return { url: newUrl, options: { ...options, headers, sendMessage } };
 };
 
 /**
  * 自定义处理返回值
  */
-const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
+const customerResponseInterceptor: ResponseInterceptor = async (res, option) => {
   return res
     .clone()
     .json()
@@ -104,13 +109,18 @@ const customerResponseInterceptor: ResponseInterceptor = (res, option) => {
         };
       }
 
-      if (option.url !== 'system/menu/router') {
-        message.success(
-          useIntl().formatMessage({
-            id: 'global.operate.complete',
-            defaultMessage: 'success',
-          }),
-        );
+      if (option.url !== 'system/menu/router' && message && option.sendMessage) {
+        try {
+          message.success(
+            useIntl().formatMessage({
+              id: 'global.operate.complete',
+              defaultMessage: 'success',
+            }),
+          );
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('发送提示时异常!', e);
+        }
       }
       return response;
     });

@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { GLOBAL } from '@/typings';
+import { GLOBAL, R } from '@/typings';
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
@@ -29,7 +29,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
  * 获取路由
  */
 export async function router() {
-  return request<GLOBAL.R<GLOBAL.Router[]>>('system/menu/router', {
+  return request<R<GLOBAL.Router[]>>('system/menu/router', {
     method: 'GET',
   });
 }
