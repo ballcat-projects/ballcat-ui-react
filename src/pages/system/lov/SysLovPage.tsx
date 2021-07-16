@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, Card } from 'antd';
+import { Alert, Card, Divider } from 'antd';
+import Lov from '@/components/Lov';
 
 export default (): React.ReactNode => {
   return (
@@ -10,6 +11,9 @@ export default (): React.ReactNode => {
         showIcon
         banner
       />
+
+      <Divider>下面是Lov的 Demo</Divider>
+      <Lov keyword={'lov_demo'} />
     </Card>
   );
 };
