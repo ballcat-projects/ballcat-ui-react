@@ -46,14 +46,28 @@ const getSearch = (search: false | SearchConfig) => {
 const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
   props: LtTableProps<T, U>,
 ) => {
-  const { search, request, rowKey } = props;
+  const { search, request, rowKey, options } = props;
 
   return (
     <ProTable
       {...props}
+      options={
+        options && {
+          fullScreen: true,
+          reload: true,
+          setting: true,
+          density: true,
+          // 采用覆盖默认值形式
+          ...options,
+        }
+      }
       search={getSearch(search)}
       request={(p, sort, filter) => {
-        const retData = { data: [], success: true, total: 0 };
+        const retData: { data: T[]; success: boolean; total: number } = {
+          data: [],
+          success: true,
+          total: 0,
+        };
         if (!request) {
           return Promise.resolve(retData);
         }
@@ -65,9 +79,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
           sortOrders: 'desc',
         };
         return request(params, sort, filter).then((res) => {
-          // @ts-ignore
           const { records, total } = res.data;
-          // @ts-ignore
           retData.data = records;
           retData.total = total;
           return retData;

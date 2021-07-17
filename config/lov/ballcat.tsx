@@ -42,7 +42,7 @@ export const ballCatUser: LovConfig<SysUserVo> = {
       html: 'input',
     },
     {
-      label: '昵称',
+      label: '搜索的昵称',
       field: 'nickname',
       html: (setVal) => {
         return <Input addonBefore={'test'} onChange={(e) => setVal(e.target.value)} />;

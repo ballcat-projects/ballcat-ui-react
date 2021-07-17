@@ -103,6 +103,7 @@ const LovModal: React.FC<LovConfig<any>> = (props) => {
   return (
     <div>
       <LtTable
+        options={{ fullScreen: false }}
         search={proSearch}
         rowKey={config.uniqueKey}
         columns={columns}
