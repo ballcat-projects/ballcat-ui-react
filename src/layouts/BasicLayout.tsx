@@ -11,6 +11,7 @@ import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import HeaderContent from '@/components/HeaderContent';
 import settings from '../../config/defaultSettings';
 import { Breadcrumb } from 'antd';
+import Footer from '@/components/Footer';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -91,7 +92,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         route.routes.push(menu);
       }
 
-      setInitialState({ ...initialState, routerLoad: true });
+      setInitialState({ ...initialState, settings: { ...settings }, routerLoad: true });
     }
   }, [initialState]);
 
@@ -103,7 +104,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     <ProLayout
       logo={'./logo.svg'}
       {...settings}
+      {...initialState?.settings}
       formatMessage={formatMessage}
+      footerRender={() => <Footer />}
       {...props}
       route={route}
       collapsedButtonRender={false}
