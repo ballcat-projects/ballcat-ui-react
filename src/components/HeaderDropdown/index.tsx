@@ -2,6 +2,7 @@ import type { DropDownProps } from 'antd/es/dropdown';
 import { Dropdown } from 'antd';
 import React from 'react';
 import classNames from 'classnames';
+// @ts-ignore
 import styles from './index.less';
 
 export type HeaderDropdownProps = {

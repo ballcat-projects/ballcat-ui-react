@@ -4,6 +4,7 @@ import { Avatar, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
+// @ts-ignore
 import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 

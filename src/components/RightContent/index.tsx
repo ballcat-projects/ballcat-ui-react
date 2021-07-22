@@ -1,16 +1,19 @@
 import { Space } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useModel, SelectLang } from 'umi';
+import { SelectLang, useModel } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 // @ts-ignore
 import styles from './index.less';
-
-export type SiderTheme = 'light' | 'dark';
+import SettingDrawer from '@/components/SettingDrawer';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
 const GlobalHeaderRight: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const setSettings = (newSettings: LayoutSettings) => {
+    setInitialState({ ...initialState, settings: newSettings });
+  };
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -57,6 +60,13 @@ const GlobalHeaderRight: React.FC = () => {
       </span>
       <Avatar />
       <SelectLang className={styles.action} />
+
+      <SettingDrawer
+        settings={initialState.settings}
+        // @ts-ignore
+        onSettingChange={setSettings}
+        hideHintAlert={true}
+      />
     </Space>
   );
 };
