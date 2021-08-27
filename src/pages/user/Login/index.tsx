@@ -14,6 +14,7 @@ import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import { pwd } from '@/utils/Encrypt';
 import VerifySlide from '@/components/Captcha';
+import { User, Token } from '@/utils/Ballcat';
 
 // @ts-ignore
 import styles from './index.less';
@@ -69,9 +70,9 @@ const Login: React.FC = () => {
           }),
         );
         // 缓存用户信息
-        localStorage.setItem('ballcat_user', JSON.stringify(res));
+        User.set(JSON.stringify(res));
         // 缓存token
-        localStorage.setItem('access-token', res.access_token);
+        Token.set(res.access_token);
         setInitialState({ ...initialState, user: { ...res } });
         goto();
       })

@@ -7,6 +7,7 @@ import HeaderDropdown from '../HeaderDropdown';
 // @ts-ignore
 import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
+import { User, Token } from '@/utils/Ballcat';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -26,6 +27,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       if (key === 'logout' && initialState) {
         outLogin().then(() => {
           setInitialState({ ...initialState, user: undefined });
+          User.clean();
+          Token.clean();
           //  退出登录，并且将当前的 url 保存
           const { query = {}, pathname } = history.location;
           const { redirect } = query;

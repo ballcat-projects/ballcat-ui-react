@@ -6,6 +6,7 @@ import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi
 import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
+import { User, Token } from '@/utils/Ballcat';
 
 // const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -28,7 +29,7 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     // await updateRouter();
-    const cache = localStorage.getItem('ballcat_user');
+    const cache = User.get();
 
     if (cache) {
       const menus = await getMenu();
@@ -58,7 +59,7 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
   const headers: any = { ...options.headers };
 
   // 添加token
-  const token = localStorage.getItem('access-token');
+  const token = Token.get();
   if (!headers.Authorization && token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -90,8 +91,8 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
 
       if (response.status === 401) {
         // token 鉴权异常
-        localStorage.removeItem('ballcat_user');
-        localStorage.removeItem('access-token');
+        Token.clean();
+        User.clean();
         window.location.reload();
       }
 

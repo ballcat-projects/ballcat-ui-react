@@ -7,6 +7,7 @@ import { plugin } from '@@/core/plugin';
 import routes from '../../config/routes';
 import { ApplyPluginsType, dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
+import { User } from '@/utils/Ballcat';
 
 export async function getMenu() {
   const { data: remoteList } = await router();
@@ -85,7 +86,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
 }
 
 export async function updateRouter() {
-  if (history.location.pathname !== '/user/login' && localStorage.getItem('ballcat_user')) {
+  if (history.location.pathname !== '/user/login' && User.get()) {
     getMenu().then((res) => {
       plugin.applyPlugins({
         key: 'patchRoutes',
