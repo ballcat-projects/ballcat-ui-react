@@ -46,11 +46,33 @@ const getSearch = (search: false | SearchConfig) => {
 const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
   props: LtTableProps<T, U>,
 ) => {
-  const { search, request, rowKey, options } = props;
+  const { search, request, rowKey, options, onRow, rowSelection } = props;
+  let onRowHandler = onRow;
+  if (!onRowHandler) {
+    onRowHandler = () => {
+      return {
+        onClick: (e) => {
+          if (
+            e.target instanceof HTMLElement &&
+            (e.target.tagName.toUpperCase() === 'TD' || e.target?.tagName.toUpperCase() === 'TR')
+          ) {
+            // 单击表格中的非展示数据元素， 选中当前列
+            if (rowSelection && rowSelection.type) {
+              const es = e.currentTarget.getElementsByClassName(`ant-${rowSelection.type}-wrapper`);
+              if (es && es[0] instanceof HTMLElement) {
+                es[0].click();
+              }
+            }
+          }
+        },
+      };
+    };
+  }
 
   return (
     <ProTable
       {...props}
+      onRow={onRowHandler}
       options={
         options && {
           fullScreen: true,

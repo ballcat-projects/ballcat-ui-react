@@ -4,7 +4,7 @@ import { SysUserVo } from '@/services/ballcat/system';
 
 export const ballCatUser: LovConfig<SysUserVo> = {
   title: '用户',
-  keyword: 'lov_demo',
+  keyword: 'lov_demo_multiple',
   uniqueKey: 'userId',
   url: '/system/user/page',
   method: 'GET',

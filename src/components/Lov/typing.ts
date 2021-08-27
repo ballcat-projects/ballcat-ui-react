@@ -1,6 +1,8 @@
+import type React from 'react';
+
 export type LovProps = {
   keyword: string;
-};
+} & LovModalProps;
 
 export type LovConfig<T> = {
   // 标题
@@ -19,14 +21,18 @@ export type LovConfig<T> = {
   fixedParams?: Record<string, any>;
   // 是否多选
   multiple: boolean;
-  // 是否需要返回结果
+  // 是否展示确定和取消按钮
   isRet: boolean;
   // 返回结果 传入字符串则表示返回指定字段,  传入函数则表示自定义返回值
-  ret?: string | ((row: T) => any);
+  ret: string | ((row: T) => any);
   // 表格列配置
   columns: LovColumns<T>[];
   // 搜索组件配置
   searchArray?: LovSearch[];
+  // modal 样式
+  modalStyle?: React.CSSProperties;
+  // modal 属性配置
+  modalProperties?: Record<string, any>;
 };
 
 export type LovColumns<T> = {
@@ -59,4 +65,11 @@ export type LovSearch = {
    * 函数参数: setVal 一个用来提交搜索值的函数, 当值发生变化时, 请调用该方法提交新值
    */
   html: 'input' | 'input-number' | ((setVal: (val: any) => void) => React.ReactNode);
+};
+
+export type LovModalProps = {
+  // 值
+  value: any;
+  // 参数为新值
+  setValue: (val: any) => void;
 };

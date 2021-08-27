@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Card, Divider } from 'antd';
 import Lov from '@/components/Lov';
 
 export default (): React.ReactNode => {
+  const [value, setValue] = useState<any>(34);
+
   return (
     <Card>
       <Alert
@@ -13,7 +15,7 @@ export default (): React.ReactNode => {
       />
 
       <Divider>下面是Lov的 Demo</Divider>
-      <Lov keyword={'lov_demo'} />
+      <Lov value={value} setValue={setValue} keyword={'lov_demo_multiple'} />
     </Card>
   );
 };
