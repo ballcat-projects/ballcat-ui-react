@@ -18,4 +18,22 @@
 
 <Auth.Button permission={'system:dict:read'} localeKey={'menu.welcome'} prefix={true} />
 
+<Auth.AL
+  auths={[
+    { permission: 'system:dict:edit', text: 'a1' , onClick: ()=>{alert("123")}},
+    { permission: 'system:dict:read', text: 'a2' },
+    { permission: 'system:dict:read', text: 'a2' },
+    { permission: 'system:dict:read', text: 'a2' },
+  ]}
+/>
+
+
+<Auth.BL
+  auths={[
+    { permission: 'system:dict:edit', text: 'a1' , onClick: ()=>{alert("123")}},
+    { permission: 'system:dict:read', text: 'a2' },
+    { permission: 'system:dict:read', text: 'a2' },
+    { permission: 'system:dict:read', text: 'a2' },
+  ]}
+/>
 ```
