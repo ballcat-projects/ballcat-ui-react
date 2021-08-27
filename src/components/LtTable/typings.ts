@@ -5,8 +5,7 @@ import type {
   ProColumns,
   ProTableProps,
 } from '@ant-design/pro-table';
-import type { PageResult, R } from '@/typings';
-import type { SortOrder } from 'antd/lib/table/interface';
+import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
 import type { CSSProperties } from 'react';
 import type { DensitySize } from '@ant-design/pro-table/lib/components/ToolBar/DensityIcon';
@@ -24,14 +23,7 @@ import type { ProFieldEmptyText } from '@ant-design/pro-field';
 import type { Bordered } from '@ant-design/pro-table/lib/typing';
 
 export type LtTableProps<T, U, ValueType = 'text'> = {
-  request: (
-    params: U & {
-      size?: number;
-      current?: number;
-    },
-    sort: Record<string, SortOrder>,
-    filter: Record<string, React.ReactText[] | null>,
-  ) => Promise<R<PageResult<T>>>;
+  request?: (params: QueryParam<U>) => Promise<R<PageResult<T>>>;
 
   columns?: ProColumns<T, ValueType>[];
   /** @name ListToolBar 的属性 */

@@ -84,7 +84,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
         }
       }
       search={getSearch(search)}
-      request={(p, sort, filter) => {
+      request={async (p) => {
         const retData: { data: T[]; success: boolean; total: number } = {
           data: [],
           success: true,
@@ -94,18 +94,17 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
           return Promise.resolve(retData);
         }
 
-        const params = {
+        const params: any = {
           ...p,
           size: p.pageSize,
           sortFields: rowKey,
           sortOrders: 'desc',
         };
-        return request(params, sort, filter).then((res) => {
-          const { records, total } = res.data;
-          retData.data = records;
-          retData.total = total;
-          return retData;
-        });
+        const res = await request(params);
+        const { records, total } = res.data;
+        retData.data = records;
+        retData.total = total;
+        return retData;
       }}
     />
   );
