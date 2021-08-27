@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { request } from 'umi';
-import { Modal, Select } from 'antd';
+import { Modal, Select, Tag } from 'antd';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
 import type { ProColumns } from '@ant-design/pro-table';
@@ -252,7 +252,17 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
           return request<R<PageResult<any>>>(config.url, option);
         }}
         tableExtraRender={() => {
-          return <Select value={showData} mode={'tags'} style={{ width: '100%' }} open={false} />;
+          return (
+            <Select
+              value={showData}
+              mode={'tags'}
+              style={{ width: '100%' }}
+              open={false}
+              tagRender={({ label }) => {
+                return <Tag>{label}</Tag>;
+              }}
+            />
+          );
         }}
       />
     </Modal>
