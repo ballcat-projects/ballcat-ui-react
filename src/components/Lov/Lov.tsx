@@ -20,25 +20,16 @@ const Lov: React.FC<LovProps> = (props) => {
   const { value, setValue } = props;
   const [show, setShow] = useState<boolean>(false);
 
-  let lovDom;
-  if (config.multiple) {
-    lovDom = (
-      <Select
-        allowClear
-        mode={'tags'}
-        value={value instanceof Array ? [...value] : [value]}
-        style={{ width: 'calc(100% - 40px)' }}
-        open={false}
-      />
-    );
-  } else {
-    lovDom = <Input value={value} />;
-  }
-
   return (
     <div>
       <Input.Group compact>
-        {lovDom}
+        <Select
+          allowClear
+          mode={'tags'}
+          value={value instanceof Array ? [...value] : [value]}
+          style={{ width: 'calc(100% - 40px)' }}
+          open={false}
+        />
         <Button
           style={{ paddingLeft: '5px', paddingRight: '5px' }}
           onClick={() => {
