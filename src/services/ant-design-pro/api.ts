@@ -3,10 +3,10 @@
 import { request } from 'umi';
 import { GLOBAL, R } from '@/typings';
 
-/** 退出登录接口 POST /api/login/outLogin */
+/** 退出登录接口 POST oauth/logout */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
-    method: 'POST',
+  return request<Record<string, any>>('oauth/logout', {
+    method: 'DELETE',
     ...(options || {}),
   });
 }
