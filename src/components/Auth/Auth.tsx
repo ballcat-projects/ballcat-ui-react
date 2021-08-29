@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider } from 'antd';
+import { Button, Divider, Popconfirm } from 'antd';
 import { useIntl, useModel } from 'umi';
 import type { AuthProps, AuthType } from '.';
 import type { AuthItemProps, AuthListProps } from './typing';
@@ -18,11 +18,15 @@ const generateRender = (
   return defaultNode;
 };
 
-const defaultPrefixRender = (render: React.ReactNode | (() => React.ReactNode)) =>
-  generateRender(render, <Divider type={'vertical'} />);
+const defaultPrefixRender = (
+  render: React.ReactNode | (() => React.ReactNode),
+  key: string | number,
+) => generateRender(render, <Divider key={`auth-divider-prefix-${key}`} type={'vertical'} />);
 
-const defaultSuffixRender = (render: React.ReactNode | (() => React.ReactNode)) =>
-  generateRender(render, <Divider type={'vertical'} />);
+const defaultSuffixRender = (
+  render: React.ReactNode | (() => React.ReactNode),
+  key: string | number,
+) => generateRender(render, <Divider key={`auth-divider-suffix-${key}`} type={'vertical'} />);
 
 const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNode[] => {
   const {
@@ -36,13 +40,11 @@ const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNod
     suffixRender,
     key: pk,
     onClick,
+    configTitle,
+    config,
   } = props;
 
   const domArray: React.ReactNode[] = [];
-  // 展示前缀 - 指定展示, 或者指定 render 都会展示内容
-  if (prefix || prefixRender) {
-    domArray.push(defaultPrefixRender(prefixRender));
-  }
   // 生成文本
   let content = text;
   // 文本不存在, 国际化key存在
@@ -56,28 +58,83 @@ const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNod
     key = `${permission}-${content}-${new Date().getTime()}`;
   }
 
-  // 展示文本
-  if (type === 'a') {
-    domArray.push(
-      <a style={props.style} key={`auth-a-${key}`} onClick={onClick}>
-        {content}
-      </a>,
-    );
-  } else if (type === 'button') {
-    domArray.push(
-      <Button style={props.style} key={`auth-button-${key}`} onClick={onClick} type={'primary'}>
-        {content}
-      </Button>,
-    );
-  } else if (typeof type === 'function') {
-    domArray.push(type(content, permission));
-  } else {
-    domArray.push(type);
+  // 展示前缀 - 指定展示, 或者指定 render 都会展示内容
+  if (prefix || prefixRender) {
+    domArray.push(defaultPrefixRender(prefixRender, key));
+  }
+
+  // 按钮
+  switch (type) {
+    case 'a':
+      if (config || configTitle) {
+        domArray.push(
+          <Popconfirm
+            key={`auth-a-popconfirm-${key}`}
+            title={configTitle}
+            {...config}
+            onConfirm={(e) => {
+              if (onClick) {
+                onClick(e);
+              }
+              if (config?.onConfirm) {
+                config?.onConfirm(e);
+              }
+            }}
+          >
+            <a style={props.style} key={`auth-a-${key}`}>
+              {content}
+            </a>
+          </Popconfirm>,
+        );
+      } else {
+        domArray.push(
+          <a style={props.style} key={`auth-a-${key}`} onClick={onClick}>
+            {content}
+          </a>,
+        );
+      }
+      break;
+    case 'button':
+      if (config || configTitle) {
+        domArray.push(
+          <Popconfirm
+            key={`auth-button-popconfirm-${key}`}
+            title={configTitle}
+            {...config}
+            onConfirm={(e) => {
+              if (onClick) {
+                onClick(e);
+              }
+              if (config?.onConfirm) {
+                config?.onConfirm(e);
+              }
+            }}
+          >
+            <Button style={props.style} key={`auth-button-${key}`} type={'primary'}>
+              {content}
+            </Button>
+          </Popconfirm>,
+        );
+      } else {
+        domArray.push(
+          <Button style={props.style} key={`auth-button-${key}`} onClick={onClick} type={'primary'}>
+            {content}
+          </Button>,
+        );
+      }
+      break;
+    default:
+      if (typeof type === 'function') {
+        domArray.push(type(content, permission));
+      } else {
+        domArray.push(type);
+      }
+      break;
   }
 
   // 展示后缀
   if (suffix || suffixRender) {
-    domArray.push(defaultSuffixRender(suffixRender));
+    domArray.push(defaultSuffixRender(suffixRender, key));
   }
 
   return domArray;
