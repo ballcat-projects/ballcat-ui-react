@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import type { MouseEvent, CSSProperties } from 'react';
 
 export interface AuthProps {
   onClick?: (e: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLAnchorElement>) => void;
@@ -17,6 +17,8 @@ export interface AuthProps {
   // 自定义按钮后展示的内容
   suffixRender?: React.ReactNode | (() => React.ReactNode);
   key?: string | number | null | undefined;
+  // 自定义样式, type 如果自定义则无效
+  style?: CSSProperties;
 }
 
 export interface AuthType {

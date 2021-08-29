@@ -59,13 +59,13 @@ const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNod
   // 展示文本
   if (type === 'a') {
     domArray.push(
-      <a key={`auth-a-${key}`} onClick={onClick}>
+      <a style={props.style} key={`auth-a-${key}`} onClick={onClick}>
         {content}
       </a>,
     );
   } else if (type === 'button') {
     domArray.push(
-      <Button onClick={onClick} key={`auth-button-${key}`} type={'primary'}>
+      <Button style={props.style} key={`auth-button-${key}`} onClick={onClick} type={'primary'}>
         {content}
       </Button>,
     );
