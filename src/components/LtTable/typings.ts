@@ -21,6 +21,7 @@ import type { AlertRenderType } from '@ant-design/pro-table/lib/components/Alert
 import type { ProSchemaComponentTypes, RowEditableConfig } from '@ant-design/pro-utils';
 import type { ProFieldEmptyText } from '@ant-design/pro-field';
 import type { Bordered } from '@ant-design/pro-table/lib/typing';
+import type { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 export type LtTableProps<T, U, ValueType = 'text'> = {
   request?: (params: QueryParam<U>) => Promise<R<PageResult<T>>>;
@@ -162,4 +163,6 @@ export type LtTableProps<T, U, ValueType = 'text'> = {
   cardBordered?: Bordered;
   /** Debounce time */
   debounceTime?: number;
+  /** 默认的表格大小 */
+  defaultSize?: SizeType;
 } & Omit<TableProps<T>, 'columns' | 'rowSelection'>;
