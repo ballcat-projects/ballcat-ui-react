@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { request } from 'umi';
 import { Modal, Select, Tag } from 'antd';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { LovConfig, LovModalProps } from '@/components/Lov/typing';
 import type { PageResult, R } from '@/typings';
 import LtTable from '@/components/LtTable';
@@ -98,44 +98,52 @@ function handlerSearch(
   return map;
 }
 
+function getRet(row: any, config: LovConfig<any>) {
+  if (typeof config.ret === 'string') {
+    return row[config.ret];
+  }
+  return config.ret(row);
+}
+
 const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) => {
   const config: LovConfig<any> = props;
-  const columns: ProColumns<any>[] = [];
-  // 初始 map 并配置 表格列数据
-  const map: Record<string, number> = handlerColumns(columns, config);
-
-  // 搜索列
-  let proSearch: false | SearchConfig = false;
-  if (config.searchArray && config.searchArray.length > 0) {
-    proSearch = undefined;
-    handlerSearch(columns, config, map);
-  }
-
-  const getRet = (row: any): any => {
-    if (typeof config.ret === 'string') {
-      return row[config.ret];
-    }
-    return config.ret(row);
-  };
 
   const { value, setValue, title, show, setShow, modalStyle, modalProperties } = props;
+
+  const tableRef = useRef<ActionType>();
+
+  const [columns, setColumns] = useState<ProColumns<any>[]>([]);
+  const [proSearch, setProSearch] = useState<false | SearchConfig>(false);
 
   const [showData, setShowData] = useState<any[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (value === undefined || value === null) {
-      setShowData([]);
-    } else if (config.multiple) {
-      setShowData(value instanceof Array ? [...value] : [value]);
-    } else {
-      setShowData([value]);
-    }
-  }, [value]);
+  const postData = (data: any[]) => {
+    let rowKeys = [...selectedRowKeys];
+    let rows = [...selectedRows];
+    data.forEach((item) => {
+      if (rowKeys.indexOf(item[config.uniqueKey]) === -1) {
+        const itemVal = getRet(item, config);
+        if (showData.indexOf(itemVal) !== -1) {
+          if (config.multiple) {
+            rowKeys.push(item[config.uniqueKey]);
+            rows.push(item);
+          } else {
+            rowKeys = [].concat(item[config.uniqueKey]);
+            rows = [].concat(item);
+          }
+        }
+      }
+    });
+
+    setSelectedRowKeys([...rowKeys]);
+    setSelectedRows([...rows]);
+    return data;
+  };
 
   const selectRow = (row: any) => {
-    const retVal = getRet(row);
+    const retVal = getRet(row, config);
     if (config.multiple) {
       setShowData([...showData, retVal]);
       setSelectedRowKeys([...selectedRowKeys, row[config.uniqueKey]]);
@@ -149,7 +157,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
 
   const unselectRow = (row: any) => {
     if (config.multiple) {
-      const retVal = getRet(row);
+      const retVal = getRet(row, config);
       let index = showData.indexOf(retVal);
       if (index > -1) {
         showData.splice(index, 1);
@@ -170,13 +178,38 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     }
   };
 
+  useEffect(() => {
+    // 初始 map 并配置 表格列数据
+    const map: Record<string, number> = handlerColumns(columns, config);
+    // 搜索列
+    if (config.searchArray && config.searchArray.length > 0) {
+      setProSearch(undefined);
+      handlerSearch(columns, config, map);
+    }
+    setColumns([...columns]);
+  }, [config.keyword]);
+
+  useEffect(() => {
+    if (value === undefined || value === null) {
+      setShowData([]);
+    } else if (config.multiple) {
+      setShowData(value instanceof Array ? [...value] : [value]);
+    } else {
+      setShowData([value]);
+    }
+
+    setSelectedRowKeys([]);
+    setSelectedRows([]);
+  }, [value]);
+
   const style = { ...defaultModalStyle, ...modalStyle };
   return (
     <Modal
       style={style}
       width={style.width}
       {...modalProperties}
-      bodyStyle={{ paddingTop: '0px', ...modalProperties?.paddingTop }}
+      bodyStyle={{ padding: '0px', ...modalProperties?.paddingTop }}
+      destroyOnClose={true}
       title={title}
       visible={show}
       onCancel={() => {
@@ -186,13 +219,15 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         if (config.multiple) {
           setValue([...showData]);
         } else {
-          setValue(showData);
+          setValue(showData.length > 0 ? showData[0] : undefined);
         }
         setShow(false);
       }}
     >
       <LtTable
-        options={{ fullScreen: false }}
+        actionRef={tableRef}
+        options={false}
+        defaultSize={'small'}
         search={proSearch}
         scroll={{ x: true }}
         rowKey={config.uniqueKey}
@@ -218,28 +253,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
             });
           },
         }}
-        postData={(data) => {
-          let rowKeys = [...selectedRowKeys];
-          let rows = [...selectedRows];
-          data.forEach((item) => {
-            if (rowKeys.indexOf(item[config.uniqueKey]) === -1) {
-              const itemVal = getRet(item);
-              if (showData.indexOf(itemVal) !== -1) {
-                if (config.multiple) {
-                  rowKeys.push(item[config.uniqueKey]);
-                  rows.push(item);
-                } else {
-                  rowKeys = [].concat(item[config.uniqueKey]);
-                  rows = [].concat(item);
-                }
-              }
-            }
-          });
-
-          setSelectedRowKeys([...rowKeys]);
-          setSelectedRows([...rows]);
-          return data;
-        }}
+        postData={postData}
         tableAlertRender={false}
         columns={columns}
         request={(p) => {
@@ -254,9 +268,9 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         tableExtraRender={() => {
           return (
             <Select
-              value={showData}
+              value={value && showData}
               mode={'tags'}
-              style={{ width: '100%' }}
+              style={{ width: '100%', paddingLeft: '24px', paddingRight: '24px' }}
               open={false}
               tagRender={({ label }) => {
                 return <Tag>{label}</Tag>;

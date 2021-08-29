@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Card, Divider } from 'antd';
+import { Alert, Button, Card, Divider } from 'antd';
 import Lov from '@/components/Lov';
 
 export default (): React.ReactNode => {
@@ -19,6 +19,15 @@ export default (): React.ReactNode => {
       <Lov value={multipleValue} setValue={setMultipleValue} keyword={'lov_demo_multiple'} />
 
       <Divider>下面是Lov 单选的 Demo</Divider>
+      <Button
+        type={'primary'}
+        onClick={() => {
+          setValue(value - 1);
+        }}
+      >
+        切换value
+      </Button>
+      <span>当前值: {value}</span>
       <Lov value={value} setValue={setValue} keyword={'lov_demo'} />
     </Card>
   );

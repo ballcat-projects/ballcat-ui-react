@@ -26,9 +26,40 @@ const Lov: React.FC<LovProps> = (props) => {
         <Select
           allowClear
           mode={'tags'}
-          value={value instanceof Array ? [...value] : [value]}
+          value={value && (value instanceof Array ? [...value] : [value])}
           style={{ width: 'calc(100% - 40px)' }}
           open={false}
+          onDeselect={(val) => {
+            if (value === undefined || value === null) {
+              return;
+            }
+
+            // 不是多选.
+            if (!config.multiple) {
+              // 相等, 处理
+              if (value === val) {
+                setValue(undefined);
+              }
+              return;
+            }
+
+            // 多选, 相等
+            if (value === val) {
+              // 清空选择内容
+              setValue([]);
+              return;
+            }
+
+            // 从选中内容中移除val
+            const index = value.indexOf(val);
+            if (index !== -1) {
+              value.splice(index, 1);
+              setValue([...value]);
+            }
+          }}
+          onClear={() => {
+            setValue(config.multiple ? [] : undefined);
+          }}
         />
         <Button
           style={{ paddingLeft: '5px', paddingRight: '5px' }}
