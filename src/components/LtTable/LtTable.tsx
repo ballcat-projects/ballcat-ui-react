@@ -70,7 +70,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
   }
 
   return (
-    <ProTable
+    <ProTable<T, U>
       {...props}
       onRow={onRowHandler}
       options={
