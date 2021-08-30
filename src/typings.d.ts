@@ -47,7 +47,6 @@ declare namespace GLOBAL {
   type Is = {
     settings?: Partial<LayoutSettings>;
     menuArray?: MenuDataItem[];
-    updateRouter?: () => void;
     routerLoad?: boolean;
     user?: GLOBAL.UserInfo;
   };

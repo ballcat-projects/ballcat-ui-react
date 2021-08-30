@@ -28,7 +28,6 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
   is.menuArray = menuArray;
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
-    // await updateRouter();
     const cache = User.get();
 
     if (cache) {

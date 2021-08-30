@@ -21,14 +21,6 @@ export type BasicLayoutProps = {
   settings: Settings;
 } & ProLayoutProps;
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
-  menuList.map((item) => {
-    return {
-      ...item,
-      children: item.children ? menuDataRender(item.children) : undefined,
-    };
-  });
-
 // @ts-ignore
 const breadcrumbRender = (
   path: string,
@@ -154,7 +146,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           <span>{nr.breadcrumbName}</span>
         );
       }}
-      menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
     >
       {reload ? (
