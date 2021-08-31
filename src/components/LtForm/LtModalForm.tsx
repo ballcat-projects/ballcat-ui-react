@@ -11,10 +11,10 @@ const defautlTitle = {
   create: '新增',
 };
 
-const LtModalForm = <E,>(props: ModalFormProps<E>) => {
+const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   const {
     mfRef,
-    statusChange,
+    onStatusChange,
     width,
     labelCol,
     wrapperCol,
@@ -33,22 +33,22 @@ const LtModalForm = <E,>(props: ModalFormProps<E>) => {
 
   const changeStatus = (st: FormStatus) => {
     setStatus(st);
-    if (statusChange) {
-      statusChange(st);
+    if (onStatusChange) {
+      onStatusChange(st);
     }
   };
 
   const submit = async (
     values: Record<string, any>,
     st: 'read' | 'edit' | 'create',
-    req?: (body: E) => Promise<R<any>>,
+    req?: (body: P) => Promise<R<any>>,
   ) => {
     if (req === undefined) {
       message.error(`该表单未配置${defautlTitle[st]}请求, 无法进行对应操作!`);
       return Promise.resolve(false);
     }
 
-    const body = handlerData ? handlerData(values, st) : (values as E);
+    const body = handlerData ? handlerData(values as E, st) : (values as P);
     return req(body).then(() => {
       if (onFinish) {
         onFinish(status, body);
@@ -76,6 +76,7 @@ const LtModalForm = <E,>(props: ModalFormProps<E>) => {
       // 清空数据
       formRef.current?.resetFields();
       // 回填
+
       formRef.current?.setFieldsValue({ ...row });
     },
     // 编辑

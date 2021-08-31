@@ -13,9 +13,11 @@ export type FormRef<E> = {
   create: () => void;
 };
 
-export type FormProps<E> = {
+// e : 表单字段
+// p : 请求字段
+export type FormProps<E, P = E> = {
   mfRef?: React.MutableRefObject<FormRef<E> | undefined>;
-  statusChange?: (status: FormStatus) => void;
+  onStatusChange?: (status: FormStatus) => void;
   title?: {
     read?: string;
     edit?: string;
@@ -25,15 +27,15 @@ export type FormProps<E> = {
   labelCol?: ColProps;
   wrapperCol?: ColProps;
   // 数据处理, 处理后的数据用来发起创建或者编辑请求
-  handlerData?: (body: Record<string, any>, status: FormStatus) => E;
+  handlerData?: (body: E, status: FormStatus) => P;
   // 创建请求
-  create?: (body: E) => Promise<R<any>>;
+  create?: (body: P) => Promise<R<any>>;
   // 编辑请求
-  edit?: (body: E) => Promise<R<any>>;
+  edit?: (body: P) => Promise<R<any>>;
   // 请求完成后执行
-  onFinish?: (status: FormStatus, body: E) => void;
+  onFinish?: (status: FormStatus, body: P) => void;
 };
 
-export type ModalFormProps<E> = {
+export type ModalFormProps<E, P = E> = {
   children?: React.ReactNode;
-} & FormProps<E>;
+} & FormProps<E, P>;
