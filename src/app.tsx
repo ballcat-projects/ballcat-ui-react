@@ -1,7 +1,7 @@
 import { PageLoading } from '@ant-design/pro-layout';
-import { message, notification } from 'antd';
+import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
-import { dynamic, history, useIntl } from 'umi';
+import { dynamic, history } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
@@ -109,19 +109,19 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
         };
       }
 
-      if (option.url !== 'system/menu/router' && message && option.sendMessage) {
-        try {
-          message.success(
-            useIntl().formatMessage({
-              id: 'global.operate.complete',
-              defaultMessage: 'success',
-            }),
-          );
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.error('发送提示时异常!', e);
-        }
-      }
+      // if (option.url !== 'system/menu/router' && message && option.sendMessage) {
+      //   try {
+      //     message.success(
+      //       useIntl().formatMessage({
+      //         id: 'global.operate.complete',
+      //         defaultMessage: 'success',
+      //       }),
+      //     );
+      //   } catch (e) {
+      //     // eslint-disable-next-line no-console
+      //     console.error('发送提示时异常!', e);
+      //   }
+      // }
       return response;
     });
 };
