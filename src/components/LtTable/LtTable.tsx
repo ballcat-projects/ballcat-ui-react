@@ -43,8 +43,8 @@ const getSearch = (search: false | SearchConfig) => {
   return proSearch;
 };
 
-const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
-  props: LtTableProps<T, U>,
+const LtTable = <T extends Record<string, any>, U extends Record<string, any>, ValueType = 'text'>(
+  props: LtTableProps<T, U, ValueType>,
 ) => {
   const { search, request, rowKey, options, onRow, rowSelection } = props;
   let onRowHandler = onRow;
@@ -70,7 +70,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>>(
   }
 
   return (
-    <ProTable<T, U>
+    <ProTable<T, U, ValueType>
       {...props}
       onRow={onRowHandler}
       options={
