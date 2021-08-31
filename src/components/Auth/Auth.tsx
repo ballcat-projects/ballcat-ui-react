@@ -141,7 +141,7 @@ const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNod
 };
 
 const Auth = (props: AuthProps & AuthType) => {
-  const { permission, key } = props;
+  const { permission } = props;
   const { initialState } = useModel('@@initialState');
 
   const { formatMessage } = useIntl();
@@ -153,11 +153,7 @@ const Auth = (props: AuthProps & AuthType) => {
     domArray = domArray.concat(getDom(props, formatMessage));
   }
 
-  return (
-    <div key={`auth-div-${key}`} style={{ display: 'inline-block' }}>
-      {domArray}
-    </div>
-  );
+  return <>{domArray}</>;
 };
 
 Auth.A = (props: AuthProps) => <Auth {...props} type={'a'} />;

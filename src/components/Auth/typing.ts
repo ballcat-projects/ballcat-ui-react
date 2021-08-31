@@ -1,14 +1,12 @@
 import type { MouseEvent, CSSProperties } from 'react';
 import type { PopconfirmProps } from 'antd';
 
-export interface AuthProps {
+export type AuthNpProps = {
   onClick?: (e: MouseEvent<HTMLElement> | undefined) => void;
   // 文本
   text?: string;
   // 国际化key, 如果 text 值存在, 则以text为准
   localeKey?: string;
-  // 权限key
-  permission: string;
   // 如果有权限, 是否在按钮前加个东西
   prefix?: boolean;
   // 自定义按钮前展示的内容
@@ -24,16 +22,21 @@ export interface AuthProps {
   configTitle?: string;
   // config.title 会覆盖 configTitle
   config?: PopconfirmProps;
-}
+};
 
-export interface AuthType {
+export type AuthProps = {
+  // 权限key
+  permission: string;
+} & AuthNpProps;
+
+export type AuthType = {
   // 标签类型
   type:
     | 'a'
     | 'button'
     | React.ReactNode
     | ((text: string | undefined, permission: string) => React.ReactNode);
-}
+};
 
 export interface AuthItemProps {
   onClick?: (e: MouseEvent<HTMLElement> | undefined) => void;
