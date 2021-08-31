@@ -8,24 +8,25 @@ import { Icon } from '@/components/Icon';
 import LtModalForm from '@/components/LtForm/LtModalForm';
 import type { PageProps } from './typings';
 
-const LtPage = <T, U, E, P = E, ValueType = 'text'>({
-  title,
-  rowKey,
-  query,
-  columns,
-  toolBar,
-  onStatusChange,
-  create,
-  edit,
-  onFinish = () => {},
-  children,
-  operateBar,
-  formData = (data) => {
-    return data as unknown as E;
-  },
-  del,
-  handlerData,
-}: PageProps<T, U, E, P, ValueType>) => {
+const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P, ValueType>) => {
+  const {
+    title,
+    rowKey,
+    query,
+    columns,
+    toolBar,
+    onStatusChange,
+    create,
+    edit,
+    onFinish = () => {},
+    children,
+    operateBar,
+    formData = (data) => {
+      return data as unknown as E;
+    },
+    del,
+    handlerData,
+  } = props;
   const modalRef = useRef<FormRef<E>>();
   const tableRef = useRef<ActionType>();
 
