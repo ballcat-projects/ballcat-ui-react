@@ -1,6 +1,7 @@
 import type { R } from '@/typings';
 import type React from 'react';
 import type { ColProps } from 'antd';
+import type { ProFormInstance } from '@ant-design/pro-form';
 
 export type FormStatus = 'read' | 'edit' | 'create' | undefined;
 
@@ -11,6 +12,8 @@ export type FormRef<E> = {
   edit: (row: E) => void;
   // 新增
   create: () => void;
+  // 获取form表单的 ref
+  getFormRef: () => ProFormInstance<E> | undefined;
 };
 
 // e : 表单字段

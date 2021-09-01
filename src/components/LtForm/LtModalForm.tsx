@@ -88,6 +88,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     create: () => {
       switchStatus('create');
     },
+    getFormRef: () => formRef.current,
   }));
 
   return (
