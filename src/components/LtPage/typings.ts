@@ -1,10 +1,12 @@
-import type { QueryParam, R, PageResult } from '@/typings';
+import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import type { FormStatus } from '../LtForm';
 import type { AuthNpProps } from '../Auth';
+import type { LtTableProps } from '../LtTable/typings';
+import type { ModalFormProps } from '@/components/LtForm';
 
-export type PageToolBar = 'create' | JSX.Element;
+export type PageToolBarActions = 'create' | JSX.Element;
 
 export type PageOperateBarPreset = {
   type: 'edit' | 'del';
@@ -38,7 +40,7 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 请求数据处理, 处理后的数据用来发起 创建, 编辑, 删除请求
   handlerData?: (body: E, status: FormStatus) => P;
   // 表格上方工具栏
-  toolBar?: PageToolBar[];
+  toolBarActions?: PageToolBarActions[];
   // 表格右侧操作列
   operateBar?: PageOperateBar<T>[];
   // 状态变更时执行
@@ -46,4 +48,8 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 创建, 编辑 请求完成后执行
   onFinish?: (status: FormStatus, body: P) => void;
   children?: React.ReactNode;
+  // rowKey columns 等 无法配置
+  tableProps?: LtTableProps<T, U, ValueType>;
+  // 部分无法配置
+  modalProps?: ModalFormProps<E, P>;
 };

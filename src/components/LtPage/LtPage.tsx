@@ -14,7 +14,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     rowKey,
     query,
     columns,
-    toolBar,
+    toolBarActions,
     onStatusChange,
     create,
     edit,
@@ -26,19 +26,21 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     },
     del,
     handlerData,
+    tableProps,
+    modalProps,
   } = props;
   const modalRef = useRef<FormRef<E>>();
   const tableRef = useRef<ActionType>();
 
-  const [toolBarList, setToolBarList] = useState<React.ReactNode[]>([]);
+  const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
   const [tableColumns, setTableColumns] = useState<ProColumns<T, ValueType>[]>([]);
 
   // 表格上方工具栏更新
   useEffect(() => {
-    setToolBarList([]);
-    if (toolBar && toolBar.length > 0) {
+    setToolBarActionsList([]);
+    if (toolBarActions && toolBarActions.length > 0) {
       const tbList: React.ReactNode[] = [];
-      toolBar.forEach((tb) => {
+      toolBarActions.forEach((tb) => {
         if (tb === 'create') {
           tbList.push(
             <Button
@@ -54,9 +56,9 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
           tbList.push(tb);
         }
       });
-      setToolBarList(tbList);
+      setToolBarActionsList(tbList);
     }
-  }, [toolBar]);
+  }, [toolBarActions]);
 
   // 表格列更新
   useEffect(() => {
@@ -125,15 +127,17 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
   return (
     <>
       <LtTable<T, U, ValueType>
+        {...tableProps}
         rowKey={rowKey}
         columns={tableColumns}
         request={query}
         headerTitle={title}
         actionRef={tableRef}
-        toolBarRender={() => toolBarList}
+        toolbar={{ ...tableProps?.toolbar, actions: toolBarActionsList }}
       />
 
       <LtModalForm<E, P>
+        {...modalProps}
         mfRef={modalRef}
         onStatusChange={onStatusChange}
         handlerData={handlerData}
