@@ -1,7 +1,7 @@
 import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
-import type { ProColumns } from '@ant-design/pro-table';
-import type { FormStatus } from '../LtForm';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import type { FormRef, FormStatus } from '../LtForm';
 import type { AuthNpProps } from '../Auth';
 import type { LtTableProps } from '../LtTable/typings';
 import type { ModalFormProps } from '@/components/LtForm';
@@ -52,4 +52,6 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   tableProps?: LtTableProps<T, U, ValueType>;
   // 部分无法配置
   modalProps?: ModalFormProps<E, P>;
+  tableRef?: React.MutableRefObject<ActionType | undefined>;
+  modalRef?: React.MutableRefObject<FormRef<E> | undefined>;
 };

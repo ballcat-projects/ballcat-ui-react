@@ -28,9 +28,19 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     handlerData,
     tableProps,
     modalProps,
+    tableRef: tr,
+    modalRef: mr,
   } = props;
-  const modalRef = useRef<FormRef<E>>();
-  const tableRef = useRef<ActionType>();
+  let tableRef = useRef<ActionType>();
+  let modalRef = useRef<FormRef<E>>();
+
+  if (mr) {
+    modalRef = mr;
+  }
+
+  if (tr) {
+    tableRef = tr;
+  }
 
   const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
   const [tableColumns, setTableColumns] = useState<ProColumns<T, ValueType>[]>([]);
