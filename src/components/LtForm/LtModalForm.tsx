@@ -65,6 +65,8 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
       setModalTitle(undefined);
       return;
     }
+    // 清空数据
+    formRef.current?.resetFields();
     setModalTitle(title && title[st] ? title[st] : defautlTitle[st]);
     setVisible(true);
   };
@@ -73,17 +75,12 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     // 只读
     read: (row: E) => {
       switchStatus('read');
-      // 清空数据
-      formRef.current?.resetFields();
       // 回填
-
       formRef.current?.setFieldsValue({ ...row });
     },
     // 编辑
     edit: (row: E) => {
       switchStatus('edit');
-      // 清空数据
-      formRef.current?.resetFields();
       // 回填
       formRef.current?.setFieldsValue({ ...row });
     },
