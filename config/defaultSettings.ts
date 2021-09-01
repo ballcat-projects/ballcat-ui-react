@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   title: 'Ball Cat',
   pwa: false,
   logo: './logo.svg',
-  iconfontUrl: '//at.alicdn.com/t/font_2663734_suq21hihw8k.js',
+  iconfontUrl: '//at.alicdn.com/t/font_2663734_w8cu7be1b9n.js',
 };
 
 export default Settings;

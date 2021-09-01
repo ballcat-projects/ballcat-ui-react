@@ -1,14 +1,10 @@
 import { isBrowser } from '@ant-design/pro-utils';
 import zhLocal from './zh-CN';
-import zhTWLocal from './zh-TW';
 import enUSLocal from './en-US';
-import itITLocal from './it-IT';
 
 const locales = {
   'zh-CN': zhLocal,
-  'zh-TW': zhTWLocal,
   'en-US': enUSLocal,
-  'it-IT': itITLocal,
 };
 
 type GLocaleWindow = {
@@ -21,7 +17,7 @@ const getLanguage = (): string => {
   // support ssr
   if (!isBrowser()) return 'zh-CN';
   const lang = window.localStorage.getItem('umi_locale');
-  return lang || ((window as unknown) as GLocaleWindow).g_locale || navigator.language;
+  return lang || (window as unknown as GLocaleWindow).g_locale || navigator.language;
 };
 
 export { getLanguage };
