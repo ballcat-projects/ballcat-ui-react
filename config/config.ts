@@ -1,7 +1,7 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
 
-import defaultSettings from './defaultSettings';
+import settings from './settings';
 import proxy from './proxy';
 import routes from './routes';
 
@@ -14,7 +14,7 @@ export default defineConfig({
     hmr: true,
   },
   history: {
-    type: 'hash',
+    type: settings.historyType,
   },
   layout: false,
   // https://umijs.org/zh-CN/plugins/plugin-locale
@@ -34,7 +34,7 @@ export default defineConfig({
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    'primary-color': defaultSettings.primaryColor,
+    'primary-color': settings.primaryColor,
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild

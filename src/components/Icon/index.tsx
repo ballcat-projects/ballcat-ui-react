@@ -1,6 +1,6 @@
 import { createFromIconfontCN } from '@ant-design/icons';
 import type React from 'react';
-import settings from '../../../config/defaultSettings';
+import { settings } from '@/utils/ConfigUtils';
 
 interface IconProps {
   style?: React.CSSProperties;

@@ -1,8 +1,8 @@
 import { Button, message, notification } from 'antd';
 import { useIntl } from 'umi';
-import defaultSettings from '../config/defaultSettings';
+import { settings } from '@/utils/ConfigUtils';
 
-const { pwa } = defaultSettings;
+const { pwa } = settings;
 const isHttps = document.location.protocol === 'https:';
 
 // if pwa is true

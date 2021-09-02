@@ -10,7 +10,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import merge from 'lodash.merge';
 import omit from 'omit.js';
 import type { ProSettings } from '@ant-design/pro-layout';
-import defaultSettings from '../../../config/defaultSettings';
+import { settings as defaultSettings } from '@/utils/ConfigUtils';
 
 import BlockCheckbox from './BlockCheckbox';
 import ThemeColor from './ThemeColor';

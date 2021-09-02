@@ -9,7 +9,7 @@ import RightContent from '@/components/RightContent';
 import { history, Link, useIntl, useModel } from 'umi';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import HeaderContent from '@/components/HeaderContent';
-import settings from '../../config/defaultSettings';
+import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
 
