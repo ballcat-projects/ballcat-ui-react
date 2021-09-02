@@ -1,4 +1,12 @@
-export default {
+const languages: Record<
+  string,
+  {
+    lang: string;
+    label: string;
+    icon: string;
+    title: string;
+  }
+> = {
   // 'ar-EG': {
   //   lang: 'ar-EG',
   //   label: 'العربية',
@@ -318,3 +326,5 @@ export default {
   //   title: '語言',
   // },
 };
+
+export default languages;
