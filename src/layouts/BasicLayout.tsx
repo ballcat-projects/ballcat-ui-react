@@ -12,6 +12,8 @@ import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
+import { redirect } from '@/utils/RouteUtils';
+import { User, Token } from '@/utils/Ballcat';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -79,14 +81,17 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       for (let i = 0; i < initialState.menuArray.length; i += 1) {
         const menu = initialState.menuArray[i];
         // @ts-ignore
-        route.children.push(menu);
-        // @ts-ignore
-        route.routes.push(menu);
+        if (route.children.indexOf(menu) === -1) {
+          // @ts-ignore
+          route.children.push(menu);
+          // @ts-ignore
+          route.routes.push(menu);
+        }
       }
 
       setInitialState({ ...initialState, settings: { ...settings }, routerLoad: true });
     }
-  }, [initialState]);
+  }, [initialState, initialState?.menuArray]);
 
   const fm = (id: string, defaultMessage?: string) => {
     return formatMessage({ id, defaultMessage });
@@ -119,7 +124,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
         if (!initialState?.user?.info && location.pathname !== '/user/login') {
-          history.push('/user/login');
+          User.clean();
+          Token.clean();
+          redirect('/user/login');
         }
       }}
       onMenuHeaderClick={() => history.push('/')}

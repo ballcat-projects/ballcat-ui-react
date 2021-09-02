@@ -15,6 +15,7 @@ import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import { pwd } from '@/utils/Encrypt';
 import VerifySlide from '@/components/Captcha';
 import { User, Token } from '@/utils/Ballcat';
+import { settings } from '@/utils/ConfigUtils';
 
 // @ts-ignore
 import styles from './index.less';
@@ -32,17 +33,6 @@ const LoginMessage: React.FC<{
   />
 );
 
-/** 此方法会跳转到 redirect 参数所在的位置 */
-const goto = () => {
-  if (!history) return;
-  setTimeout(() => {
-    const { query } = history.location;
-    const { redirect } = query as { redirect: string };
-
-    history.push(redirect);
-  }, 10);
-};
-
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
@@ -52,7 +42,7 @@ const Login: React.FC = () => {
   const [captchaSow, setCaptchaSow] = useState<boolean>(false);
   const [vs, setVs] = useState<VerifySlide>();
   const [loginParams, setLoginParams] = useState<API.LoginParams>({});
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState, refresh } = useModel('@@initialState');
 
   const intl = useIntl();
 
@@ -75,7 +65,21 @@ const Login: React.FC = () => {
         // 缓存token
         Token.set(res.access_token);
         setInitialState({ ...initialState, user: { ...res } });
-        goto();
+
+        if (!history) return;
+
+        const { query } = history.location;
+        const { redirect } = query as { redirect: string };
+        let url: string;
+        /** 跳转到 redirect 参数所在的位置 */
+        if (settings.historyType === 'hash') {
+          // 如果是hash 则刷新数据
+          await refresh();
+          url = redirect ? `/#${redirect}` : '/';
+        } else {
+          url = redirect || '/';
+        }
+        window.location.href = url;
       })
       .catch(() => {
         message.error(

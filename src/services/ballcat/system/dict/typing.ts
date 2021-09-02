@@ -94,3 +94,25 @@ export type SysDictItemQo = {
 
 // 字典项查询返回
 export type SysDictItemVo = SysDictItem;
+
+// 字典项展示数据获取
+export type SysDictDataItem = {
+  id: number;
+  // 文本值
+  name: string;
+  // 数据值
+  value: string;
+  // 附加属性值
+  attributes: SysDictItemAttributes;
+};
+
+// 字典展示数据获取
+export type SysDictData = {
+  dictCode: string;
+  hashCode: string;
+  // 1: 数字; 2: 字符串; 3: 布尔
+  valueType: 1 | 2 | 3;
+  dictItems: SysDictDataItem[];
+};
+
+export type SysDictDataHash = Record<string, string>;

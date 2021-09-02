@@ -1,15 +1,16 @@
 import { PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
-import { dynamic, history } from 'umi';
+import { dynamic } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import { getMenu, redirect } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import { User, Token } from '@/utils/Ballcat';
+import { User, Token, Dict } from '@/utils/Ballcat';
+import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
+import { dict } from '@/services/ballcat/system';
 
 // const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -24,29 +25,45 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
     settings: {},
   };
   const menuArray: any[] = [];
+  let dictHashs: SysDictDataHash = {};
+  const dictCache: Record<string, SysDictData> = {};
 
   is.menuArray = menuArray;
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
-    const cache = User.get();
+  const cache = User.get();
 
-    if (cache) {
-      const menus = await getMenu();
-      menuArray.push(...menus);
-    } else {
-      redirect('user/login');
-    }
+  if (cache) {
+    // 菜单
+    const menus = await getMenu();
+    menuArray.push(...menus);
+    // 无效字典删除
+    dictHashs = Dict.getHashs();
+    // 校验hash是否过期
+    const expireHashs = (await dict.validHash(dictHashs)).data;
+    expireHashs.forEach((code) => {
+      // 删除过期hash
+      delete dictHashs[code];
+      Dict.del(code);
+    });
+
+    // 字典数据加载
+    Object.keys(dictHashs).forEach((code) => {
+      const data = Dict.get(code);
+      if (data) {
+        dictCache[code] = data;
+      }
+    });
 
     is.user = cache ? JSON.parse(cache) : {};
+
+    menuArray.push({
+      component: dynamic({
+        loader: () => import('@/pages/exception/404'),
+        loading: LoadingComponent,
+      }),
+    });
   }
 
-  menuArray.push({
-    component: dynamic({
-      loader: () => import('@/pages/exception/404'),
-      loading: LoadingComponent,
-    }),
-  });
-  return is;
+  return { ...is, dict: { hashs: dictHashs, cache: dictCache } };
 }
 
 /**

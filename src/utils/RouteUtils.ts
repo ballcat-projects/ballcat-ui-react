@@ -5,6 +5,7 @@ import { router } from '@/services/ant-design-pro/api';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
+import { settings } from './ConfigUtils';
 
 export async function getMenu() {
   const { data: remoteList } = await router();
@@ -85,5 +86,13 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
 export function redirect(path: string) {
   //  退出登录，并且将当前的 url 保存
   const { pathname } = history.location;
-  history.push(`${path}?redirect=${pathname}`);
+  if (path.endsWith('user/login')) {
+    if (settings.historyType === 'hash') {
+      window.location.href = `/#${path}?redirect=${pathname}`;
+    } else {
+      window.location.href = `${path}?redirect=${pathname}`;
+    }
+  } else {
+    history.push(`${path}?redirect=${pathname}`);
+  }
 }
