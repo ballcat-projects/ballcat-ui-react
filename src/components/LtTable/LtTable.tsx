@@ -4,6 +4,11 @@ import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRen
 import ProTable from '@ant-design/pro-table';
 import type { LtTableProps } from '@/components/LtTable/typings';
 
+export const SortOrderTransfer: Record<string, string> = {
+  descend: 'desc',
+  ascend: 'asc',
+};
+
 const getSearch = (search: false | SearchConfig) => {
   let proSearch = search;
   if (proSearch === undefined || proSearch === null) {
@@ -46,10 +51,10 @@ const getSearch = (search: false | SearchConfig) => {
 const LtTable = <T extends Record<string, any>, U extends Record<string, any>, ValueType = 'text'>(
   props: LtTableProps<T, U, ValueType>,
 ) => {
-  const { search, request, rowKey, options, onRow, rowSelection } = props;
-  let onRowHandler = onRow;
-  if (!onRowHandler) {
-    onRowHandler = () => {
+  const { search, request, rowKey, options, rowSelection } = props;
+  let { onRow, scroll } = props;
+  if (!onRow) {
+    onRow = () => {
       return {
         onClick: (e) => {
           if (
@@ -69,10 +74,15 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
     };
   }
 
+  if (!scroll) {
+    scroll = { x: true };
+  }
+
   return (
     <ProTable<T, U, ValueType>
       {...props}
-      onRow={onRowHandler}
+      onRow={onRow}
+      scroll={scroll}
       options={
         options && {
           fullScreen: true,
@@ -84,7 +94,8 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
         }
       }
       search={getSearch(search)}
-      request={async (p) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      request={async (p, sort, filter) => {
         const retData: { data: T[]; success: boolean; total: number } = {
           data: [],
           success: true,
@@ -94,12 +105,27 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
           return Promise.resolve(retData);
         }
 
+        const sortFields: string[] = [];
+        const sortOrders: string[] = [];
+        const keys = sort ? Object.keys(sort) : [];
+        // 排序处理
+        if (keys.length > 0) {
+          keys.forEach((key) => {
+            sortFields.push(key);
+            sortOrders.push(SortOrderTransfer[sort[key] || 'descend']);
+          });
+        } else if (typeof rowKey === 'string') {
+          sortFields.push(rowKey);
+          sortOrders.push('order');
+        }
+
         const params: any = {
           ...p,
           size: p.pageSize,
-          sortFields: rowKey,
-          sortOrders: 'desc',
+          sortFields,
+          sortOrders,
         };
+        delete params.pageSize;
         const res = await request(params);
         const { records, total } = res.data;
         retData.data = records;
