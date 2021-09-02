@@ -40,6 +40,7 @@ const dataColumns: ProColumns<SysDictVo>[] = [
     dataIndex: 'createTime',
     ellipsis: true,
     width: 150,
+    sorter: true,
   },
 ];
 
@@ -52,7 +53,7 @@ export default (): React.ReactNode => {
     <>
       <LtPage<SysDictVo, SysDictVo, SysDict>
         {...dict}
-        rowKey="code"
+        rowKey="id"
         columns={dataColumns}
         onStatusChange={setStatus}
         toolBarActions={['create']}
