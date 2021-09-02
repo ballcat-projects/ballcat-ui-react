@@ -38,7 +38,8 @@ const goto = () => {
   setTimeout(() => {
     const { query } = history.location;
     const { redirect } = query as { redirect: string };
-    window.location.href = redirect || '/';
+
+    history.push(redirect);
   }, 10);
 };
 

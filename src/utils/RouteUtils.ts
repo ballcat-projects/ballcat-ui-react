@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon } from '@/components/Icon';
 import { router } from '@/services/ant-design-pro/api';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import { dynamic } from 'umi';
+import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
 
 export async function getMenu() {
@@ -80,4 +80,10 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
   });
 
   return menus;
+}
+
+export function redirect(path: string) {
+  //  退出登录，并且将当前的 url 保存
+  const { pathname } = history.location;
+  history.push(`${path}?redirect=${pathname}`);
 }

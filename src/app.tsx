@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
 import { dynamic, history } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
-import { getMenu } from '@/utils/RouteUtils';
+import { getMenu, redirect } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { User, Token } from '@/utils/Ballcat';
@@ -34,7 +34,7 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
       const menus = await getMenu();
       menuArray.push(...menus);
     } else {
-      history.push('/user/login');
+      redirect('user/login');
     }
 
     is.user = cache ? JSON.parse(cache) : {};
@@ -92,7 +92,7 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
         // token 鉴权异常
         Token.clean();
         User.clean();
-        window.location.reload();
+        redirect('user/login');
       }
 
       if (json && json.code !== 200) {
@@ -109,19 +109,6 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
         };
       }
 
-      // if (option.url !== 'system/menu/router' && message && option.sendMessage) {
-      //   try {
-      //     message.success(
-      //       useIntl().formatMessage({
-      //         id: 'global.operate.complete',
-      //         defaultMessage: 'success',
-      //       }),
-      //     );
-      //   } catch (e) {
-      //     // eslint-disable-next-line no-console
-      //     console.error('发送提示时异常!', e);
-      //   }
-      // }
       return response;
     });
 };
