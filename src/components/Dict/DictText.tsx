@@ -5,7 +5,7 @@ const DictText = (props: DictProps) => {
   return (
     <Dict
       {...props}
-      render={({ value, getRealName }, { dictItems }) => {
+      render={({ value, getRealName, style }, { dictItems }) => {
         let text = '';
         let color;
 
@@ -18,7 +18,7 @@ const DictText = (props: DictProps) => {
           }
         }
 
-        return <span style={{ color }}>{text}</span>;
+        return <span style={{ ...style, color }}>{text}</span>;
       }}
     />
   );

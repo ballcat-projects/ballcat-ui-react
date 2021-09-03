@@ -6,7 +6,7 @@ const DictTag = (props: DictProps) => {
   return (
     <Dict
       {...props}
-      render={({ value, getRealName }, { dictItems }) => {
+      render={({ value, getRealName, style }, { dictItems }) => {
         let text = '';
         let color;
 
@@ -19,7 +19,11 @@ const DictTag = (props: DictProps) => {
           }
         }
 
-        return <Tag color={color}>{text}</Tag>;
+        return (
+          <Tag color={color} style={{ ...style }}>
+            {text}
+          </Tag>
+        );
       }}
     />
   );

@@ -7,7 +7,8 @@ import type { FormStatus } from '@/components/LtForm';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import LtPage from '@/components/LtPage';
 import SysDictItem from './SysDictItem';
-import { DictTag } from '@/components/Dict';
+import { DictRadio, DictTag } from '@/components/Dict';
+import { Form } from 'antd';
 
 const dataColumns: ProColumns<SysDictVo>[] = [
   {
@@ -92,9 +93,13 @@ export default (): React.ReactNode => {
         />
         <ProFormText label="名称" name="title" placeholder="字典名称" />
 
-        <ProFormText label="字典属性" name="editable" />
+        <Form.Item label="字典属性" name="editable">
+          <DictRadio code="dict_property" />
+        </Form.Item>
 
-        <ProFormText label="数据类型" name="valueType" />
+        <Form.Item label="数据类型" name="valueType">
+          <DictRadio code="dict_value_type" />
+        </Form.Item>
 
         <ProFormTextArea label="备注" name="remarks" placeholder="备注" />
       </LtPage>
