@@ -5,13 +5,13 @@ const DictText = (props: DictProps) => {
   return (
     <Dict
       {...props}
-      render={({ value, getRealName, getRealValue }, { valueType, dictItems }) => {
+      render={({ value, getRealName }, { dictItems }) => {
         let text = '';
         let color;
 
         for (let index = 0; index < dictItems.length; index += 1) {
           const item = dictItems[index];
-          if (getRealValue(valueType, item.value) === value) {
+          if (item.realVal === value) {
             text = getRealName(item);
             color = item.attributes.textColor;
             break;

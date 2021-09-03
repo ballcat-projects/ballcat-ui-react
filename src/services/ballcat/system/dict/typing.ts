@@ -104,6 +104,8 @@ export type SysDictDataItem = {
   value: string;
   // 附加属性值
   attributes: SysDictItemAttributes;
+  // 真实数据
+  realVal: any;
 };
 
 // 字典展示数据获取

@@ -9,27 +9,6 @@ import { Dict as DictCache } from '@/utils/Ballcat';
 
 const loading = <Spin />;
 
-const updateDict = (
-  initialState: GLOBAL.Is | undefined,
-  setInitialState: (initialState: GLOBAL.Is) => Promise<void>,
-  data: SysDictData,
-) => {
-  const cache = initialState?.dict?.cache || {};
-  const hashs = initialState?.dict?.hashs || {};
-
-  // 更新数据
-  cache[data.dictCode] = data;
-  hashs[data.dictCode] = data.hashCode;
-
-  // 更新缓存
-  setInitialState({ ...initialState, dict: { cache, hashs } });
-  // 加载流程的数据. 不缓存在浏览器
-  if (data.loading === undefined) {
-    DictCache.set(data);
-    DictCache.setHashs(hashs);
-  }
-};
-
 const getRealName = (item: SysDictDataItem): string => {
   const lang = getLocale();
   if (item?.attributes?.languages) {
@@ -60,12 +39,37 @@ const getRealValue = (type: 1 | 2 | 3 | undefined, val: string): any => {
       return Number(val);
   }
 };
+const updateDict = (
+  initialState: GLOBAL.Is | undefined,
+  setInitialState: (initialState: GLOBAL.Is) => Promise<void>,
+  data: SysDictData,
+) => {
+  const cache = initialState?.dict?.cache || {};
+  const hashs = initialState?.dict?.hashs || {};
+
+  const items: SysDictDataItem[] = [];
+
+  (data.dictItems || []).forEach((item) => {
+    items.push({ ...item, realVal: getRealValue(data.valueType, item.value) });
+  });
+
+  // 更新数据
+  cache[data.dictCode] = { ...data, dictItems: items };
+  hashs[data.dictCode] = data.hashCode;
+
+  // 更新缓存
+  setInitialState({ ...initialState, dict: { cache, hashs } });
+  // 加载流程的数据. 不缓存在浏览器
+  if (data.loading === undefined) {
+    DictCache.set(data);
+    DictCache.setHashs(hashs);
+  }
+};
 
 const Dict = (
   props: DictProps & {
     render: (
       props: DictProps & {
-        getRealValue: (type: 1 | 2 | 3 | undefined, val: string) => any;
         getRealName: (item: SysDictDataItem) => string;
       },
       data: SysDictData,
@@ -110,7 +114,7 @@ const Dict = (
   useEffect(() => {
     // 存在且不是在加载
     if (dictData && !dictData.loading) {
-      setDom(render({ value, onChange, code, getRealName, getRealValue }, dictData));
+      setDom(render({ value, onChange, code, getRealName }, dictData));
     } else {
       setDom(loading);
     }
