@@ -7,6 +7,7 @@ import type { FormStatus } from '@/components/LtForm';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import LtPage from '@/components/LtPage';
 import SysDictItem from './SysDictItem';
+import { DictTag } from '@/components/Dict';
 
 const dataColumns: ProColumns<SysDictVo>[] = [
   {
@@ -27,6 +28,7 @@ const dataColumns: ProColumns<SysDictVo>[] = [
     hideInSearch: true,
     dataIndex: 'editable',
     width: 60,
+    render: (dom, record) => <DictTag code="dict_property" value={record.editable} />,
   },
   {
     title: '备注',

@@ -1,6 +1,6 @@
 import type { PageResult, QueryParam, R } from '@/typings';
 import { request } from 'umi';
-import type { SysDict, SysDictDataHash, SysDictQo, SysDictVo } from './typing';
+import type { SysDict, SysDictData, SysDictDataHash, SysDictQo, SysDictVo } from './typing';
 
 export async function query(body: QueryParam<SysDictQo>) {
   return request<R<PageResult<SysDictVo>>>('system/dict/page', {
@@ -33,5 +33,11 @@ export async function validHash(body: SysDictDataHash) {
   return request<R<string[]>>('system/dict/invalid-hash', {
     method: 'POST',
     data: body,
+  });
+}
+
+export async function dictData(body: string[]) {
+  return request<R<SysDictData[]>>(`/system/dict/data?dictCodes=${body.join(',')}`, {
+    method: 'GET',
   });
 }

@@ -113,6 +113,7 @@ export type SysDictData = {
   // 1: 数字; 2: 字符串; 3: 布尔
   valueType: 1 | 2 | 3;
   dictItems: SysDictDataItem[];
+  loading: boolean;
 };
 
 export type SysDictDataHash = Record<string, string>;

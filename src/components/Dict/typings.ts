@@ -1,1 +1,5 @@
-export type DictProps = {};
+export type DictProps = {
+  code: string;
+  value?: any;
+  onChange?: (val: any) => void;
+};
