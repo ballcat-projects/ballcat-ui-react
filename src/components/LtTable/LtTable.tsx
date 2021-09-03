@@ -52,6 +52,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
   props: LtTableProps<T, U, ValueType>,
 ) => {
   const { search, request, rowKey, options, rowSelection } = props;
+  const { pagination = {} } = props;
   let { onRow, scroll } = props;
   if (!onRow) {
     onRow = () => {
@@ -78,11 +79,17 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
     scroll = { x: true };
   }
 
+  // 设置默认的分页大小
+  if (pagination !== false && !pagination.pageSize) {
+    pagination.pageSize = 10;
+  }
+
   return (
     <ProTable<T, U, ValueType>
       {...props}
       onRow={onRow}
       scroll={scroll}
+      pagination={pagination}
       options={
         options && {
           fullScreen: true,
