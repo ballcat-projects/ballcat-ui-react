@@ -14,16 +14,16 @@
     path: '/',
     component: '../layouts',
     routes: [
-      {
-        path: '/',
-        redirect: '/welcome',
-      },
-      {
-        path: '/welcome',
-        name: 'welcome',
-        icon: 'smile',
-        component: './welcome',
-      },
+      // {
+      //   path: '/',
+      //   redirect: '/welcome',
+      // },
+      // {
+      //   path: '/welcome',
+      //   name: 'welcome',
+      //   icon: 'smile',
+      //   component: './welcome',
+      // },
     ],
   },
 ];

@@ -29,7 +29,10 @@ const breadcrumbRender = (
   routes: { locale: boolean | undefined; path: string; name: string; routes: any[] }[],
   fm: (id: string, dm?: string) => string,
 ) => {
-  const list = [];
+  const list: any[] = [];
+  if (!routes) {
+    return list;
+  }
   for (let i = 0; i < routes.length; i += 1) {
     const route = routes[i];
     const { path: rp, name: rn, locale } = route;
@@ -78,6 +81,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
 
     if (!initialState?.routerLoad && initialState?.menuArray) {
+      const first = { path: '/', redirect: `${initialState.menuArray[0].path}`, exact: true };
+
+      // @ts-ignore
+      route.children.push(first);
+      // @ts-ignore
+      route.routes.push(first);
+
       for (let i = 0; i < initialState.menuArray.length; i += 1) {
         const menu = initialState.menuArray[i];
         // @ts-ignore
