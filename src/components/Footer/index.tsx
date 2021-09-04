@@ -1,6 +1,7 @@
 import { useIntl } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
-import { DefaultFooter } from '@ant-design/pro-layout';
+import { CopyrightOutlined, GithubOutlined } from '@ant-design/icons';
+import GlobalFooter from '@ant-design/pro-layout/lib/components/GlobalFooter';
+import { Fragment } from 'react';
 
 export default () => {
   const intl = useIntl();
@@ -9,8 +10,8 @@ export default () => {
   });
 
   return (
-    <DefaultFooter
-      copyright={`2021 ${defaultMessage}`}
+    <GlobalFooter
+      style={{ marginTop: 0, marginBottom: 0 }}
       links={[
         {
           key: 'github',
@@ -19,6 +20,11 @@ export default () => {
           blankTarget: true,
         },
       ]}
+      copyright={
+        <Fragment>
+          <CopyrightOutlined /> `2021 ${defaultMessage}`
+        </Fragment>
+      }
     />
   );
 };
