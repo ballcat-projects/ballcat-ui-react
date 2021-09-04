@@ -49,7 +49,7 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
     Object.keys(dictHashs).forEach((code) => {
       const data = Dict.get(code);
       if (data) {
-        dictCache[code] = data;
+        dictCache[code] = Dict.toInitialStateData(data);
       }
     });
 
@@ -110,6 +110,7 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
         Token.clean();
         User.clean();
         redirect('user/login');
+        return response;
       }
 
       if (json && json.code !== 200) {

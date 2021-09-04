@@ -22,23 +22,6 @@ const getRealName = (item: SysDictDataItem): string => {
 
   return item.name;
 };
-
-const getRealValue = (type: 1 | 2 | 3 | undefined, val: string): any => {
-  switch (type) {
-    case 3:
-      // 布尔值处理
-      if (val && (val.toLowerCase() === 'false' || val === '0')) {
-        return false;
-      }
-      return Boolean(val);
-    case 2:
-      // 字符串
-      return String(val);
-    default:
-      // 数字
-      return Number(val);
-  }
-};
 const updateDict = (
   initialState: GLOBAL.Is | undefined,
   setInitialState: (initialState: GLOBAL.Is) => Promise<void>,
@@ -47,14 +30,8 @@ const updateDict = (
   const cache = initialState?.dict?.cache || {};
   const hashs = initialState?.dict?.hashs || {};
 
-  const items: SysDictDataItem[] = [];
-
-  (data.dictItems || []).forEach((item) => {
-    items.push({ ...item, realVal: getRealValue(data.valueType, item.value) });
-  });
-
   // 更新数据
-  cache[data.dictCode] = { ...data, dictItems: items };
+  cache[data.dictCode] = DictCache.toInitialStateData(data);
   hashs[data.dictCode] = data.hashCode;
 
   // 更新缓存

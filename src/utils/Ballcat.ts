@@ -1,4 +1,4 @@
-import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
+import type { SysDictData, SysDictDataHash, SysDictDataItem } from '@/services/ballcat/system';
 
 export const token_key = 'access-token';
 export const user_key = 'ballcat_user';
@@ -68,5 +68,30 @@ export const Dict = {
   },
   del: (code: string) => {
     remove(Dict.getKey(code));
+  },
+  toInitialStateData: (data: SysDictData) => {
+    const items: SysDictDataItem[] = [];
+
+    (data.dictItems || []).forEach((item) => {
+      items.push({ ...item, realVal: Dict.getRealValue(data.valueType, item.value) });
+    });
+
+    return { ...data, dictItems: items };
+  },
+  getRealValue: (type: 1 | 2 | 3 | undefined, val: string): any => {
+    switch (type) {
+      case 3:
+        // 布尔值处理
+        if (val && (val.toLowerCase() === 'false' || val === '0')) {
+          return false;
+        }
+        return Boolean(val);
+      case 2:
+        // 字符串
+        return String(val);
+      default:
+        // 数字
+        return Number(val);
+    }
   },
 };
