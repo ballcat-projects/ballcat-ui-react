@@ -14,7 +14,7 @@ const defautlTitle = {
 const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   const {
     mfRef,
-    onStatusChange,
+    onStatusChange = () => {},
     width,
     labelCol,
     wrapperCol,
@@ -22,8 +22,8 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     children,
     create,
     edit,
-    handlerData,
-    onFinish,
+    handlerData = (body) => body as unknown as P,
+    onFinish = () => {},
   } = props;
   const formRef = useRef<ProFormInstance<E>>();
 
@@ -33,9 +33,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
 
   const changeStatus = (st: FormStatus) => {
     setStatus(st);
-    if (onStatusChange) {
-      onStatusChange(st);
-    }
+    onStatusChange(st);
   };
 
   const submit = async (
@@ -48,11 +46,9 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
       return Promise.resolve(false);
     }
 
-    const body = handlerData ? handlerData(values as E, st) : (values as P);
+    const body = handlerData(values as E, st);
     return req(body).then(() => {
-      if (onFinish) {
-        onFinish(status, body);
-      }
+      onFinish(status, body);
       return Promise.resolve(true);
     });
   };
