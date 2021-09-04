@@ -86,18 +86,32 @@ export default (): React.ReactNode => {
       >
         <ProFormText name="id" hidden />
         <ProFormText
+          rules={[{ required: true }]}
           label="标识"
           name="code"
           placeholder="字典标识"
           disabled={status !== 'create'}
         />
-        <ProFormText label="名称" name="title" placeholder="字典名称" />
+        <ProFormText
+          rules={[{ required: true }]}
+          label="名称"
+          name="title"
+          placeholder="字典名称"
+        />
 
-        <Form.Item label="字典属性" name="editable">
+        <Form.Item
+          rules={[{ required: true, message: '请选择字典属性' }]}
+          label="字典属性"
+          name="editable"
+        >
           <DictRadio code="dict_property" />
         </Form.Item>
 
-        <Form.Item label="数据类型" name="valueType">
+        <Form.Item
+          rules={[{ required: true, message: '请选择数据类型' }]}
+          label="数据类型"
+          name="valueType"
+        >
           <DictRadio code="dict_value_type" />
         </Form.Item>
 
