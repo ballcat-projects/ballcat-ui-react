@@ -5,6 +5,7 @@ export type DictProps = {
   code: string;
   value?: any;
   onChange?: (val: any) => void;
+  disabled?: boolean;
   style?: CSSProperties;
 };
 
@@ -16,9 +17,19 @@ export type DictMultipartProps = {
 };
 
 export type DictRadioProps = {
-  // 展示文本演示
+  // 展示文本颜色
   showTextColor?: boolean;
   // 默认样式, 可以指定成 按钮 样式
   radioType?: 'button';
+} & DictProps &
+  DictMultipartProps;
+
+export type DictSelectProps = {
+  // 展示文本颜色
+  showTextColor?: boolean;
+  // 是否多选
+  multipar?: boolean;
+  allowClear?: boolean;
+  placeholder?: string;
 } & DictProps &
   DictMultipartProps;
