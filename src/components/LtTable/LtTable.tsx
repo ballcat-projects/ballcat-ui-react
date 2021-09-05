@@ -90,16 +90,14 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
       onRow={onRow}
       scroll={scroll}
       pagination={pagination}
-      options={
-        options && {
-          fullScreen: true,
-          reload: true,
-          setting: true,
-          density: true,
-          // 采用覆盖默认值形式
-          ...options,
-        }
-      }
+      options={{
+        fullScreen: true,
+        reload: true,
+        setting: true,
+        density: true,
+        // 采用覆盖默认值形式
+        ...options,
+      }}
       search={getSearch(search)}
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       request={async (p, sort, filter) => {
@@ -134,9 +132,16 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
         };
         delete params.pageSize;
         const res = await request(params);
-        const { records, total } = res.data;
-        retData.data = records;
-        retData.total = total;
+        if (pagination) {
+          // 分页处理
+          const { records, total } = res.data;
+          retData.data = records;
+          retData.total = total;
+        } else {
+          // 不分页. 默认返回的data就是完整的数据
+          retData.data = res.data as unknown as T[];
+          retData.total = retData.data.length;
+        }
         return retData;
       }}
     />
