@@ -64,6 +64,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     route = {
       children: [],
       routes: [],
+      unaccessible: true,
     },
   } = props;
 
@@ -80,8 +81,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       route.routes = [];
     }
 
-    route.children.splice(0, route.children.length);
-    route.routes.splice(0, route.routes.length);
     if (!initialState?.routerLoad && initialState?.menuArray) {
       const first = { path: '/', redirect: `${initialState.menuArray[0].path}`, exact: true };
 
@@ -97,6 +96,15 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         // @ts-ignore
         route.routes.push(menu);
       }
+
+      // 旧路由长度
+      const ol = route.routes.length - initialState.menuArray.length;
+      if (ol > 0) {
+        // 移出旧路由
+        route.children.splice(0, ol);
+        route.routes.splice(0, ol);
+      }
+
       setInitialState({ ...initialState, settings: { ...settings }, routerLoad: true });
     }
   }, [initialState, initialState?.menuArray]);
