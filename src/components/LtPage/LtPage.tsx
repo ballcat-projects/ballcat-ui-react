@@ -72,7 +72,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
 
   // 表格列更新
   useEffect(() => {
-    const newColumns = [...columns];
+    const newColumns = columns ? [...columns] : [];
 
     if (operateBar && operateBar.length > 0) {
       newColumns.push({
