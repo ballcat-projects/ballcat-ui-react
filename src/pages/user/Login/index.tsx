@@ -79,7 +79,9 @@ const Login: React.FC = () => {
         } else {
           url = redirect || '/';
         }
-        window.location.href = url;
+        setTimeout(() => {
+          window.location.href = url;
+        }, 500);
       })
       .catch(() => {
         message.error(
