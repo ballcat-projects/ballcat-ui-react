@@ -139,7 +139,7 @@ const errorHandler = (error: ResponseError) => {
     });
   } else {
     notification.error({
-      description: msg,
+      description: response.status === 401 ? '授权信息异常!' : msg,
       message: '操作异常',
     });
   }

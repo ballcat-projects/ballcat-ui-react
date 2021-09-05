@@ -80,6 +80,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       route.routes = [];
     }
 
+    route.children.splice(0, route.children.length);
+    route.routes.splice(0, route.routes.length);
     if (!initialState?.routerLoad && initialState?.menuArray) {
       const first = { path: '/', redirect: `${initialState.menuArray[0].path}`, exact: true };
 
@@ -91,14 +93,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       for (let i = 0; i < initialState.menuArray.length; i += 1) {
         const menu = initialState.menuArray[i];
         // @ts-ignore
-        if (route.children.indexOf(menu) === -1) {
-          // @ts-ignore
-          route.children.push(menu);
-          // @ts-ignore
-          route.routes.push(menu);
-        }
+        route.children.push(menu);
+        // @ts-ignore
+        route.routes.push(menu);
       }
-
       setInitialState({ ...initialState, settings: { ...settings }, routerLoad: true });
     }
   }, [initialState, initialState?.menuArray]);
