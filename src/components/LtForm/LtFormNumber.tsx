@@ -11,7 +11,7 @@ function LtFormNumber<V = any>(props: FormNumberProps<V>) {
     tooltip,
     style,
     inputProps,
-    placeholder,
+    placeholder = `请输入${label}`,
     min,
     max,
   } = props;
