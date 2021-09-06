@@ -4,6 +4,7 @@ import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import type { DictRadioProps, DictSelectProps } from '../Dict';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
+import type { CSSProperties } from 'react';
 
 export type FormStatus = 'read' | 'edit' | 'create' | undefined;
 
@@ -55,6 +56,7 @@ export type LtFormItemProps<V = any> = {
   initialValue?: V;
   formItemProps?: FormItemProps<V>;
   tooltip?: LtFormTooltip;
+  style?: CSSProperties;
 };
 
 export type FormDictRadioProps<V = any> = {
@@ -69,4 +71,8 @@ export type FormDictSelectProps<V = any> = {
 
 export type FormNumberProps<V = any> = {
   inputProps?: InputNumberProps<number>;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  style?: CSSProperties;
 } & LtFormItemProps<V>;

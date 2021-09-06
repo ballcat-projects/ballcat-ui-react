@@ -3,11 +3,33 @@ import LtFormItem from './LtFormItem';
 import type { FormNumberProps } from './typings';
 
 function LtFormNumber<V = any>(props: FormNumberProps<V>) {
-  const { inputProps } = props;
+  const {
+    name,
+    label,
+    initialValue,
+    formItemProps,
+    tooltip,
+    style,
+    inputProps,
+    placeholder,
+    min,
+    max,
+  } = props;
+
+  const formProps = {
+    name,
+    label,
+    initialValue,
+    formItemProps,
+    tooltip,
+    style,
+  };
+
+  const numberProps = { style: { width: '100%' }, ...inputProps, placeholder, min, max };
 
   return (
-    <LtFormItem<V> {...props}>
-      <InputNumber<number> style={{ width: '100%' }} {...inputProps} />
+    <LtFormItem<V> {...formProps}>
+      <InputNumber<number> {...numberProps} />
     </LtFormItem>
   );
 }
