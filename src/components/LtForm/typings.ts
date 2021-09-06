@@ -1,6 +1,6 @@
 import type { R } from '@/typings';
 import type React from 'react';
-import type { ColProps, FormItemProps } from 'antd';
+import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import type { DictRadioProps } from '../Dict';
 
@@ -50,4 +50,18 @@ export type FormDictRadioProps<Values = any> = {
   code: string;
   formItemProps?: FormItemProps<Values>;
   dictProps?: DictRadioProps;
+};
+export type FormDictSelectProps<Values = any> = {
+  name?: string;
+  label?: string;
+  code: string;
+  formItemProps?: FormItemProps<Values>;
+  dictProps?: DictRadioProps;
+};
+
+export type FormNumberProps<Values = any> = {
+  name?: string;
+  label?: string;
+  formItemProps?: FormItemProps<Values>;
+  inputProps?: InputNumberProps<number>;
 };

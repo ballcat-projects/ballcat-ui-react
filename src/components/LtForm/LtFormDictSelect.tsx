@@ -1,8 +1,8 @@
 import { Form } from 'antd';
 import { DictSelect } from '../Dict';
-import type { FormDictRadioProps } from './typings';
+import type { FormDictSelectProps } from './typings';
 
-function LtFormDictSelect<V = any>(props: FormDictRadioProps<V>) {
+function LtFormDictSelect<V = any>(props: FormDictSelectProps<V>) {
   const { name, label, code, formItemProps, dictProps } = props;
 
   return (
