@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from '@/components/Icon';
 import { Breadcrumb } from 'antd';
+import I18n from '@/utils/I18nUtils';
 
 interface HeaderContentProps {
   collapsed: boolean;
   onCollapse: (collapsed: boolean) => void;
   onReload: (reload: boolean) => void;
-  fm: (id: string, defaultMessage?: string) => string;
   breadcrumbData: { path: string; name: string }[];
 }
 
@@ -19,18 +19,18 @@ const iconStyle = {
 };
 
 const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) => {
-  const { collapsed, onCollapse, onReload, fm, breadcrumbData } = props;
+  const { collapsed, onCollapse, onReload, breadcrumbData } = props;
 
   return (
     <div>
       <Icon
-        title={fm('component.global.header.content.fold')}
+        title={I18n.text('component.global.header.content.fold')}
         style={iconStyle}
         onClick={() => onCollapse(!collapsed)}
         type={collapsed ? 'ballcat-icon-indent' : 'ballcat-icon-outdent'}
       />
       <Icon
-        title={fm('component.global.header.content.reload')}
+        title={I18n.text('component.global.header.content.reload')}
         style={iconStyle}
         onClick={() => {
           onReload(true);

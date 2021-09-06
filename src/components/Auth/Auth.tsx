@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Divider, Popconfirm } from 'antd';
-import { useIntl, useModel } from 'umi';
+import { useModel } from 'umi';
 import type { AuthProps, AuthType } from '.';
 import type { AuthItemProps, AuthListProps } from './typing';
+import I18n from '@/utils/I18nUtils';
 
 const generateRender = (
   render: React.ReactNode | (() => React.ReactNode),
@@ -28,7 +29,7 @@ const defaultSuffixRender = (
   key: string | number,
 ) => generateRender(render, <Divider key={`auth-divider-suffix-${key}`} type={'vertical'} />);
 
-const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNode[] => {
+const getDom = (props: AuthProps & AuthType): React.ReactNode[] => {
   const {
     permission,
     type,
@@ -49,7 +50,7 @@ const getDom = (props: AuthProps & AuthType, formatMessage: any): React.ReactNod
   let content = text;
   // 文本不存在, 国际化key存在
   if (!content && localeKey) {
-    content = formatMessage({ id: localeKey, defaultMessage: localeKey });
+    content = I18n.text(localeKey);
   }
 
   let key = pk;
@@ -144,13 +145,11 @@ const Auth = (props: AuthProps & AuthType) => {
   const { permission } = props;
   const { initialState } = useModel('@@initialState');
 
-  const { formatMessage } = useIntl();
-
   let domArray: React.ReactNode[] = [];
 
   // 有权限
   if (initialState?.user?.permissions?.indexOf(permission) !== -1) {
-    domArray = domArray.concat(getDom(props, formatMessage));
+    domArray = domArray.concat(getDom(props));
   }
 
   return <>{domArray}</>;
@@ -163,18 +162,13 @@ Auth.Button = (props: AuthProps) => <Auth {...props} type={'button'} />;
 const AuthList = (props: AuthListProps) => {
   const domArray: React.ReactNode[] = [];
 
-  const { formatMessage } = useIntl();
-
   props.auths.forEach((prop, i) => {
     domArray.push(
-      getDom(
-        {
-          ...prop,
-          key: `list-child-${prop.permission}-${i.toString()}`,
-          suffix: i !== props.auths.length - 1,
-        },
-        formatMessage,
-      ),
+      getDom({
+        ...prop,
+        key: `list-child-${prop.permission}-${i.toString()}`,
+        suffix: i !== props.auths.length - 1,
+      }),
     );
   });
 

@@ -14,6 +14,7 @@ import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
 import { redirect } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
+import I18n from '@/utils/I18nUtils';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -27,7 +28,6 @@ export type BasicLayoutProps = {
 const breadcrumbRender = (
   path: string,
   routes: { locale: boolean | undefined; path: string; name: string; routes: any[] }[],
-  fm: (id: string, dm?: string) => string,
 ) => {
   const list: any[] = [];
   if (!routes) {
@@ -41,7 +41,7 @@ const breadcrumbRender = (
         let name = rn;
         if (locale === undefined || locale === null || locale) {
           // 国际化失败, 则用key展示
-          name = fm(`menu.${rn}`, rn);
+          name = I18n.text(`menu.${rn}`);
         }
 
         list.push(<Breadcrumb.Item key={rp}>{name}</Breadcrumb.Item>);
@@ -70,7 +70,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const [reload, setReload] = useState(false);
-  const { formatMessage } = useIntl();
+  I18n.setIntl(useIntl());
   const { initialState, setInitialState } = useModel('@@initialState');
 
   useEffect(() => {
@@ -109,16 +109,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
   }, [initialState, initialState?.menuArray]);
 
-  const fm = (id: string, defaultMessage?: string) => {
-    return formatMessage({ id, defaultMessage });
-  };
-
   return (
     <ProLayout
       logo={'./logo.svg'}
       {...settings}
       {...initialState?.settings}
-      formatMessage={formatMessage}
+      formatMessage={I18n.getIntl().formatMessage}
       footerRender={() => <Footer />}
       {...props}
       route={route}
@@ -129,11 +125,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return (
           <HeaderContent
             // @ts-ignore
-            breadcrumbData={breadcrumbRender(location.pathname, route.routes, fm)}
+            breadcrumbData={breadcrumbRender(location.pathname, route.routes)}
             collapsed={collapsed}
             onCollapse={setCollapsed}
             onReload={setReload}
-            fm={fm}
           />
         );
       }}
