@@ -47,7 +47,7 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
    *  状态变更前执行, 用于处理一些外部数据变更, 并且如果返回 false 则会中止状态变更行为.
    *  变更为新增时, record 为 undefined
    */
-  perStatusChange?: (st: FormStatus, record?: T) => boolean;
+  perStatusChange?: (st: FormStatus, record?: T) => boolean | void;
   // 状态变更时执行
   onStatusChange?: (st: FormStatus) => void;
   // 创建, 编辑 请求完成后执行
