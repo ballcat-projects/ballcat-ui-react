@@ -3,6 +3,7 @@ import { Popover } from 'antd';
 import type { LtColorProps } from './typings';
 import { SketchPicker } from 'react-color';
 import { Icon } from '../Icon';
+import I18n from '@/utils/I18nUtils';
 
 export const DEFAULT_COLORS = [
   '#FF9D4E', // 0 - 橘黄色
@@ -67,14 +68,14 @@ const LtColor = (props: LtColorProps) => {
         }
       >
         <Icon
-          title="选择颜色"
+          title={I18n.text('color.select')}
           type="ballcat-icon-xiguan"
           style={{ marginRight: '5px', cursor: 'pointer', marginLeft: `${children ? 5 : 0}px` }}
         />
       </Popover>
 
       <Icon
-        title="清空颜色"
+        title={I18n.text('color.clean')}
         type="ballcat-icon-delete-fill"
         style={{ color: '#1890ff', cursor: 'pointer' }}
         onClick={() => setColor(undefined)}

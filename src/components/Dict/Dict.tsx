@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import type { DictProps } from './typings';
 import { useModel, getLocale } from 'umi';
 import type { SysDictData, SysDictDataItem } from '@/services/ballcat/system';
-import { message, Spin } from 'antd';
+import { Spin } from 'antd';
 import { dict } from '@/services/ballcat/system';
 import type { GLOBAL } from '@/typings';
 import { Dict as DictCache } from '@/utils/Ballcat';
+import I18n from '@/utils/I18nUtils';
 
 const loading = <Spin />;
 
@@ -80,7 +81,7 @@ const Dict = (
           [data] = res.data;
           updateDict(initialState, setInitialState, data);
         } else {
-          message.error(`字典: ${code} 数据加载失败!`);
+          I18n.error({ key: 'dict.load.fail', params: { code } });
           // @ts-ignore
           updateDict(initialState, setInitialState, { dictCode: code, loading: false });
         }

@@ -9,6 +9,7 @@ import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { User, Token, Dict } from '@/utils/Ballcat';
 import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
 import { dict } from '@/services/ballcat/system';
+import I18n from './utils/I18nUtils';
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -134,13 +135,15 @@ const errorHandler = (error: ResponseError) => {
   const { response, message: msg } = error;
   if (!response) {
     notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
+      description: I18n.text('app.error.network.description'),
+      message: I18n.text('app.error.network'),
     });
   } else {
     notification.error({
-      description: response.status === 401 ? '授权信息异常!' : msg,
-      message: '操作异常',
+      description: response.status === 401 ? I18n.text('app.error.permissions.description') : msg,
+      message: I18n.text(
+        response.status === 401 ? 'app.error.permissions' : 'global.operation.failed',
+      ),
     });
   }
   throw error;

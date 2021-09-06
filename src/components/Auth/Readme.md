@@ -7,16 +7,16 @@
   alert('单击');
 }} />
 
-<Auth permission={'system:dict:read'} type={'button'} localeKey={'menu.welcome'} prefix={true} />
+<Auth permission={'system:dict:read'} type={'button'} localeKey={'auth.test'} prefix={true} />
 
-<Auth permission={'system:dict:read'} type={<span>自定义</span>} localeKey={'menu.welcome'} prefix={true} />
+<Auth permission={'system:dict:read'} type={<span>自定义</span>} localeKey={'auth.test'} prefix={true} />
 
-<Auth permission={'system:dict:read'} type={(text) => <span>自定义-{text}</span>} localeKey={'menu.welcome'}
+<Auth permission={'system:dict:read'} type={(text) => <span>自定义-{text}</span>} localeKey={'auth.test'}
       prefix={true} />
 
-<Auth.A permission={'system:dict:read'} localeKey={'menu.welcome'} prefix={true} />
+<Auth.A permission={'system:dict:read'} localeKey={'auth.test'} prefix={true} />
 
-<Auth.Button permission={'system:dict:read'} localeKey={'menu.welcome'} prefix={true} />
+<Auth.Button permission={'system:dict:read'} localeKey={'auth.test'} prefix={true} />
 
 <Auth.AL
   auths={[

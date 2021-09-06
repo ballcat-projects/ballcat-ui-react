@@ -1,3 +1,4 @@
+import I18n from '@/utils/I18nUtils';
 import { InputNumber } from 'antd';
 import LtFormItem from './LtFormItem';
 import type { FormNumberProps } from './typings';
@@ -11,7 +12,7 @@ function LtFormNumber<V = any>(props: FormNumberProps<V>) {
     tooltip,
     style,
     inputProps,
-    placeholder = `请输入${label}`,
+    placeholder = label && I18n.text('form.placeholder', { label }),
     min,
     max,
   } = props;

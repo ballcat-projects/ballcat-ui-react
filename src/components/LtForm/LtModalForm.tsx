@@ -1,14 +1,15 @@
 import { useState, useRef, useImperativeHandle } from 'react';
-import { message } from 'antd';
 import type { ModalFormProps, FormStatus } from './typings';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import { ModalForm } from '@ant-design/pro-form';
 import type { R } from '@/typings';
+import I18n from '@/utils/I18nUtils';
 
-const defautlTitle = {
-  read: '展示',
-  edit: '编辑',
-  create: '新增',
+export const defautlTitle = {
+  read: I18n.text('form.read'),
+  edit: I18n.text('form.edit'),
+  create: I18n.text('form.create'),
+  del: I18n.text('form.del'),
 };
 
 const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
@@ -42,7 +43,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     req?: (body: P) => Promise<R<any>>,
   ) => {
     if (req === undefined) {
-      message.error(`该表单未配置${defautlTitle[st]}请求, 无法进行对应操作!`);
+      I18n.error({ key: 'orm.error.request', params: { title: defautlTitle[st] } });
       return Promise.resolve(false);
     }
 
@@ -104,7 +105,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
           case 'edit':
             return submit(values, status, edit);
           default:
-            message.error('表单状态异常!请刷新页面.');
+            I18n.error('form.error');
             break;
         }
 

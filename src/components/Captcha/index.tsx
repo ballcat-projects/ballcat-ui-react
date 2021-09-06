@@ -4,6 +4,7 @@ import { aes } from '@/utils/Encrypt';
 import { get, valid } from '@/services/captcha';
 // @ts-ignore
 import { CSSTransition } from 'react-transition-group';
+import I18n from '@/utils/I18nUtils';
 
 interface CaptchaProps {
   isSlideShow: boolean;
@@ -121,7 +122,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
       isEnd: false,
       passFlag: false,
       tipWords: '',
-      text: '向右滑动完成验证',
+      text: I18n.text('captcha.text'),
       finishText: '',
       iconClass: 'icon-right',
     };
@@ -135,33 +136,33 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
 
-    window.removeEventListener('touchmove', function (e) {
+    window.removeEventListener('touchmove', (e) => {
       that.move(e);
     });
-    window.removeEventListener('mousemove', function (e) {
-      that.move(e);
-    });
-
-    // 鼠标松开
-    window.removeEventListener('touchend', function () {
-      that.end();
-    });
-    window.removeEventListener('mouseup', function () {
-      that.end();
-    });
-
-    window.addEventListener('touchmove', function (e) {
-      that.move(e);
-    });
-    window.addEventListener('mousemove', function (e) {
+    window.removeEventListener('mousemove', (e) => {
       that.move(e);
     });
 
     // 鼠标松开
-    window.addEventListener('touchend', function () {
+    window.removeEventListener('touchend', () => {
       that.end();
     });
-    window.addEventListener('mouseup', function () {
+    window.removeEventListener('mouseup', () => {
+      that.end();
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      that.move(e);
+    });
+    window.addEventListener('mousemove', (e) => {
+      that.move(e);
+    });
+
+    // 鼠标松开
+    window.addEventListener('touchend', () => {
+      that.end();
+    });
+    window.addEventListener('mouseup', () => {
       that.end();
     });
   }
@@ -260,7 +261,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
     this.setState({
       moveBlockLeft: undefined,
       leftBarWidth: undefined,
-      text: '向右滑动完成验证',
+      text: I18n.text('captcha.text'),
       moveBlockBackgroundColor: '#fff',
       leftBarBorderColor: '#337AB7',
       iconColor: '#fff',
@@ -330,7 +331,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
             iconClass: 'icon-check',
             tipWords: `${((this.state.endMoveTime - this.state.startMoveTime) / 1000).toFixed(
               2,
-            )}s验证成功`,
+            )}s${I18n.text('captcha.success')}`,
           });
 
           const captchaVerification = secretKey
@@ -350,7 +351,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
             iconColor: '#fff',
             iconClass: 'icon-close',
             passFlag: false,
-            tipWords: res.repMsg || '验证失败',
+            tipWords: res.repMsg || I18n.text('captcha.fail'),
           });
           setTimeout(async () => {
             await this.refresh();
@@ -382,7 +383,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
       <div className="mask" style={{ display: isSlideShow ? 'block' : 'none', userSelect: 'none' }}>
         <div className="verifybox" style={{ maxWidth: `${imgSize.width + 30}px` }}>
           <div className="verifybox-top">
-            请完成安全验证
+            {I18n.text('captcha.use')}
             <span className="verifybox-close" onClick={close}>
               <i className="iconfont icon-close" />
             </span>

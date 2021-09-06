@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { message, Button } from 'antd';
+import { Button } from 'antd';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { FormRef } from '@/components/LtForm';
@@ -7,6 +7,8 @@ import Auth from '@/components/Auth';
 import { Icon } from '@/components/Icon';
 import LtModalForm from '@/components/LtForm/LtModalForm';
 import type { PageProps } from './typings';
+import I18n from '@/utils/I18nUtils';
+import { defautlTitle } from '@/components/LtForm/LtModalForm';
 
 const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P, ValueType>) => {
   const {
@@ -63,7 +65,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
                 modalRef.current?.create();
               }}
             >
-              <Icon type={'ballcat-icon-plus'} /> 新建
+              <Icon type={'ballcat-icon-plus'} /> {defautlTitle.create}
             </Button>,
           );
         } else {
@@ -80,7 +82,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
 
     if (operateBar && operateBar.length > 0) {
       newColumns.push({
-        title: '操作',
+        title: I18n.text('form.operate'),
         width: 160,
         hideInSearch: true,
         fixed: 'right',
@@ -97,7 +99,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
               nodes.push(
                 <Auth.A
                   key={`lt-page-auth-read-${i.toString}`}
-                  text={'查看'}
+                  text={defautlTitle.read}
                   {...ob.props}
                   permission={ob.permission}
                   onClick={() => {
@@ -112,7 +114,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
               nodes.push(
                 <Auth.A
                   key={`lt-page-auth-edit-${i.toString}`}
-                  text={'编辑'}
+                  text={defautlTitle.edit}
                   {...ob.props}
                   permission={ob.permission}
                   onClick={() => {
@@ -127,19 +129,19 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
               nodes.push(
                 <Auth.A
                   key={`lt-page-auth-del-${i.toString}`}
-                  text={'删除'}
-                  configTitle={'确定要删除吗'}
+                  text={defautlTitle.del}
+                  configTitle={I18n.text('form.del.config')}
                   {...ob.props}
                   style={{ color: '#ff4d4f', ...ob.props?.style }}
                   permission={ob.permission}
                   onClick={() => {
                     if (del === undefined) {
-                      message.error(`该表单未配置删除请求, 无法进行对应操作!`);
+                      I18n.error({ key: 'orm.error.request', params: { title: defautlTitle.del } });
                       return;
                     }
                     del(record).then(() => {
                       tableRef.current?.reload();
-                      message.success('操作成功!');
+                      I18n.success('global.operation.success');
                     });
                   }}
                 />,
@@ -178,7 +180,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
         onFinish={(st, body) => {
           tableRef.current?.reload();
           onFinish(st, body);
-          message.success('操作成功!');
+          I18n.success('global.operation.success');
         }}
       >
         {children}
