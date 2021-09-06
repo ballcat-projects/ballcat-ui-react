@@ -11,7 +11,7 @@ export type FormRef<E> = {
   // 编辑
   edit: (row: E) => void;
   // 新增
-  create: () => void;
+  create: (data?: any) => void;
   // 获取form表单的 ref
   getFormRef: () => ProFormInstance<E> | undefined;
 };

@@ -53,7 +53,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     });
   };
 
-  const switchStatus = (st: FormStatus) => {
+  const switchStatus = (st: FormStatus, data?: any) => {
     changeStatus(st);
 
     if (st === undefined) {
@@ -63,6 +63,10 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     }
     // 清空数据
     formRef.current?.resetFields();
+    // 如果需要回填数据
+    if (data !== undefined && data !== null) {
+      formRef.current?.setFieldsValue(data);
+    }
     setModalTitle(title && title[st] ? title[st] : defautlTitle[st]);
     setVisible(true);
   };
@@ -70,19 +74,15 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   useImperativeHandle(mfRef, () => ({
     // 只读
     read: (row: E) => {
-      switchStatus('read');
-      // 回填
-      formRef.current?.setFieldsValue({ ...row });
+      switchStatus('read', { ...row });
     },
     // 编辑
     edit: (row: E) => {
-      switchStatus('edit');
-      // 回填
-      formRef.current?.setFieldsValue({ ...row });
+      switchStatus('edit', { ...row });
     },
     // 新增
-    create: () => {
-      switchStatus('create');
+    create: (data?: any) => {
+      switchStatus('create', data);
     },
     getFormRef: () => formRef.current,
   }));
