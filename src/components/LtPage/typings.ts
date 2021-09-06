@@ -9,7 +9,7 @@ import type { ModalFormProps } from '@/components/LtForm';
 export type PageToolBarActions = 'create' | JSX.Element;
 
 export type PageOperateBarPreset = {
-  type: 'edit' | 'del';
+  type: 'edit' | 'del' | 'read';
   permission: string;
   // 对 onClick  和 permission 的传递无效
   props?: AuthNpProps;
@@ -43,6 +43,11 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   toolBarActions?: PageToolBarActions[];
   // 表格右侧操作列
   operateBar?: PageOperateBar<T>[];
+  /**
+   *  状态变更前执行, 用于处理一些外部数据变更, 并且如果返回 false 则会中止状态变更行为.
+   *  变更为新增时, record 为 undefined
+   */
+  perStatusChange?: (st: FormStatus, record?: T) => boolean;
   // 状态变更时执行
   onStatusChange?: (st: FormStatus) => void;
   // 创建, 编辑 请求完成后执行

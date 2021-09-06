@@ -30,6 +30,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     modalProps,
     tableRef: tr,
     modalRef: mr,
+    perStatusChange = () => undefined,
   } = props;
   let tableRef = useRef<ActionType>();
   let modalRef = useRef<FormRef<E>>();
@@ -56,6 +57,9 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             <Button
               type="primary"
               onClick={() => {
+                if (perStatusChange('create') === false) {
+                  return;
+                }
                 modalRef.current?.create();
               }}
             >
@@ -89,7 +93,22 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
               return;
             }
 
-            if (ob.type === 'edit') {
+            if (ob.type === 'read') {
+              nodes.push(
+                <Auth.A
+                  key={`lt-page-auth-read-${i.toString}`}
+                  text={'查看'}
+                  {...ob.props}
+                  permission={ob.permission}
+                  onClick={() => {
+                    if (perStatusChange('read') === false) {
+                      return;
+                    }
+                    modalRef.current?.read(formData(record));
+                  }}
+                />,
+              );
+            } else if (ob.type === 'edit') {
               nodes.push(
                 <Auth.A
                   key={`lt-page-auth-edit-${i.toString}`}
@@ -97,6 +116,9 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
                   {...ob.props}
                   permission={ob.permission}
                   onClick={() => {
+                    if (perStatusChange('edit') === false) {
+                      return;
+                    }
                     modalRef.current?.edit(formData(record));
                   }}
                 />,
