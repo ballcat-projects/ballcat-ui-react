@@ -1,7 +1,8 @@
 import type { R } from '@/typings';
 import type React from 'react';
-import type { ColProps } from 'antd';
+import type { ColProps, FormItemProps } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-form';
+import type { DictRadioProps } from '../Dict';
 
 export type FormStatus = 'read' | 'edit' | 'create' | undefined;
 
@@ -42,3 +43,11 @@ export type FormProps<E, P = E> = {
 export type ModalFormProps<E, P = E> = {
   children?: React.ReactNode;
 } & FormProps<E, P>;
+
+export type FormDictRadioProps<Values = any> = {
+  name?: string;
+  label?: string;
+  code: string;
+  formItemProps?: FormItemProps<Values>;
+  dictProps?: DictRadioProps;
+};
