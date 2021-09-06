@@ -1,14 +1,14 @@
-import { Form } from 'antd';
 import { DictSelect } from '../Dict';
+import LtFormItem from './LtFormItem';
 import type { FormDictSelectProps } from './typings';
 
 function LtFormDictSelect<V = any>(props: FormDictSelectProps<V>) {
-  const { name, label, code, formItemProps, dictProps } = props;
+  const { code, dictProps } = props;
 
   return (
-    <Form.Item {...formItemProps} name={name} label={label}>
+    <LtFormItem<V> {...props}>
       <DictSelect {...dictProps} code={code} />
-    </Form.Item>
+    </LtFormItem>
   );
 }
 

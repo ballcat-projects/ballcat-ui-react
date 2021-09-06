@@ -2,7 +2,8 @@ import type { R } from '@/typings';
 import type React from 'react';
 import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-form';
-import type { DictRadioProps } from '../Dict';
+import type { DictRadioProps, DictSelectProps } from '../Dict';
+import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 
 export type FormStatus = 'read' | 'edit' | 'create' | undefined;
 
@@ -44,24 +45,28 @@ export type ModalFormProps<E, P = E> = {
   children?: React.ReactNode;
 } & FormProps<E, P>;
 
-export type FormDictRadioProps<Values = any> = {
-  name?: string;
-  label?: string;
-  code: string;
-  formItemProps?: FormItemProps<Values>;
-  dictProps?: DictRadioProps;
-};
-export type FormDictSelectProps<Values = any> = {
-  name?: string;
-  label?: string;
-  code: string;
-  formItemProps?: FormItemProps<Values>;
-  dictProps?: DictRadioProps;
+export type LtFormTooltip = LabelTooltipType & {
+  icon?: string | JSX.Element;
 };
 
-export type FormNumberProps<Values = any> = {
+export type LtFormItemProps<V = any> = {
   name?: string;
   label?: string;
-  formItemProps?: FormItemProps<Values>;
-  inputProps?: InputNumberProps<number>;
+  initialValue?: V;
+  formItemProps?: FormItemProps<V>;
+  tooltip?: LtFormTooltip;
 };
+
+export type FormDictRadioProps<V = any> = {
+  code: string;
+  dictProps?: DictRadioProps;
+} & LtFormItemProps<V>;
+
+export type FormDictSelectProps<V = any> = {
+  code: string;
+  dictProps?: DictSelectProps;
+} & LtFormItemProps<V>;
+
+export type FormNumberProps<V = any> = {
+  inputProps?: InputNumberProps<number>;
+} & LtFormItemProps<V>;
