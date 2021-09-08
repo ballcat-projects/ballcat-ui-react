@@ -4,7 +4,7 @@ import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { FormRef } from '@/components/LtForm';
 import Auth from '@/components/Auth';
-import { Icon } from '@/components/Icon';
+import Icon from '@/components/Icon';
 import LtModalForm from '@/components/LtForm/LtModalForm';
 import type { PageProps } from './typings';
 import I18n from '@/utils/I18nUtils';
@@ -65,7 +65,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
                 modalRef.current?.create();
               }}
             >
-              <Icon type={'ballcat-icon-plus'} /> {defautlTitle.create}
+              <Icon type={'plus'} /> {defautlTitle.create}
             </Button>,
           );
         } else {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@/components/Icon';
+import Icon from '@/components/Icon';
 import { Breadcrumb } from 'antd';
 import I18n from '@/utils/I18nUtils';
 
@@ -27,7 +27,7 @@ const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) 
         title={I18n.text('component.global.header.content.fold')}
         style={iconStyle}
         onClick={() => onCollapse(!collapsed)}
-        type={collapsed ? 'ballcat-icon-indent' : 'ballcat-icon-outdent'}
+        type={collapsed ? 'indent' : 'outdent'}
       />
       <Icon
         title={I18n.text('component.global.header.content.reload')}
@@ -36,13 +36,13 @@ const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) 
           onReload(true);
           window.location.reload();
         }}
-        type={'ballcat-icon-reload'}
+        type={'reload'}
       />
 
       <Breadcrumb style={{ width: 'calc(100% - 64px)', display: 'inline-block' }}>
         <Breadcrumb.Item>
           {' '}
-          <Icon style={{ ...iconStyle, marginRight: 0 }} type={'ballcat-icon-home'} />
+          <Icon style={{ ...iconStyle, marginRight: 0 }} type={'home'} />
         </Breadcrumb.Item>
         {breadcrumbData}
       </Breadcrumb>

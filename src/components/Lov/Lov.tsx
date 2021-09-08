@@ -4,7 +4,7 @@ import LovModal from '@/components/Lov/LovModal';
 import * as lovMap from '../../../config/lov';
 import type { LovConfig, LovProps } from './typing';
 import { Button, Input, Select } from 'antd';
-import { Icon } from '@/components/Icon';
+import Icon from '@/components/Icon';
 
 const cache: Record<string, LovConfig<any>> = {};
 // 使用 Object.keys 用来遍历模块
@@ -29,7 +29,7 @@ const Lov: React.FC<LovProps> = (props) => {
           value={value && (value instanceof Array ? [...value] : [value])}
           style={{ width: 'calc(100% - 40px)' }}
           open={false}
-          onDeselect={(val) => {
+          onDeselect={(val: any) => {
             if (value === undefined || value === null) {
               return;
             }
@@ -67,7 +67,7 @@ const Lov: React.FC<LovProps> = (props) => {
             setShow(true);
           }}
         >
-          <Icon style={{ color: '#1890ff', fontSize: '26px' }} type={'ballcat-icon-MoreCircle'} />
+          <Icon style={{ color: '#1890ff', fontSize: '26px' }} type={'MoreCircle'} />
         </Button>
       </Input.Group>
       <LovModal {...props} {...config} show={show} setShow={setShow} setValue={setValue} />

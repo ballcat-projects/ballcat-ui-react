@@ -1,6 +1,6 @@
 import type { MenuDataItem } from '@ant-design/pro-layout';
 import React from 'react';
-import { Icon } from '@/components/Icon';
+import Icon from '@/components/Icon';
 import { router } from '@/services/ant-design-pro/api';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { dynamic, history } from 'umi';
@@ -25,9 +25,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
         component: any;
       } = {
         hideInMenu: val.hidden,
-        icon: val.icon
-          ? React.createElement(Icon, { type: `ballcat-icon-${val.icon}` })
-          : undefined,
+        icon: val.icon ? React.createElement(Icon, { type: `${val.icon}` }) : undefined,
         locale: false,
         path: `${path}${menuPath}`,
         name: val.title,

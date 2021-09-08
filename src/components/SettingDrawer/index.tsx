@@ -18,7 +18,7 @@ import getLocales, { getLanguage } from './locales';
 import { genStringToTheme } from './utils';
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange';
 import RegionalSetting from './RegionalChange';
-import { Icon } from '@/components/Icon';
+import Icon from '@/components/Icon';
 
 type BodyProps = {
   title: string;
@@ -439,7 +439,7 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
   return (
     <div>
       <Icon
-        type={'ballcat-icon-more-'}
+        type={'more-'}
         style={{ fontSize: '16px', fontWeight: 'bolder' }}
         onClick={() => {
           setShow(!show);

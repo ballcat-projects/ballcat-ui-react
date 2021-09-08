@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Popover } from 'antd';
 import type { LtColorProps } from './typings';
 import { SketchPicker } from 'react-color';
-import { Icon } from '../Icon';
+import Icon from '../Icon';
 import I18n from '@/utils/I18nUtils';
 
 export const DEFAULT_COLORS = [
@@ -69,14 +69,14 @@ const LtColor = (props: LtColorProps) => {
       >
         <Icon
           title={I18n.text('color.select')}
-          type="ballcat-icon-xiguan"
+          type="xiguan"
           style={{ marginRight: '5px', cursor: 'pointer', marginLeft: `${children ? 5 : 0}px` }}
         />
       </Popover>
 
       <Icon
         title={I18n.text('color.clean')}
-        type="ballcat-icon-delete-fill"
+        type="delete-fill"
         style={{ color: '#1890ff', cursor: 'pointer' }}
         onClick={() => setColor(undefined)}
       />
