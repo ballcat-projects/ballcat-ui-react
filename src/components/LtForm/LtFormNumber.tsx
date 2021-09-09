@@ -5,31 +5,19 @@ import type { FormNumberProps } from './typings';
 
 function LtFormNumber<V = any>(props: FormNumberProps<V>) {
   const {
-    name,
     label,
-    initialValue,
-    formItemProps,
-    tooltip,
-    style,
     inputProps,
-    placeholder = label && I18n.text('form.placeholder', { label }),
+    placeholder = label && typeof label === 'string'
+      ? I18n.text('form.placeholder', { label })
+      : undefined,
     min,
     max,
   } = props;
 
-  const formProps = {
-    name,
-    label,
-    initialValue,
-    formItemProps,
-    tooltip,
-    style,
-  };
-
   const numberProps = { style: { width: '100%' }, ...inputProps, placeholder, min, max };
 
   return (
-    <LtFormItem<V> {...formProps}>
+    <LtFormItem<V> {...props}>
       <InputNumber<number> {...numberProps} />
     </LtFormItem>
   );

@@ -50,14 +50,7 @@ export type LtFormTooltip = LabelTooltipType & {
   icon?: string | JSX.Element;
 };
 
-export type LtFormItemProps<V = any> = {
-  name?: string;
-  label?: string;
-  initialValue?: V;
-  formItemProps?: FormItemProps<V>;
-  tooltip?: LtFormTooltip;
-  style?: CSSProperties;
-};
+export type LtFormItemProps<V = any> = FormItemProps<V>;
 
 export type FormDictRadioProps<V = any> = {
   code: string;
