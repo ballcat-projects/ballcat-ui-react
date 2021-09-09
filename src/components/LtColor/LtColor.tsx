@@ -69,7 +69,7 @@ const LtColor = (props: LtColorProps) => {
       >
         <Icon
           title={I18n.text('color.select')}
-          type="xiguan"
+          type="xiguan1"
           style={{ marginRight: '5px', cursor: 'pointer', marginLeft: `${children ? 5 : 0}px` }}
         />
       </Popover>

@@ -439,7 +439,7 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
   return (
     <div>
       <Icon
-        type={'more-'}
+        type={'more'}
         style={{ fontSize: '16px', fontWeight: 'bolder' }}
         onClick={() => {
           setShow(!show);
