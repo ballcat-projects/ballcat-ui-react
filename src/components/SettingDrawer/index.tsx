@@ -437,14 +437,13 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
   }, [setUrlParams, settingState, urlParams, pathname, disableUrlParams]);
   const baseClassName = `${prefixCls}-setting`;
   return (
-    <div>
-      <Icon
-        type={'more'}
-        style={{ fontSize: '16px', fontWeight: 'bolder' }}
-        onClick={() => {
-          setShow(!show);
-        }}
-      />
+    <div
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
+        setShow(!show);
+      }}
+    >
+      <Icon type={'more'} style={{ fontSize: '16px', fontWeight: 'bolder' }} />
       <Drawer
         visible={show}
         width={300}

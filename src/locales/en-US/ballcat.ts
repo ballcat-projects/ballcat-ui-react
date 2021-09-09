@@ -23,4 +23,7 @@ export default {
   'form.error.request':
     'The form is not configured with {title} request, and the corresponding operation cannot be performed!',
   'form.operate': 'operate',
+
+  'icon.select': 'Click to select icon',
+  'icon.clean': 'Clean icon',
 };

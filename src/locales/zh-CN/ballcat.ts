@@ -22,4 +22,7 @@ export default {
   'form.error': '表单状态异常!请刷新页面!',
   'form.error.request': '该表单未配置{title}请求, 无法进行对应操作!',
   'form.operate': '操作',
+
+  'icon.select': '单击以选择图标',
+  'icon.clean': '清空图标',
 };
