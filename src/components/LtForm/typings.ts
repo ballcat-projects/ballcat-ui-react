@@ -69,3 +69,7 @@ export type FormNumberProps<V = any> = {
   max?: number;
   style?: CSSProperties;
 } & LtFormItemProps<V>;
+
+export type LtFormGroupProps = {
+  children?: JSX.Element | JSX.Element[];
+};

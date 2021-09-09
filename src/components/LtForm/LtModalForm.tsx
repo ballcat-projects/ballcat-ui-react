@@ -92,7 +92,7 @@ const LtModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     <ModalForm
       width={width}
       layout="horizontal"
-      labelCol={labelCol || { span: 4 }}
+      labelCol={labelCol || { sm: { span: 24 }, md: { span: 4 } }}
       wrapperCol={wrapperCol}
       formRef={formRef}
       title={modalTitle}
