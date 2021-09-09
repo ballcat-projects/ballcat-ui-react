@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { settings } from '@/utils/ConfigUtils';
 import { getIconFile } from '@/services/ant-design-pro/icon';
-import Icon from './icon';
+import Icon from './Icon';
 import './IconSelect.less';
 import { Input, Modal, Spin, Tabs } from 'antd';
+import I18n from '@/utils/I18nUtils';
 
 const iconArray: { key: string; title: string; types: string[] }[] = [
   {
@@ -465,11 +466,28 @@ const IconSelect = (props: IconSelectProps) => {
       <Spin spinning={loading} style={{ userSelect: 'none' }}>
         <Input
           readOnly
+          // allowClear
           value={value}
-          // addonAfter={<Icon type="setting" onClick={() => setVisible(true)} />}
-          addonAfter={<Icon type="setting" onClick={() => setVisible(true)} />}
+          title={I18n.text('icon.select')}
+          placeholder={I18n.text('icon.select')}
+          addonAfter={
+            <Icon
+              title={I18n.text('icon.select')}
+              type="setting"
+              onClick={() => setVisible(true)}
+            />
+          }
           style={{ userSelect: 'none' }}
           prefix={value && value.length > 0 ? <Icon type={value} /> : ''}
+          suffix={
+            <Icon
+              title={I18n.text('icon.clean')}
+              type="close"
+              onClick={() => {
+                onChange(undefined);
+              }}
+            />
+          }
           onClick={() => setVisible(true)}
         />
 
