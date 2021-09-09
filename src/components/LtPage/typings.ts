@@ -4,7 +4,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { FormRef, FormStatus } from '../LtForm';
 import type { AuthNpProps } from '../Auth';
 import type { LtTableProps } from '../LtTable/typings';
-import type { ModalFormProps } from '@/components/LtForm';
+import type { LtModalFormProps } from '@/components/LtForm';
 
 export type PageToolBarActions = 'create' | JSX.Element;
 
@@ -56,7 +56,7 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   // rowKey columns 等 无法配置
   tableProps?: LtTableProps<T, U, ValueType>;
   // 部分无法配置
-  modalProps?: ModalFormProps<E, P>;
+  modalProps?: LtModalFormProps<E, P>;
   tableRef?: React.MutableRefObject<ActionType | undefined>;
   modalRef?: React.MutableRefObject<FormRef<E> | undefined>;
 };

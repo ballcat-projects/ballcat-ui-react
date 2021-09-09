@@ -1,7 +1,7 @@
 import type { R } from '@/typings';
 import type React from 'react';
 import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
-import type { ProFormInstance } from '@ant-design/pro-form';
+import type { ModalFormProps, ProFormInstance } from '@ant-design/pro-form';
 import type { DictRadioProps, DictSelectProps } from '../Dict';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 import type { CSSProperties } from 'react';
@@ -42,8 +42,10 @@ export type FormProps<E, P = E> = {
   onFinish?: (status: FormStatus, body: P) => void;
 };
 
-export type ModalFormProps<E, P = E> = {
+export type LtModalFormProps<E, P = E> = {
   children?: React.ReactNode;
+  // 扩展
+  antProps: ModalFormProps<E>;
 } & FormProps<E, P>;
 
 export type LtFormTooltip = LabelTooltipType & {
