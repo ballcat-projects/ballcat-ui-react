@@ -1,0 +1,23 @@
+@import '~antd/es/style/themes/default.less';
+
+.is-ul {
+  height: 250px;
+  padding: 0;
+  overflow-y: scroll;
+  list-style: none;
+
+  .is-li {
+    display: inline-block;
+    margin: 3px 0;
+    padding: @padding-sm;
+    border-radius: @border-radius-base;
+
+    &:hover,
+    &.active {
+      color: @white;
+      background-color: @primary-color;
+      // box-shadow: 0px 0px 5px 2px @primary-color;
+      cursor: pointer;
+    }
+  }
+}

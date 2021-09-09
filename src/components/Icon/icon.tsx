@@ -21,6 +21,21 @@ const Icon: React.FC<IconProps> = (props: IconProps) => {
   }
 
   return <IconNode {...{ ...props, type }} />;
+  // return (
+  //   <svg
+  //     {...props}
+  //     style={{
+  //       width: '1em',
+  //       height: '1em',
+  //       verticalAlign: '-0.15em',
+  //       fill: 'currentColor',
+  //       overflow: 'hidden',
+  //       ...props.style,
+  //     }}
+  //   >
+  //     <use xlinkHref={`#${type}`} />
+  //   </svg>
+  // );
 };
 
 export default Icon;
