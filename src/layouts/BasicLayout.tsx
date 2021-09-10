@@ -81,7 +81,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       route.routes = [];
     }
 
-    if (!initialState?.routerLoad && initialState?.menuArray) {
+    if (
+      !initialState?.routerLoad &&
+      initialState?.menuArray &&
+      initialState?.menuArray.length > 0
+    ) {
       const first = { path: '/', redirect: `${initialState.menuArray[0].path}`, exact: true };
 
       // @ts-ignore
