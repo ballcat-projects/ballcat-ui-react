@@ -6,6 +6,8 @@ const Settings: LayoutSettings & {
   iconfontUrl: string;
   iconPrefix: string;
   historyType: 'browser' | 'hash' | 'memory';
+  // 默认语言
+  defaultLocal: 'zh-CN' | 'en-US';
 } = {
   navTheme: 'dark',
   primaryColor: '#1890ff',
@@ -19,6 +21,7 @@ const Settings: LayoutSettings & {
   iconfontUrl: '//at.alicdn.com/t/font_2663734_ac285tyx19.js',
   iconPrefix: 'ballcat-icon-',
   historyType: 'hash',
+  defaultLocal: 'zh-CN',
 };
 
 export default Settings;

@@ -81,6 +81,11 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
+  // 添加语言
+  if (!headers['Accept-Language']) {
+    headers['Accept-Language'] = I18n.getLocal();
+  }
+
   let { sendMessage } = options;
   if (sendMessage === undefined || sendMessage === null) {
     sendMessage = true;
