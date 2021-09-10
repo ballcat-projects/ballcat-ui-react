@@ -4,17 +4,18 @@ import { Col, Row } from 'antd';
 
 const handlerNode = (node: JSX.Element) => {
   let dom = node;
+  const { props } = node;
 
   // 仅在 labelCol wrapperCol 均不存在时渲染
-  if (!node.props.labelCol && !node.props.wrapperCol) {
+  if (!props.labelCol && !props.wrapperCol) {
     dom = React.cloneElement(node, {
-      ...node.props,
+      ...props,
       labelCol: { sm: { span: 24 }, md: { span: 8 } },
     });
   }
 
   return (
-    <Col xs={24} sm={24} md={12}>
+    <Col key={`form-col-${props.name}-${props.label}`} xs={24} sm={24} md={12}>
       {dom}
     </Col>
   );
