@@ -87,6 +87,9 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
       switchStatus('create', data);
     },
     getFormRef: () => formRef.current,
+    hidden: () => {
+      switchStatus(undefined);
+    },
   }));
 
   return (

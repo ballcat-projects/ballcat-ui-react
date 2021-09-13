@@ -19,6 +19,10 @@ export type FormRef<E> = {
   getFormRef: () => ProFormInstance<E> | undefined;
 };
 
+export type ModalFormRef<E> = {
+  hidden: () => void;
+} & FormRef<E>;
+
 // e : 表单字段
 // p : 请求字段
 export type FormProps<E, P = E> = {
@@ -43,9 +47,10 @@ export type FormProps<E, P = E> = {
 };
 
 export type LtModalFormProps<E, P = E> = {
+  mfRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
   children?: React.ReactNode;
   // 扩展
-  antProps: ModalFormProps<E>;
+  antProps?: ModalFormProps<E>;
 } & FormProps<E, P>;
 
 export type LtFormTooltip = LabelTooltipType & {

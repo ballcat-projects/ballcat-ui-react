@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'antd';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { FormRef } from '@/components/LtForm';
+import type { ModalFormRef } from '@/components/LtForm';
 import Auth from '@/components/Auth';
 import Icon from '@/components/Icon';
 import LtModalForm from '@/components/LtForm/LtModalForm';
@@ -35,7 +35,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     perStatusChange = () => undefined,
   } = props;
   let tableRef = useRef<ActionType>();
-  let modalRef = useRef<FormRef<E>>();
+  let modalRef = useRef<ModalFormRef<E>>();
 
   if (mr) {
     modalRef = mr;
