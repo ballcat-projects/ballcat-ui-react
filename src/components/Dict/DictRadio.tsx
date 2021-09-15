@@ -27,7 +27,7 @@ const getSingleDom = (
 };
 
 const DictRadio = (props: DictRadioProps) => {
-  const { showFilter = () => true } = props;
+  const { disabled, showFilter = () => true } = props;
 
   return (
     <Dict
@@ -43,7 +43,13 @@ const DictRadio = (props: DictRadioProps) => {
         }
 
         return (
-          <Radio.Group key={hashCode} value={value} onChange={onChange} style={{ ...style }}>
+          <Radio.Group
+            disabled={disabled}
+            key={hashCode}
+            value={value}
+            onChange={onChange}
+            style={{ ...style }}
+          >
             {radioArray}
           </Radio.Group>
         );

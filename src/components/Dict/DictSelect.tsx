@@ -20,7 +20,7 @@ const getSingleDom = (
 };
 
 const DictSelect = (props: DictSelectProps) => {
-  const { multipar, showFilter = () => true } = props;
+  const { multipar, disabled, showFilter = () => true } = props;
 
   return (
     <Dict
@@ -37,6 +37,7 @@ const DictSelect = (props: DictSelectProps) => {
 
         return (
           <Select
+            disabled={disabled}
             mode={multipar ? 'tags' : undefined}
             key={hashCode}
             value={value}
