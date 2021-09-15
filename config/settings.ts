@@ -18,7 +18,7 @@ const Settings: LayoutSettings & {
   title: 'Ball Cat',
   pwa: false,
   logo: './logo.svg',
-  iconfontUrl: '//at.alicdn.com/t/font_2663734_ac285tyx19.js',
+  iconfontUrl: '//at.alicdn.com/t/font_2663734_eaxh2bnhyuo.js',
   iconPrefix: 'ballcat-icon-',
   historyType: 'hash',
   defaultLocal: 'zh-CN',
