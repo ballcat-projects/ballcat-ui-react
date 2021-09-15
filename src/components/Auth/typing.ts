@@ -6,14 +6,14 @@ export type AuthProps = {
   // 权限key
   permission: string;
   // dom
-  render: JSX.Element;
+  render: () => React.ReactNode;
 };
 
 export type AuthDomProps = {
   onClick?: (e: MouseEvent<HTMLElement> | undefined) => void;
   // 文本
   text?: string;
-  key?: string | number | null | undefined;
+  domKey?: string | number | null | undefined;
   // 自定义样式, type 如果自定义则无效
   style?: CSSProperties;
 };

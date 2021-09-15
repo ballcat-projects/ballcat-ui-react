@@ -15,9 +15,10 @@ import Icon from '../Icon';
 
 const getAuthDom = (
   props: AuthNoneProps,
-  renderDom: (props: AuthDomProps) => JSX.Element,
-): JSX.Element => {
-  const { permission, text, localeKey, key: pk, onClick, confirmTitle, confirm, style } = props;
+  renderDom: (props: AuthDomProps) => React.ReactNode,
+): React.ReactNode => {
+  const { permission, text, localeKey, onClick, confirmTitle, confirm, style } = props;
+  let { domKey } = props;
   //  是否使用确认框
   const isConfirm = confirm || confirmTitle;
   // 生成文本
@@ -27,15 +28,14 @@ const getAuthDom = (
     content = I18n.text(localeKey);
   }
 
-  let key = pk;
   // 如果未设置key, 则主动设置
-  if (key === undefined || key === null) {
-    key = `${permission}-${content}-${new Date().getTime()}`;
+  if (domKey === undefined || domKey === null) {
+    domKey = `${permission}-${content}-${new Date().getTime()}`;
   }
 
   let dom = renderDom({
     text: content,
-    key: `auth-render-${key}`,
+    domKey: `auth-render-${domKey}`,
     style: { ...style, userSelect: style?.userSelect ? style.userSelect : 'none' },
     onClick: (e) => {
       // 不使用确认框
@@ -49,7 +49,7 @@ const getAuthDom = (
   if (isConfirm) {
     dom = (
       <Popconfirm
-        key={`auth-a-popconfirm-${key}`}
+        key={`auth-a-popconfirm-${domKey}`}
         title={confirmTitle}
         // 给予默认宽度
         overlayStyle={{ width: '150px' }}
@@ -79,37 +79,40 @@ const hasPermission = (initialState: GLOBAL.Is | undefined, permission: string) 
   return initialState?.user?.permissions?.indexOf(permission) !== -1;
 };
 
-const Auth = (props: AuthProps) => {
+const Auth = (props: AuthProps): JSX.Element => {
   const { permission, render } = props;
   const { initialState } = useModel('@@initialState');
 
   // 有权限
   if (hasPermission(initialState, permission)) {
-    return render;
+    return <>{render()}</>;
   }
 
   return <></>;
 };
 
 Auth.A = (props: AuthAProps) => {
-  const { permission } = props;
+  const { permission, domKey } = props;
 
   return (
     <Auth
+      key={`auth-dom-a-${domKey}`}
       permission={permission}
-      render={getAuthDom(props, (dp) => {
-        return (
-          <a key={dp.key} style={dp.style} onClick={dp.onClick}>
-            {dp.text}
-          </a>
-        );
-      })}
+      render={() =>
+        getAuthDom(props, (dp) => {
+          return (
+            <a key={dp.domKey} style={dp.style} onClick={dp.onClick}>
+              {dp.text}
+            </a>
+          );
+        })
+      }
     />
   );
 };
 
 Auth.Button = (props: AutnButtonProps) => {
-  const { permission, type, icon, danger } = props;
+  const { permission, domKey, type, icon, danger } = props;
   let iconDom: React.ReactNode;
   if (icon) {
     iconDom = <Icon type={icon} style={{ marginRight: '5px' }} />;
@@ -117,15 +120,24 @@ Auth.Button = (props: AutnButtonProps) => {
 
   return (
     <Auth
+      key={`auth-dom-button-${domKey}`}
       permission={permission}
-      render={getAuthDom(props, (dp) => {
-        return (
-          <Button type={type} key={dp.key} style={dp.style} onClick={dp.onClick} danger={danger}>
-            {iconDom}
-            {dp.text}
-          </Button>
-        );
-      })}
+      render={() =>
+        getAuthDom(props, (dp) => {
+          return (
+            <Button
+              type={type}
+              key={dp.domKey}
+              style={dp.style}
+              onClick={dp.onClick}
+              danger={danger}
+            >
+              {iconDom}
+              {dp.text}
+            </Button>
+          );
+        })
+      }
     />
   );
 };
