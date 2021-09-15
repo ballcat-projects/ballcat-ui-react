@@ -2,7 +2,7 @@ import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { FormStatus, ModalFormRef } from '../LtForm';
-import type { AuthNpProps } from '../Auth';
+import type { AuthNoneProps } from '../Auth';
 import type { LtTableProps } from '../LtTable/typings';
 import type { LtModalFormProps } from '@/components/LtForm';
 
@@ -12,10 +12,9 @@ export type PageOperateBarPreset = {
   type: 'edit' | 'del' | 'read';
   permission: string;
   // 对 onClick  和 permission 的传递无效
-  props?: AuthNpProps;
+  props?: AuthNoneProps;
 };
 
-// export type PageOperateBar = PageOperateBarPreset | JSX.Element;
 export type PageOperateBar<T> =
   | PageOperateBarPreset
   | ((dom: React.ReactNode, data: T) => JSX.Element);
