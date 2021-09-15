@@ -55,7 +55,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
         if (!React.isValidElement(tb)) {
           tbList.push(
             <Auth.Button
-              key="lt-page-tool-bar-action-create"
+              domKey="lt-page-tool-bar-action-create"
               type="primary"
               icon="plus"
               // @ts-ignore
@@ -90,7 +90,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
         render: (dom, record) => {
           const nodes: React.ReactNode[] = [];
 
-          operateBar.forEach((ob, i) => {
+          operateBar.forEach((ob) => {
             if (typeof ob === 'function') {
               nodes.push(ob(dom, record));
               return;
@@ -99,7 +99,8 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             if (ob.type === 'read') {
               nodes.push(
                 <Auth.A
-                  key={`lt-page-auth-read-${i.toString}`}
+                  key={`lt-page-auth-read-${record[rowKey]}`}
+                  domKey={`lt-page-auth-read-${record[rowKey]}`}
                   text={defautlTitle.read}
                   {...ob.props}
                   permission={ob.permission}
@@ -114,7 +115,8 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             } else if (ob.type === 'edit') {
               nodes.push(
                 <Auth.A
-                  key={`lt-page-auth-edit-${i.toString}`}
+                  key={`lt-page-auth-edit-${record[rowKey]}`}
+                  domKey={`lt-page-auth-edit-${record[rowKey]}`}
                   text={defautlTitle.edit}
                   {...ob.props}
                   permission={ob.permission}
@@ -129,7 +131,8 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             } else {
               nodes.push(
                 <Auth.A
-                  key={`lt-page-auth-del-${i.toString}`}
+                  key={`lt-page-auth-del-${record[rowKey]}`}
+                  domKey={`lt-page-auth-del-${record[rowKey]}`}
                   text={defautlTitle.del}
                   confirmTitle={I18n.text('form.del.config')}
                   {...ob.props}
@@ -150,7 +153,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             }
           });
 
-          return <Auth.Group>{nodes}</Auth.Group>;
+          return <Auth.Group key={`lt-page-auth-group-${record[rowKey]}`}>{nodes}</Auth.Group>;
         },
       });
     }

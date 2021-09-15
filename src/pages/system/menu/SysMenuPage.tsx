@@ -143,7 +143,8 @@ export default () => {
           (dom, record) => {
             return (
               <Auth.A
-                key="menu-item-add"
+                key={`menu-item-add-${record.id}`}
+                domKey={`auth-record-add-${record.id}`}
                 text="添加"
                 permission="system:menu:add"
                 onClick={() => {
