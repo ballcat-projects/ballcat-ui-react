@@ -112,7 +112,7 @@ Auth.Button = (props: AutnButtonProps) => {
   const { permission, type, icon, danger } = props;
   let iconDom: React.ReactNode;
   if (icon) {
-    iconDom = <Icon type={icon} />;
+    iconDom = <Icon type={icon} style={{ marginRight: '5px' }} />;
   }
 
   return (
