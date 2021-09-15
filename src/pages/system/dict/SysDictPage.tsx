@@ -59,12 +59,11 @@ export default (): React.ReactNode => {
         rowKey="id"
         columns={dataColumns}
         onStatusChange={setStatus}
-        toolBarActions={['create']}
+        toolBarActions={[{ type: 'create', permission: 'system:dict:add' }]}
         operateBar={[
           {
             type: 'edit',
             permission: 'system:dict:edit',
-            props: { suffix: true },
           },
           (dom, record) => (
             <a
@@ -80,7 +79,6 @@ export default (): React.ReactNode => {
           {
             type: 'del',
             permission: 'system:dict:del',
-            props: { prefix: true },
           },
         ]}
       >

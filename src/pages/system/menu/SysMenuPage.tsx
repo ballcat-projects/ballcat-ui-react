@@ -13,6 +13,7 @@ import { ofList } from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
 import SysMenuI18nForm from './SysMenuI18n';
 import I18n from '@/utils/I18nUtils';
+import Auth from '@/components/Auth';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -134,14 +135,16 @@ export default () => {
         rowKey="id"
         columns={dataColumns}
         onStatusChange={setStatus}
-        toolBarActions={['create']}
+        toolBarActions={[{ type: 'create', permission: 'system:menu:add' }]}
         modalRef={modalRef}
         tableRef={tableRef}
         operateBar={[
           (dom, record) => {
             return (
-              <a
-                key="items"
+              <Auth.A
+                key="menu-item-add"
+                text="添加"
+                permission="system:menu:add"
                 onClick={() => {
                   // 子项的类型 type 最大值为2
                   const type = Math.min(record.type + 1, 2);
@@ -149,20 +152,16 @@ export default () => {
                   const parentId = isBtn(record) ? record.parentId : record.id;
                   modalRef.current?.create({ parentId, type });
                 }}
-              >
-                添加
-              </a>
+              />
             );
           },
           {
             type: 'edit',
-            permission: 'system:dict:edit',
-            props: { prefix: true },
+            permission: 'system:menu:edit',
           },
           {
             type: 'del',
-            permission: 'system:dict:del',
-            props: { prefix: true },
+            permission: 'system:menu:del',
           },
         ]}
         tableProps={{

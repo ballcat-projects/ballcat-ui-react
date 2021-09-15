@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from 'antd';
+import { Button, Space } from 'antd';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { ModalFormRef } from '@/components/LtForm';
@@ -54,25 +54,31 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     if (toolBarActions && toolBarActions.length > 0) {
       const tbList: React.ReactNode[] = [];
       toolBarActions.forEach((tb) => {
-        if (tb === 'create') {
+        if (!React.isValidElement(tb)) {
           tbList.push(
-            <Button
-              type="primary"
-              onClick={() => {
-                if (perStatusChange('create') === false) {
-                  return;
-                }
-                modalRef.current?.create();
-              }}
-            >
-              <Icon type={'plus'} /> {defautlTitle.create}
-            </Button>,
+            <Auth
+              // @ts-ignore
+              permission={tb.permission}
+              type={() => (
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    if (perStatusChange('create') === false) {
+                      return;
+                    }
+                    modalRef.current?.create();
+                  }}
+                >
+                  <Icon type={'plus'} /> {defautlTitle.create}
+                </Button>
+              )}
+            />,
           );
         } else {
           tbList.push(tb);
         }
       });
-      setToolBarActionsList(tbList);
+      setToolBarActionsList([<Space size={2}>{tbList}</Space>]);
     }
   }, [toolBarActions]);
 
@@ -149,7 +155,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
             }
           });
 
-          return <>{nodes}</>;
+          return <Auth.Group>{nodes}</Auth.Group>;
         },
       });
     }

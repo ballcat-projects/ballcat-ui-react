@@ -6,7 +6,7 @@ import type { AuthNpProps } from '../Auth';
 import type { LtTableProps } from '../LtTable/typings';
 import type { LtModalFormProps } from '@/components/LtForm';
 
-export type PageToolBarActions = 'create' | JSX.Element;
+export type PageToolBarActions = { type: 'create'; permission: string } | JSX.Element;
 
 export type PageOperateBarPreset = {
   type: 'edit' | 'del' | 'read';
@@ -52,7 +52,7 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   onStatusChange?: (st: FormStatus) => void;
   // 创建, 编辑 请求完成后执行
   onFinish?: (status: FormStatus, body: P) => void;
-  children?: React.ReactNode;
+  children?: React.ReactNode | React.ReactNode[];
   // rowKey columns 等 无法配置
   tableProps?: LtTableProps<T, U, ValueType>;
   // 部分无法配置
