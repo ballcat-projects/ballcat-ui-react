@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Space } from 'antd';
+import { Space } from 'antd';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { ModalFormRef } from '@/components/LtForm';
 import Auth from '@/components/Auth';
-import Icon from '@/components/Icon';
 import LtModalForm from '@/components/LtForm/LtModalForm';
 import type { PageProps } from './typings';
 import I18n from '@/utils/I18nUtils';
@@ -56,23 +55,21 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
       toolBarActions.forEach((tb) => {
         if (!React.isValidElement(tb)) {
           tbList.push(
-            <Auth
-              // @ts-ignore
-              permission={tb.permission}
-              type={() => (
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    if (perStatusChange('create') === false) {
-                      return;
-                    }
-                    modalRef.current?.create();
-                  }}
-                >
-                  <Icon type={'plus'} /> {defautlTitle.create}
-                </Button>
-              )}
-            />,
+            tbList.push(
+              <Auth.Button
+                type="primary"
+                icon="plus"
+                // @ts-ignore
+                permission={tb.permission}
+                text={defautlTitle.create}
+                onClick={() => {
+                  if (perStatusChange('create') === false) {
+                    return;
+                  }
+                  modalRef.current?.create();
+                }}
+              />,
+            ),
           );
         } else {
           tbList.push(tb);
@@ -136,7 +133,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
                 <Auth.A
                   key={`lt-page-auth-del-${i.toString}`}
                   text={defautlTitle.del}
-                  configTitle={I18n.text('form.del.config')}
+                  confirmTitle={I18n.text('form.del.config')}
                   {...ob.props}
                   style={{ color: '#ff4d4f', ...ob.props?.style }}
                   permission={ob.permission}

@@ -1,58 +1,25 @@
 import React from 'react';
 import { Button, Divider, Popconfirm, Space } from 'antd';
 import { useModel } from 'umi';
-import type { AuthProps, AuthType, AuthGroupProps } from '.';
+import type {
+  AuthProps,
+  AuthGroupProps,
+  AuthAProps,
+  AuthNoneProps,
+  AuthDomProps,
+  AutnButtonProps,
+} from '.';
 import I18n from '@/utils/I18nUtils';
 import type { GLOBAL } from '@/typings';
-import type { CSSProperties } from '@umijs/renderer-react/node_modules/@types/react';
+import Icon from '../Icon';
 
-const getDom = (props: AuthProps & AuthType): React.ReactNode => {
-  const {
-    permission,
-    type,
-    style: propStyle,
-    text,
-    key,
-    onClick: clickHandler,
-    config,
-    configTitle,
-  } = props;
-
-  const onClick = (e: React.MouseEvent<HTMLElement, MouseEvent> | undefined) => {
-    if (!config && !configTitle && clickHandler) {
-      clickHandler(e);
-    }
-  };
-
-  const style: CSSProperties = {
-    ...propStyle,
-    userSelect: propStyle?.userSelect ? propStyle.userSelect : 'none',
-  };
-
-  // 按钮
-  switch (type) {
-    case 'a':
-      return (
-        <a style={style} key={`auth-a-${key}`} onClick={onClick}>
-          {text}
-        </a>
-      );
-    case 'button':
-      return (
-        <Button style={style} key={`auth-button-${key}`} onClick={onClick} type={'primary'}>
-          {text}
-        </Button>
-      );
-    default:
-      if (typeof type === 'function') {
-        return type(text, permission);
-      }
-      return type;
-  }
-};
-
-const getAuthDom = (props: AuthProps & AuthType): JSX.Element => {
-  const { permission, text, localeKey, key: pk, onClick, configTitle, config } = props;
+const getAuthDom = (
+  props: AuthNoneProps,
+  renderDom: (props: AuthDomProps) => JSX.Element,
+): JSX.Element => {
+  const { permission, text, localeKey, key: pk, onClick, confirmTitle, confirm, style } = props;
+  //  是否使用确认框
+  const isConfirm = confirm || confirmTitle;
   // 生成文本
   let content = text;
   // 文本不存在, 国际化key存在
@@ -66,23 +33,33 @@ const getAuthDom = (props: AuthProps & AuthType): JSX.Element => {
     key = `${permission}-${content}-${new Date().getTime()}`;
   }
 
-  let dom = getDom({ ...props, text: content, key });
+  let dom = renderDom({
+    text: content,
+    key: `auth-render-${key}`,
+    style: { ...style, userSelect: style?.userSelect ? style.userSelect : 'none' },
+    onClick: (e) => {
+      // 不使用确认框
+      if (!isConfirm && onClick) {
+        onClick(e);
+      }
+    },
+  });
 
   // 确认框
-  if (config || configTitle) {
+  if (isConfirm) {
     dom = (
       <Popconfirm
         key={`auth-a-popconfirm-${key}`}
-        title={configTitle}
+        title={confirmTitle}
         // 给予默认宽度
         overlayStyle={{ width: '150px' }}
-        {...config}
+        {...confirm}
         onConfirm={(e) => {
           if (onClick) {
             onClick(e);
           }
-          if (config?.onConfirm) {
-            config?.onConfirm(e);
+          if (confirm?.onConfirm) {
+            confirm?.onConfirm(e);
           }
         }}
       >
@@ -102,21 +79,56 @@ const hasPermission = (initialState: GLOBAL.Is | undefined, permission: string) 
   return initialState?.user?.permissions?.indexOf(permission) !== -1;
 };
 
-const Auth = (props: AuthProps & AuthType): JSX.Element => {
-  const { permission } = props;
+const Auth = (props: AuthProps) => {
+  const { permission, render } = props;
   const { initialState } = useModel('@@initialState');
 
   // 有权限
   if (hasPermission(initialState, permission)) {
-    return getAuthDom(props);
+    return render;
   }
 
   return <></>;
 };
 
-Auth.A = (props: AuthProps) => <Auth {...props} type={'a'} />;
+Auth.A = (props: AuthAProps) => {
+  const { permission } = props;
 
-Auth.Button = (props: AuthProps) => <Auth {...props} type={'button'} />;
+  return (
+    <Auth
+      permission={permission}
+      render={getAuthDom(props, (dp) => {
+        return (
+          <a key={dp.key} style={dp.style} onClick={dp.onClick}>
+            {dp.text}
+          </a>
+        );
+      })}
+    />
+  );
+};
+
+Auth.Button = (props: AutnButtonProps) => {
+  const { permission, type, icon, danger } = props;
+  let iconDom: React.ReactNode;
+  if (icon) {
+    iconDom = <Icon type={icon} />;
+  }
+
+  return (
+    <Auth
+      permission={permission}
+      render={getAuthDom(props, (dp) => {
+        return (
+          <Button type={type} key={dp.key} style={dp.style} onClick={dp.onClick} danger={danger}>
+            {iconDom}
+            {dp.text}
+          </Button>
+        );
+      })}
+    />
+  );
+};
 
 const AuthGroup = ({ permission, children }: AuthGroupProps): JSX.Element => {
   const { initialState } = useModel('@@initialState');
