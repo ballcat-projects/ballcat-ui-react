@@ -91,6 +91,7 @@ export default () => {
       title: '权限标识',
       dataIndex: 'permission',
       width: 150,
+      copyable: true,
       ellipsis: true,
       hideInSearch: true,
     },
