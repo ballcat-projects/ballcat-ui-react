@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Space } from 'antd';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { ModalFormRef } from '@/components/LtForm';
@@ -55,27 +54,26 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
       toolBarActions.forEach((tb) => {
         if (!React.isValidElement(tb)) {
           tbList.push(
-            tbList.push(
-              <Auth.Button
-                type="primary"
-                icon="plus"
-                // @ts-ignore
-                permission={tb.permission}
-                text={defautlTitle.create}
-                onClick={() => {
-                  if (perStatusChange('create') === false) {
-                    return;
-                  }
-                  modalRef.current?.create();
-                }}
-              />,
-            ),
+            <Auth.Button
+              key="lt-page-tool-bar-action-create"
+              type="primary"
+              icon="plus"
+              // @ts-ignore
+              permission={tb.permission}
+              text={defautlTitle.create}
+              onClick={() => {
+                if (perStatusChange('create') === false) {
+                  return;
+                }
+                modalRef.current?.create();
+              }}
+            />,
           );
         } else {
           tbList.push(tb);
         }
       });
-      setToolBarActionsList([<Space size={2}>{tbList}</Space>]);
+      setToolBarActionsList(tbList);
     }
   }, [toolBarActions]);
 
