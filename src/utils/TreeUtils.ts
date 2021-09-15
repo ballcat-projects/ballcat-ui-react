@@ -42,3 +42,5 @@ export function ofList<T>(
 
   return treeData;
 }
+
+export default { ofList };

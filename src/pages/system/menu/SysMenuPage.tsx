@@ -9,7 +9,7 @@ import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-
 import LtPage from '@/components/LtPage';
 import { message, Button, Form, Modal, TreeSelect } from 'antd';
 import { menu, i18n } from '@/services/ballcat/system';
-import { ofList } from '@/utils/TreeUtils';
+import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
 import SysMenuI18nForm from './SysMenuI18n';
 import I18n from '@/utils/I18nUtils';
@@ -170,7 +170,7 @@ export default () => {
           pagination: false,
           expandable: { expandIconColumnIndex: 1 },
           postData: (data) => {
-            const treeData = ofList(data, 0, (item) => {
+            const treeData = TreeUtils.ofList(data, 0, (item) => {
               // eslint-disable-next-line no-param-reassign
               item.label = `【${item.i18nTitle}】${item.id}`;
               // eslint-disable-next-line no-param-reassign
