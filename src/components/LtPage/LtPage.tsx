@@ -21,6 +21,7 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
     onFinish = () => {},
     children,
     operateBar,
+    operteBarProps,
     formData = (data) => {
       return data as unknown as E;
     },
@@ -85,8 +86,9 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
       newColumns.push({
         title: I18n.text('form.operate'),
         width: 160,
-        hideInSearch: true,
         fixed: 'right',
+        ...operteBarProps,
+        hideInSearch: true,
         render: (dom, record) => {
           const nodes: React.ReactNode[] = [];
 
