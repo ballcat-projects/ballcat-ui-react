@@ -61,12 +61,12 @@ export type LtFormItemProps<V = any> = FormItemProps<V>;
 
 export type FormDictRadioProps<V = any> = {
   code: string;
-  dictProps?: DictRadioProps;
+  dictProps?: Omit<DictRadioProps, 'code'>;
 } & LtFormItemProps<V>;
 
 export type FormDictSelectProps<V = any> = {
   code: string;
-  dictProps?: DictSelectProps;
+  dictProps?: Omit<DictSelectProps, 'code'>;
 } & LtFormItemProps<V>;
 
 export type FormNumberProps<V = any> = {
