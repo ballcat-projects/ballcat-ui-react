@@ -43,4 +43,26 @@ export function ofList<T>(
   return treeData;
 }
 
-export default { ofList };
+export function toTreeData<T>(data: T[], kField = 'id', lField = 'name', cField = 'children') {
+  const treeData: T[] = [];
+
+  data.forEach((item) => {
+    const node = {
+      ...item,
+      label: item[lField],
+      value: item[kField],
+    };
+
+    if (item[cField] && item[cField] instanceof Array) {
+      node[cField] = toTreeData(item[cField], kField, lField, cField);
+    } else {
+      node[cField] = undefined;
+    }
+
+    treeData.push(node);
+  });
+
+  return treeData.length > 0 ? treeData : undefined;
+}
+
+export default { ofList, toTreeData };
