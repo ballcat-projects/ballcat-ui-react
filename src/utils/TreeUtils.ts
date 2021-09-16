@@ -107,4 +107,4 @@ export function toTreeData<T>(data: T[], kField = 'id', tField = 'name', cField 
   return treeData.length > 0 ? treeData : undefined;
 }
 
-export default { ofList, toTreeSelectData };
+export default { ofList, toTreeSelectData, toTreeData };
