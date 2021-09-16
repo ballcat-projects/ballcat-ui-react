@@ -4,11 +4,13 @@ import * as dictItem from './dict/dictItem';
 import * as menu from './menu/menu';
 import * as i18n from './i18n';
 import * as organization from './organization';
+import * as role from './role';
 
 export * from './typing';
 export * from './dict/typing';
 export * from './menu/typings';
 export * from './i18n/typings';
 export * from './organization/typings';
+export * from './role/typings';
 
-export { user, dict, dictItem, menu, i18n, organization };
+export { user, dict, dictItem, menu, i18n, organization, role };

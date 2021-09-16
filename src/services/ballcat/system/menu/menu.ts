@@ -1,5 +1,6 @@
 import type { PageResult, QueryParam, R } from '@/typings';
 import { request } from 'umi';
+import type { SysMenuRoleGrateVo } from '..';
 import type { SysMenuDto, SysMenuQo, SysMenuVo } from './typings';
 
 export async function query(body: QueryParam<SysMenuQo>) {
@@ -27,4 +28,8 @@ export async function del(body: SysMenuVo) {
   return request<R<any>>(`system/menu/${body.id}`, {
     method: 'DELETE',
   });
+}
+
+export async function listRoleGrant() {
+  return request<R<SysMenuRoleGrateVo>>(`system/menu/grant-list`, { method: 'GET' });
 }

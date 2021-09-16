@@ -87,3 +87,14 @@ export type SysMenuI18n = {
   // 地区语言标签
   languageTag: string;
 };
+
+export type SysMenuRoleGrateVo = {
+  // 菜单ID
+  id: number;
+  // 父级ID
+  parentId: number;
+  // 菜单名称
+  title: string;
+  // 菜单类型 （0目录，1菜单，2按钮）
+  type: 0 | 1 | 2;
+};

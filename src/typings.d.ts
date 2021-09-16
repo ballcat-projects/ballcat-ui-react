@@ -44,6 +44,30 @@ export type PageResult<T> = {
   records: T[];
 };
 
+export type SelectData<T> = {
+  // 显示的数据
+  name: string;
+  // 选中获取的属性
+  value: any;
+  // 是否被选中
+  selected: boolean;
+  // 是否禁用
+  disabled: boolean;
+  // 分组标识
+  type: string;
+  // 扩展对象
+  extendObj: T;
+};
+
+export type TreeNode<T> = {
+  title: string;
+  key: any;
+  disabled?: boolean;
+  checkable?: boolean;
+  selectable?: boolean;
+  children?: TreeNode<T>[];
+} & T;
+
 declare namespace GLOBAL {
   type Is = {
     settings?: Partial<LayoutSettings>;
