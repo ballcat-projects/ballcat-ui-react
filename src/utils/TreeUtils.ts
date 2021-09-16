@@ -96,7 +96,7 @@ export function toTreeData<T>(data: T[], kField = 'id', tField = 'name', cField 
     };
 
     if (item[cField] && item[cField] instanceof Array) {
-      node[cField] = toTreeSelectData(item[cField], kField, tField, cField);
+      node[cField] = toTreeData(item[cField], kField, tField, cField);
     } else {
       node[cField] = undefined;
     }
