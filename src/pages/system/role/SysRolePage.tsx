@@ -182,7 +182,7 @@ export default () => {
   const bindOpen = (data: SysRoleVo) => {
     setBindData(data);
     organization.query().then((res) => {
-      const tree = TreeUtils.toTreeData(res.data as unknown as any[]);
+      const tree = TreeUtils.toTreeSelectData(res.data as unknown as any[]);
       setBindTreeData(tree || []);
     });
   };

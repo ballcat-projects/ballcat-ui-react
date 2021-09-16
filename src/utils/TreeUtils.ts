@@ -43,7 +43,19 @@ export function ofList<T>(
   return treeData;
 }
 
-export function toTreeData<T>(data: T[], kField = 'id', lField = 'name', cField = 'children') {
+/**
+ * 树形结构 - TreeSelect
+ * @param data 数据
+ * @param kField value 属性名
+ * @param lField label 属性名
+ * @param cField children 属性名
+ */
+export function toTreeSelectData<T>(
+  data: T[],
+  kField = 'id',
+  lField = 'name',
+  cField = 'children',
+) {
   const treeData: T[] = [];
 
   data.forEach((item) => {
@@ -54,7 +66,7 @@ export function toTreeData<T>(data: T[], kField = 'id', lField = 'name', cField 
     };
 
     if (item[cField] && item[cField] instanceof Array) {
-      node[cField] = toTreeData(item[cField], kField, lField, cField);
+      node[cField] = toTreeSelectData(item[cField], kField, lField, cField);
     } else {
       node[cField] = undefined;
     }
@@ -65,4 +77,34 @@ export function toTreeData<T>(data: T[], kField = 'id', lField = 'name', cField 
   return treeData.length > 0 ? treeData : undefined;
 }
 
-export default { ofList, toTreeData };
+/**
+ * 树形结构 - Tree
+ * @param data 数据
+ * @param kField key 属性名
+ * @param tField title 属性名
+ * @param cField children 属性名
+ * @returns
+ */
+export function toTreeData<T>(data: T[], kField = 'id', tField = 'name', cField = 'children') {
+  const treeData: T[] = [];
+
+  data.forEach((item) => {
+    const node = {
+      ...item,
+      title: item[tField],
+      key: item[kField],
+    };
+
+    if (item[cField] && item[cField] instanceof Array) {
+      node[cField] = toTreeSelectData(item[cField], kField, tField, cField);
+    } else {
+      node[cField] = undefined;
+    }
+
+    treeData.push(node);
+  });
+
+  return treeData.length > 0 ? treeData : undefined;
+}
+
+export default { ofList, toTreeSelectData };

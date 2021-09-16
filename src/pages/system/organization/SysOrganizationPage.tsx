@@ -83,7 +83,7 @@ export default () => {
       tableProps={{
         pagination: false,
         postData: (data) => {
-          treeSelectData[0].children = TreeUtils.toTreeData(data);
+          treeSelectData[0].children = TreeUtils.toTreeSelectData(data);
           setTreeSelectData(treeSelectData);
           return treeSelectData[0].children;
         },
