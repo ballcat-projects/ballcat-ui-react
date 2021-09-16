@@ -90,14 +90,18 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
       onRow={onRow}
       scroll={scroll}
       pagination={pagination}
-      options={{
-        fullScreen: true,
-        reload: true,
-        setting: true,
-        density: true,
-        // 采用覆盖默认值形式
-        ...options,
-      }}
+      options={
+        options !== false
+          ? {
+              fullScreen: true,
+              reload: true,
+              setting: true,
+              density: true,
+              // 采用覆盖默认值形式
+              ...options,
+            }
+          : false
+      }
       search={getSearch(search)}
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       request={async (p, sort, filter) => {
