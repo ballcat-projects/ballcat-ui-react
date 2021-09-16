@@ -11,6 +11,7 @@ import Auth from '@/components/Auth';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { message, Form, TreeSelect } from 'antd';
 import { LtFormNumber } from '@/components/LtForm';
+import TreeUtils from '@/utils/TreeUtils';
 
 const dataColumns: ProColumns<SysOrganizationVo>[] = [
   { title: '组织名称', dataIndex: 'name', hideInTable: true },
@@ -39,21 +40,6 @@ const dataColumns: ProColumns<SysOrganizationVo>[] = [
     hideInSearch: true,
   },
 ];
-
-const toTreeData = (data: SysOrganizationVo[]) => {
-  const treeData: any[] = [];
-
-  data.forEach((item) => {
-    treeData.push({
-      ...item,
-      label: item.name,
-      value: item.id,
-      children: toTreeData(item.children),
-    });
-  });
-
-  return treeData.length > 0 ? treeData : undefined;
-};
 
 export default () => {
   const tableRef = useRef<ActionType>();
@@ -97,7 +83,7 @@ export default () => {
       tableProps={{
         pagination: false,
         postData: (data) => {
-          treeSelectData[0].children = toTreeData(data);
+          treeSelectData[0].children = TreeUtils.toTreeData(data);
           setTreeSelectData(treeSelectData);
           return treeSelectData[0].children;
         },
