@@ -46,12 +46,14 @@ export function ofList<T>(
 /**
  * 树形结构 - TreeSelect
  * @param data 数据
+ * @param itemHandler 用来处理数据, 有些使用情况需要对部分字段进行转换
  * @param kField value 属性名
  * @param lField label 属性名
  * @param cField children 属性名
  */
 export function toTreeSelectData<T>(
   data: T[],
+  itemHandler = (item: T) => item,
   kField = 'id',
   lField = 'name',
   cField = 'children',
@@ -60,13 +62,13 @@ export function toTreeSelectData<T>(
 
   data.forEach((item) => {
     const node = {
-      ...item,
       label: item[lField],
       value: item[kField],
+      ...itemHandler(item),
     };
 
     if (item[cField] && item[cField] instanceof Array) {
-      node[cField] = toTreeSelectData(item[cField], kField, lField, cField);
+      node[cField] = toTreeSelectData(item[cField], itemHandler, kField, lField, cField);
     } else {
       node[cField] = undefined;
     }
@@ -80,23 +82,30 @@ export function toTreeSelectData<T>(
 /**
  * 树形结构 - Tree
  * @param data 数据
+ * @param itemHandler 用来处理数据, 有些使用情况需要对部分字段进行转换
  * @param kField key 属性名
  * @param tField title 属性名
  * @param cField children 属性名
  * @returns
  */
-export function toTreeData<T>(data: T[], kField = 'id', tField = 'name', cField = 'children') {
+export function toTreeData<T>(
+  data: T[],
+  itemHandler = (item: T) => item,
+  kField = 'id',
+  tField = 'name',
+  cField = 'children',
+) {
   const treeData: T[] = [];
 
   data.forEach((item) => {
     const node = {
-      ...item,
       title: item[tField],
       key: item[kField],
+      ...itemHandler(item),
     };
 
     if (item[cField] && item[cField] instanceof Array) {
-      node[cField] = toTreeData(item[cField], kField, tField, cField);
+      node[cField] = toTreeData(item[cField], itemHandler, kField, tField, cField);
     } else {
       node[cField] = undefined;
     }
