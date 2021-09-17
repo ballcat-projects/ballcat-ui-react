@@ -115,5 +115,9 @@ declare namespace GLOBAL {
     roles: string[];
     scope: 'server';
     token_type: 'bearer';
+    attributes: {
+      permissions: string[];
+      roles: string[];
+    };
   };
 }

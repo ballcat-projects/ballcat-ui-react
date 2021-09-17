@@ -55,12 +55,19 @@ const Login: React.FC = () => {
     // 登录
     login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
       .then(async (res) => {
+        // 解析远程数据
+        const remoteUser = {
+          ...res,
+          roles: res.attributes.roles,
+          permissions: res.attributes.permissions,
+        };
+
         I18n.success('pages.login.success');
         // 缓存用户信息
-        User.set(JSON.stringify(res));
+        User.set(JSON.stringify(remoteUser));
         // 缓存token
-        Token.set(res.access_token);
-        setInitialState({ ...initialState, user: { ...res } });
+        Token.set(remoteUser.access_token);
+        setInitialState({ ...initialState, user: remoteUser });
 
         if (!history) return;
 
