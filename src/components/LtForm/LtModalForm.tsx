@@ -70,8 +70,6 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
       formRef.current?.setFieldsValue(data);
     }
     setModalTitle(`${defautlTitle[st]}${titleSuffix}`);
-    console.log(titleSuffix);
-
     setVisible(true);
   };
 
