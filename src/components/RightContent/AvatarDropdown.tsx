@@ -9,6 +9,7 @@ import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
+import SrcUtils from '@/utils/SrcUtils';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -84,7 +85,12 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={user?.info?.avatar} alt="avatar" />
+        <Avatar
+          size="small"
+          className={styles.avatar}
+          src={SrcUtils.resolve(user?.info?.avatar)}
+          alt="avatar"
+        />
         <span className={`${styles.name} anticon`}>{user?.info?.nickname}</span>
       </span>
     </HeaderDropdown>
