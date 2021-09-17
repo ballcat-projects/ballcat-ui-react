@@ -1,6 +1,6 @@
 import ModalForm from './LtModalForm';
-import LtFormDictRadio from './LtFormDictRadio';
-import LtFormDictSelect from './LtFormDictSelect';
+import LtFormDictRadio from './dict/LtFormDictRadio';
+import LtFormDictSelect from './dict/LtFormDictSelect';
 import LtFormNumber from './LtFormNumber';
 import LtFormGroup from './LtFormGroup';
 

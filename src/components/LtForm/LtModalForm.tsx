@@ -19,7 +19,7 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
     width,
     labelCol,
     wrapperCol,
-    title,
+    titleSuffix = '',
     children,
     create,
     edit,
@@ -69,7 +69,9 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
     if (data !== undefined && data !== null) {
       formRef.current?.setFieldsValue(data);
     }
-    setModalTitle(title && title[st] ? title[st] : defautlTitle[st]);
+    setModalTitle(`${defautlTitle[st]}${titleSuffix}`);
+    console.log(titleSuffix);
+
     setVisible(true);
   };
 

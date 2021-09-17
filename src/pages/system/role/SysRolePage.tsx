@@ -221,6 +221,7 @@ export default () => {
           ),
           { type: 'del', permission: 'system:role:del' },
         ]}
+        modalProps={{ titleSuffix: '角色' }}
       >
         <ProFormText name="id" hidden />
         <ProFormText

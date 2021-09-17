@@ -166,6 +166,12 @@ export default () => {
             permission: 'system:menu:del',
           },
         ]}
+        formData={(data) => {
+          return { ...data, originalId: data.id, i18nMessages: [] };
+        }}
+        perStatusChange={() => {
+          setShowI18n(true);
+        }}
         tableProps={{
           pagination: false,
           expandable: { expandIconColumnIndex: 1 },
@@ -187,12 +193,7 @@ export default () => {
             return treeData;
           },
         }}
-        formData={(data) => {
-          return { ...data, originalId: data.id, i18nMessages: [] };
-        }}
-        perStatusChange={() => {
-          setShowI18n(true);
-        }}
+        modalProps={{ titleSuffix: '菜单' }}
       >
         <ProFormText
           rules={

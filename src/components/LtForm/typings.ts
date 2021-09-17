@@ -28,11 +28,7 @@ export type ModalFormRef<E> = {
 export type FormProps<E, P = E> = {
   mfRef?: React.MutableRefObject<FormRef<E> | undefined>;
   onStatusChange?: (status: FormStatus) => void;
-  title?: {
-    read?: string;
-    edit?: string;
-    create?: string;
-  };
+  titleSuffix?: string;
   width?: string;
   labelCol?: ColProps;
   wrapperCol?: ColProps;
@@ -59,15 +55,14 @@ export type LtFormTooltip = LabelTooltipType & {
 
 export type LtFormItemProps<V = any> = FormItemProps<V>;
 
-export type FormDictRadioProps<V = any> = {
+export type LtFormDictProps<V, DP> = {
   code: string;
-  dictProps?: Omit<DictRadioProps, 'code'>;
+  dictProps?: Omit<DP, 'code'>;
 } & LtFormItemProps<V>;
 
-export type FormDictSelectProps<V = any> = {
-  code: string;
-  dictProps?: Omit<DictSelectProps, 'code'>;
-} & LtFormItemProps<V>;
+export type FormDictRadioProps<V = any> = LtFormDictProps<V, DictRadioProps>;
+
+export type FormDictSelectProps<V = any> = LtFormDictProps<V, DictSelectProps>;
 
 export type FormNumberProps<V = any> = {
   inputProps?: InputNumberProps<number>;
