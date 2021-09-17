@@ -76,7 +76,8 @@ const getAuthDom = (
  * @return true 拥有
  */
 const hasPermission = (initialState: GLOBAL.Is | undefined, permission: string) => {
-  return initialState?.user?.permissions?.indexOf(permission) !== -1;
+  const permissions = initialState?.user?.permissions || [];
+  return permissions.indexOf(permission) !== -1;
 };
 
 const Auth = (props: AuthProps): JSX.Element => {
