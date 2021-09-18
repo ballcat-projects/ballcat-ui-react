@@ -22,7 +22,9 @@ const SysI18nCreate = (props: SysI18nCreateProps) => {
 
     tags.forEach((t) => {
       if (t === tag) {
-        array.push(val);
+        if (val) {
+          array.push(val);
+        }
       } else if (i18nData[t]) {
         array.push(i18nData[t]);
       }
@@ -61,9 +63,17 @@ const SysI18nCreate = (props: SysI18nCreateProps) => {
             defaultValue={i18nData[item] ? i18nData[item].message : undefined}
             onChange={(e) => {
               const nd = { ...i18nData };
-              nd[item] = { code, message: e.target.value, languageTag: item };
-              setI18nData(nd);
+              const message = e.target.value;
+
+              if (message && message.length > 0) {
+                nd[item] = { code, message, languageTag: item };
+              } else {
+                // 无效语言文本
+                delete nd[item];
+              }
+
               sync(item, nd[item]);
+              setI18nData(nd);
             }}
           />
         );
