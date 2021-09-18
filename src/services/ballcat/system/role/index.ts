@@ -50,7 +50,7 @@ export async function getPermissionIds(roleCode: string) {
 }
 
 export async function listSelectData() {
-  return request<R<SelectData<SysRole>>>(`system/role/select`, { method: 'GET' });
+  return request<R<SelectData<SysRole>[]>>(`system/role/select`, { method: 'GET' });
 }
 
 export async function listRoleBindUser(body: QueryParam<SysRoleBindQo>) {
