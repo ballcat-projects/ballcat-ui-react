@@ -197,9 +197,6 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     } else {
       setShowData([value]);
     }
-
-    setSelectedRowKeys([]);
-    setSelectedRows([]);
   }, [value]);
 
   const style = { ...defaultModalStyle, ...modalStyle };
@@ -209,7 +206,6 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
       width={style.width}
       {...modalProperties}
       bodyStyle={{ padding: '0px', ...modalProperties?.paddingTop }}
-      destroyOnClose={true}
       title={title}
       visible={show}
       onCancel={() => {

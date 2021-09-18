@@ -68,7 +68,7 @@ const Lov: React.FC<LovProps> = (props) => {
             setShow(true);
           }}
         >
-          <Icon style={{ fontSize: '16px' }} type={'ellipsis'} />
+          <Icon style={{ fontSize: '16px' }} type="ellipsis" />
         </Button>
       </Input.Group>
       <LovModal {...props} {...config} show={show} setShow={setShow} setValue={setValue} />
