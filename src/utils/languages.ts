@@ -1,3 +1,5 @@
+import type { TransferItem } from 'antd/lib/transfer';
+
 const languages: Record<
   string,
   {
@@ -326,5 +328,14 @@ const languages: Record<
   //   title: '語言',
   // },
 };
+
+export const allTag = Object.keys(languages);
+
+export const transferTags: TransferItem[] = allTag.map((tag) => {
+  return {
+    key: tag,
+    title: tag,
+  };
+});
 
 export default languages;

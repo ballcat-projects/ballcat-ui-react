@@ -11,9 +11,9 @@ import { message, Button, Form, Modal, TreeSelect } from 'antd';
 import { menu, i18n } from '@/services/ballcat/system';
 import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
-import SysMenuI18nForm from './SysMenuI18n';
 import I18n from '@/utils/I18nUtils';
 import Auth from '@/components/Auth';
+import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -318,7 +318,7 @@ export default () => {
                   name="i18nMessages"
                   hidden={!showI18n || isBtn(type) || status === 'edit'}
                 >
-                  <SysMenuI18nForm code={form.getFieldValue('title')} />
+                  <SysI18nCreate code={form.getFieldValue('title')} />
                 </Form.Item>
 
                 {/* 不是按钮时展示 */}
