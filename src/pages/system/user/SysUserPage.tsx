@@ -32,7 +32,7 @@ import { LtFormDictRadio } from '@/components/LtForm';
 import { pwd } from '@/utils/Encrypt';
 import SelectRole from './SelectRole';
 import Auth from '@/components/Auth';
-import Grate from './Grate';
+import Grant from './Grant';
 import Pass from './Pass';
 
 const dataColumns: ProColumns<SysUserVo>[] = [
@@ -459,7 +459,7 @@ export default () => {
         </Col>
       </Row>
 
-      <Grate visible={grateVisible} onVisibleChange={setgrateVisible} record={grateRecord} />
+      <Grant visible={grateVisible} onVisibleChange={setgrateVisible} record={grateRecord} />
 
       <Pass visible={passVisible} onVisibleChange={setPassVisible} record={passRecord} />
     </>

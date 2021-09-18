@@ -6,13 +6,13 @@ import type { ProFormInstance } from '@ant-design/pro-form';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import SelectRole from './SelectRole';
 
-type GrateProps = {
+type GrantProps = {
   visible: boolean;
   onVisibleChange: (val: boolean) => void;
   record?: SysUserVo;
 };
 
-export default ({ visible, onVisibleChange, record }: GrateProps) => {
+export default ({ visible, onVisibleChange, record }: GrantProps) => {
   const formRef = useRef<ProFormInstance<SysUserScopeDto>>();
 
   useEffect(() => {
