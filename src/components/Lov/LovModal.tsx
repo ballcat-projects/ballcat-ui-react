@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { request } from 'umi';
-import { Modal, Select, Tag } from 'antd';
+import { Modal, Select } from 'antd';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -272,8 +272,51 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
               mode={'tags'}
               style={{ width: '100%', paddingLeft: '24px', paddingRight: '24px' }}
               open={false}
-              tagRender={({ label }) => {
-                return <Tag>{label}</Tag>;
+              onDeselect={(val: any) => {
+                if (showData === undefined || showData === null) {
+                  return;
+                }
+
+                // 不是多选.
+                if (!config.multiple) {
+                  // 相等, 处理
+                  if (showData[0] === val) {
+                    setShowData([]);
+                    setSelectedRowKeys([]);
+                    setSelectedRows([]);
+                  }
+                  return;
+                }
+
+                // 多选, 相等
+                if (showData === val) {
+                  // 清空选择内容
+                  setShowData([]);
+                  setSelectedRowKeys([]);
+                  setSelectedRows([]);
+                  return;
+                }
+                // 从选中内容中移除val
+                let index = showData.indexOf(val);
+                if (index !== -1) {
+                  showData.splice(index, 1);
+                  index = -1;
+                  for (let i = 0; i < selectedRows.length; i += 1) {
+                    const row = selectedRows[i];
+                    if (getRet(row, config) === val) {
+                      index = i;
+                      break;
+                    }
+                  }
+                  if (index !== -1) {
+                    selectedRows.splice(index, 1);
+                    selectedRowKeys.splice(index, 1);
+                    setSelectedRowKeys([...selectedRows]);
+                    setSelectedRowKeys([...selectedRowKeys]);
+                  }
+
+                  setShowData([...showData]);
+                }
               }}
             />
           );

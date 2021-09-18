@@ -60,6 +60,7 @@ const Lov: React.FC<LovProps> = (props) => {
           onClear={() => {
             setValue(config.multiple ? [] : undefined);
           }}
+          onClick={() => setShow(true)}
         />
         <Button
           style={{ paddingLeft: '5px', paddingRight: '5px' }}
@@ -67,7 +68,7 @@ const Lov: React.FC<LovProps> = (props) => {
             setShow(true);
           }}
         >
-          <Icon style={{ color: '#1890ff', fontSize: '26px' }} type={'MoreCircle'} />
+          <Icon style={{ fontSize: '16px' }} type={'ellipsis'} />
         </Button>
       </Input.Group>
       <LovModal {...props} {...config} show={show} setShow={setShow} setValue={setValue} />

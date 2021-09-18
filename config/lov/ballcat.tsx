@@ -42,7 +42,7 @@ export const LovDemoMultiple: LovConfig<SysUserVo> = {
       html: 'input',
     },
     {
-      label: '搜索的昵称',
+      label: '昵称',
       field: 'nickname',
       html: (setVal) => {
         return <Input addonBefore={'test'} onChange={(e) => setVal(e.target.value)} />;
@@ -91,7 +91,7 @@ export const LovDemo: LovConfig<SysUserVo> = {
       html: 'input',
     },
     {
-      label: '搜索的昵称',
+      label: '昵称',
       field: 'nickname',
       html: (setVal) => {
         return <Input addonBefore={'test'} onChange={(e) => setVal(e.target.value)} />;
