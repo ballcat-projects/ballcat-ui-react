@@ -8,6 +8,8 @@ const Settings: LayoutSettings & {
   historyType: 'browser' | 'hash' | 'memory';
   // 默认语言
   defaultLocal: 'zh-CN' | 'en-US';
+  // 是否展示水印
+  waterMark: boolean;
 } = {
   navTheme: 'dark',
   primaryColor: '#1890ff',
@@ -22,6 +24,7 @@ const Settings: LayoutSettings & {
   iconPrefix: 'ballcat-icon-',
   historyType: 'hash',
   defaultLocal: 'zh-CN',
+  waterMark: true,
 };
 
 export default Settings;

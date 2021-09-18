@@ -173,7 +173,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       {reload ? (
         <LoadingComponent />
       ) : (
-        <WaterMark content={initialState?.user?.info?.nickname} style={{ height: '100%' }}>
+        <WaterMark
+          content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
+          style={{ height: '100%' }}
+        >
           {children}
         </WaterMark>
       )}
