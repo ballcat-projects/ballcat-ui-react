@@ -98,43 +98,57 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
  * 自定义处理返回值
  */
 const customerResponseInterceptor: ResponseInterceptor = async (res, option) => {
-  return res
-    .clone()
-    .json()
-    .then((json) => {
-      const response = res;
+  // 返回值不是json
+  let isJson = false;
 
-      if (option.url) {
-        // 部分接口特殊处理
-        if (option.url === 'captcha/get' || option.url === 'captcha/check') {
+  res.headers.forEach((v, k) => {
+    if (k.toLowerCase() === 'content-type') {
+      if (v.indexOf('application/json') !== -1) {
+        isJson = true;
+      }
+    }
+  });
+
+  // 仅处理json数据
+  return !isJson
+    ? res
+    : res
+        .clone()
+        .json()
+        .then((json) => {
+          const response = res;
+
+          if (option.url) {
+            // 部分接口特殊处理
+            if (option.url === 'captcha/get' || option.url === 'captcha/check') {
+              return response;
+            }
+          }
+
+          if (response.status === 401) {
+            // token 鉴权异常
+            Token.clean();
+            User.clean();
+            redirect('user/login');
+            return response;
+          }
+
+          if (json && json.code !== 200) {
+            // 登录接口, 通过是否存在token判断成功或失败
+            if (option.url === 'oauth/token' && json.access_token) {
+              return response;
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw {
+              response,
+              data: json,
+              message: json.message || json.error,
+            };
+          }
+
           return response;
-        }
-      }
-
-      if (response.status === 401) {
-        // token 鉴权异常
-        Token.clean();
-        User.clean();
-        redirect('user/login');
-        return response;
-      }
-
-      if (json && json.code !== 200) {
-        // 登录接口, 通过是否存在token判断成功或失败
-        if (option.url === 'oauth/token' && json.access_token) {
-          return response;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-        throw {
-          response,
-          data: json,
-          message: json.message || json.error,
-        };
-      }
-
-      return response;
-    });
+        });
 };
 const errorHandler = (error: ResponseError) => {
   const { response, message: msg } = error;
