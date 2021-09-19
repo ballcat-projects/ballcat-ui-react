@@ -25,4 +25,6 @@ export default {
 
   'icon.select': '单击以选择图标',
   'icon.clean': '清空图标',
+
+  'cropper.avatar.select': '请选择图片!',
 };

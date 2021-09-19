@@ -26,4 +26,6 @@ export default {
 
   'icon.select': 'Click to select icon',
   'icon.clean': 'Clean icon',
+
+  'cropper.avatar.select': 'Please select a picture!',
 };
