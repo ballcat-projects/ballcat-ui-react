@@ -17,7 +17,7 @@ export type SysI18nDto = {
   updateTime: string;
   createTime: string;
   // 语言文本
-  LanguageText?: {
+  languageTexts?: {
     // 语言标签
     languageTag: string;
 
