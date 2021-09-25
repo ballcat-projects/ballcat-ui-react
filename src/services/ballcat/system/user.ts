@@ -8,6 +8,7 @@ import type {
   SysUserPassDto,
 } from '@/services/ballcat/system/typing';
 import type { PageResult, QueryParam, R } from '@/typings';
+import type { UploadFile } from 'antd/lib/upload/interface';
 
 export async function query(body: QueryParam<SysUserQo>) {
   return request<R<PageResult<SysUserVo>>>('system/user/page', {
@@ -61,5 +62,15 @@ export function updateStatus(uIds: any[], status: 1 | 0) {
     method: 'put',
     params: { status },
     data: uIds,
+  });
+}
+
+export function updateAvatar(user: SysUserVo, b: Blob, file: UploadFile) {
+  const formData = new FormData();
+  formData.append('file', b, file.name);
+  formData.append('userId', `${user.userId}`);
+  return request(`/system/user/avatar`, {
+    method: 'POST',
+    body: formData,
   });
 }

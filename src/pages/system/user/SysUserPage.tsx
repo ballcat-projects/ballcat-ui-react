@@ -34,95 +34,7 @@ import SelectRole from './SelectRole';
 import Auth from '@/components/Auth';
 import Grant from './Grant';
 import Pass from './Pass';
-
-const dataColumns: ProColumns<SysUserVo>[] = [
-  {
-    title: '用户名',
-    dataIndex: 'username',
-    align: 'center',
-    order: 2,
-  },
-  {
-    title: '昵称',
-    dataIndex: 'nickname',
-    align: 'center',
-  },
-  {
-    title: '头像',
-    dataIndex: 'avatar',
-    align: 'center',
-    hideInSearch: true,
-    render: (dom, record) => {
-      return (
-        <Avatar
-          alt="avatar"
-          shape="square"
-          size="large"
-          style={{ cursor: 'pointer' }}
-          icon={<Icon type="user" />}
-          src={SrcUtils.resolve(record.avatar)}
-        />
-      );
-    },
-  },
-  {
-    title: '性别',
-    dataIndex: 'sex',
-    align: 'center',
-    hideInSearch: true,
-    render: (dom, record) => {
-      return <DictTag code="gender" value={record.sex} />;
-    },
-  },
-  {
-    title: '组织',
-    dataIndex: 'organizationName',
-    align: 'center',
-    hideInSearch: true,
-  },
-  {
-    title: '电话',
-    dataIndex: 'phone',
-    align: 'center',
-  },
-  {
-    title: '邮箱',
-    dataIndex: 'email',
-    align: 'center',
-    hideInTable: true,
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    align: 'center',
-    width: '80px',
-    order: 1,
-    render: (dom, record) => {
-      return (
-        <Badge
-          text={record.status === 0 ? '关闭' : '正常'}
-          status={record.status === 0 ? 'default' : 'processing'}
-        />
-      );
-    },
-    renderFormItem: () => {
-      return (
-        <Select allowClear placeholder="请选择">
-          <Select.Option value="1">正常</Select.Option>
-          <Select.Option value="0">关闭</Select.Option>
-        </Select>
-      );
-    },
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    align: 'center',
-    hideInSearch: true,
-    width: '150px',
-    sorter: true,
-  },
-];
+import LtCropper from '@/components/LtCropper';
 
 export default () => {
   const tableRef = useRef<ActionType>();
@@ -131,7 +43,7 @@ export default () => {
   const [treeData, setTreeData] = useState<any[]>([]);
   const [treeHighData, setTreeHighData] = useState<any[]>([]);
   const [treeExpandKeys, setTreeExpandKeys] = useState<Key[]>([]);
-  const [treeSeachValue, setTreeSeachValue] = useState<string | undefined>(undefined);
+  const [treeSeachValue, setTreeSeachValue] = useState<string>();
   const [treeSelect, setTreeSelect] = useState<Key[]>([]);
 
   const loadTreeData = () => {
@@ -178,12 +90,14 @@ export default () => {
 
   const [status, setStatus] = useState<FormStatus>(undefined);
   const [grateVisible, setgrateVisible] = useState(false);
-  const [grateRecord, setGrateRecord] = useState<SysUserVo | undefined>(undefined);
+  const [grateRecord, setGrateRecord] = useState<SysUserVo>();
 
   const [passVisible, setPassVisible] = useState(false);
-  const [passRecord, setPassRecord] = useState<SysUserVo | undefined>(undefined);
+  const [passRecord, setPassRecord] = useState<SysUserVo>();
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+
+  const [avatarData, setAvatarData] = useState<SysUserVo>();
 
   useEffect(() => {
     loadTreeData();
@@ -192,6 +106,97 @@ export default () => {
   useEffect(() => {
     setTreeHighData(highTreeData(treeData));
   }, [treeData, treeSeachValue]);
+
+  const dataColumns: ProColumns<SysUserVo>[] = [
+    {
+      title: '用户名',
+      dataIndex: 'username',
+      align: 'center',
+      order: 2,
+    },
+    {
+      title: '昵称',
+      dataIndex: 'nickname',
+      align: 'center',
+    },
+    {
+      title: '头像',
+      dataIndex: 'avatar',
+      align: 'center',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return (
+          <span onClick={() => setAvatarData(record)}>
+            <Avatar
+              alt="avatar"
+              shape="square"
+              size="large"
+              style={{ cursor: 'pointer' }}
+              icon={<Icon type="user" />}
+              src={SrcUtils.resolve(record.avatar)}
+            />
+          </span>
+        );
+      },
+    },
+    {
+      title: '性别',
+      dataIndex: 'sex',
+      align: 'center',
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <DictTag code="gender" value={record.sex} />;
+      },
+    },
+    {
+      title: '组织',
+      dataIndex: 'organizationName',
+      align: 'center',
+      hideInSearch: true,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+      align: 'center',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      align: 'center',
+      hideInTable: true,
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      align: 'center',
+      width: '80px',
+      order: 1,
+      render: (dom, record) => {
+        return (
+          <Badge
+            text={record.status === 0 ? '关闭' : '正常'}
+            status={record.status === 0 ? 'default' : 'processing'}
+          />
+        );
+      },
+      renderFormItem: () => {
+        return (
+          <Select allowClear placeholder="请选择">
+            <Select.Option value="1">正常</Select.Option>
+            <Select.Option value="0">关闭</Select.Option>
+          </Select>
+        );
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      hideInSearch: true,
+      width: '150px',
+      sorter: true,
+    },
+  ];
 
   return (
     <>
@@ -462,6 +467,23 @@ export default () => {
       <Grant visible={grateVisible} onVisibleChange={setgrateVisible} record={grateRecord} />
 
       <Pass visible={passVisible} onVisibleChange={setPassVisible} record={passRecord} />
+
+      <LtCropper.Avatar
+        visible={avatarData !== undefined}
+        onVisibleChange={(flag) => {
+          if (!flag) {
+            setAvatarData(undefined);
+          }
+        }}
+        onSave={async (blob, file) => {
+          if (!avatarData) {
+            message.error('请指定要更新头像的用户!');
+            setAvatarData(undefined);
+            return;
+          }
+          return user.updateAvatar(avatarData, blob, file).then(() => setAvatarData(undefined));
+        }}
+      />
     </>
   );
 };
