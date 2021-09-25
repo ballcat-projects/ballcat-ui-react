@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Upload } from 'antd';
+import { Button, Col, Modal, Row, Spin, Upload } from 'antd';
 import type { LtCropperAvatarProps, LtCropperRef } from '.';
 import LtCropper from '.';
 import { useState, useRef } from 'react';
@@ -76,7 +76,7 @@ export default ({ visible, onVisibleChange = () => {}, onSave }: LtCropperAvatar
                   setSaveLoading(true);
                   // 由于 cropper 使用了防抖。 所以需要等待一会在提交数据
                   setTimeout(() => {
-                    onSave(imgBlob).finally(() => setSaveLoading(false));
+                    onSave(imgBlob, fileList[0]).finally(() => setSaveLoading(false));
                   }, 600);
                 }
               }}
@@ -88,21 +88,23 @@ export default ({ visible, onVisibleChange = () => {}, onSave }: LtCropperAvatar
       }
       onCancel={() => onVisibleChange(false)}
     >
-      <LtCropper
-        imgHeight={350}
-        imgWidth={350}
-        previewHeight={avatarHeight}
-        previewWidth={avatarWidth}
-        cr={cropperRef}
-        value={fileList && fileList.length > 0 ? fileList[0].originFileObj : ''}
-        options={{
-          minCropBoxHeight: 200,
-          minCropBoxWidth: 200,
-          autoCropArea: 1,
-          aspectRatio: 1,
-        }}
-        onChange={setImgBlob}
-      />
+      <Spin spinning={saveLoading}>
+        <LtCropper
+          imgHeight={350}
+          imgWidth={350}
+          previewHeight={avatarHeight}
+          previewWidth={avatarWidth}
+          cr={cropperRef}
+          value={fileList && fileList.length > 0 ? fileList[0].originFileObj : ''}
+          options={{
+            minCropBoxHeight: 200,
+            minCropBoxWidth: 200,
+            autoCropArea: 1,
+            aspectRatio: 1,
+          }}
+          onChange={setImgBlob}
+        />
+      </Spin>
     </Modal>
   );
 };

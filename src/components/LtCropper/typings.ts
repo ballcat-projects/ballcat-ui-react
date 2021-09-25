@@ -1,3 +1,5 @@
+import type { UploadFile } from 'antd/lib/upload/interface';
+
 export type LtCropperValue = string | Blob;
 
 export type LtCropperOptions = {
@@ -23,7 +25,11 @@ export type LtCropperProps = {
 export type LtCropperAvatarProps = {
   visible?: boolean;
   onVisibleChange?: (v: boolean) => void;
-  onSave?: (v: Blob) => Promise<void>;
+  /**
+   * v: 裁剪后图片的blob
+   * file: 原始文件数据
+   */
+  onSave?: (v: Blob, file: UploadFile) => Promise<void>;
 };
 
 export type LtCropperRef = {
