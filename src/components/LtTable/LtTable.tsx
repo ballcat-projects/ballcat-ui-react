@@ -76,7 +76,7 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
   }
 
   if (!scroll) {
-    scroll = { x: true };
+    scroll = { x: '100%' };
   }
 
   // 设置默认的分页大小
