@@ -193,7 +193,7 @@ export default () => {
 
   return (
     <>
-      <LtPage<SysRoleVo, SysRoleQo, SysRole>
+      <LtPage.Modal<SysRoleVo, SysRoleQo, SysRole>
         {...role}
         title="角色管理"
         rowKey="id"
@@ -259,7 +259,7 @@ export default () => {
         />
 
         <ProFormTextArea name="note" label="备注" />
-      </LtPage>
+      </LtPage.Modal>
 
       <Drawer
         width="590px"
@@ -301,7 +301,7 @@ export default () => {
         bodyStyle={{ padding: 0 }}
         onCancel={() => bindCancel()}
       >
-        <LtPage<SysRoleBindVo, SysRoleBindQo, any>
+        <LtPage.Modal<SysRoleBindVo, SysRoleBindQo, any>
           rowKey="userId"
           query={role.listRoleBindUser}
           tableRef={modalTableRef}

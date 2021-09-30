@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import type {
   SysDictItem,
   SysDictItemAttributes,
@@ -7,7 +6,6 @@ import type {
   SysDictVo,
 } from '@/services/ballcat/system';
 import type { ProColumns } from '@ant-design/pro-table';
-import type { FormRef } from '@/components/LtForm';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import LtPage from '@/components/LtPage';
 import { dictItem } from '@/services/ballcat/system';
@@ -100,8 +98,6 @@ export type ItemProps = {
 };
 
 export default ({ visible, setVisible, dictData }: ItemProps) => {
-  const modalRef = useRef<FormRef<ItemForm>>();
-
   return (
     <Modal
       title={`字典项: ${dictData?.title}`}
@@ -116,14 +112,13 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
       {dictData === undefined ? (
         <Alert type="error" message="字典数据异常!" />
       ) : (
-        <LtPage<SysDictItemVo, SysDictItemQo, ItemForm, SysDictItem>
+        <LtPage.Modal<SysDictItemVo, SysDictItemQo, ItemForm, SysDictItem>
           {...dictItem}
           rowKey="id"
           columns={dataColumns}
-          toolBarActions={['create']}
-          modalRef={modalRef}
+          toolBarActions={[{ type: 'create', permission: 'system:dict:edit' }]}
           operateBar={[
-            { type: 'edit', permission: 'system:dict:edit', props: { suffix: true } },
+            { type: 'edit', permission: 'system:dict:edit' },
             { type: 'del', permission: 'system:dict:del' },
           ]}
           tableProps={{ search: false, params: { dictCode: dictData.code } }}
@@ -194,7 +189,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
           </Form.Item>
 
           <ProFormTextArea label="备注" name="remarks" />
-        </LtPage>
+        </LtPage.Modal>
       )}
     </Modal>
   );

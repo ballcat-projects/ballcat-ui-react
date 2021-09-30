@@ -58,7 +58,7 @@ export default () => {
   const [status, setStatus] = useState<FormStatus>(undefined);
 
   return (
-    <LtPage<SysConfigVo, SysConfigQo, SysConfig>
+    <LtPage.Modal<SysConfigVo, SysConfigQo, SysConfig>
       {...config}
       title="配置信息"
       rowKey="id"
@@ -91,6 +91,6 @@ export default () => {
       />
       <ProFormText name="category" label="分类" />
       <ProFormTextArea name="description" label="备注" />
-    </LtPage>
+    </LtPage.Modal>
   );
 };

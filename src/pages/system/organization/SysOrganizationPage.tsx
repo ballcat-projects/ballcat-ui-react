@@ -47,7 +47,7 @@ export default () => {
     { value: 0, label: '根目录', children: [] },
   ]);
   return (
-    <LtPage<SysOrganizationVo, SysOrganizationQo, SysOrganizationDto>
+    <LtPage.Modal<SysOrganizationVo, SysOrganizationQo, SysOrganizationDto>
       {...organization}
       title="组织架构"
       rowKey="id"
@@ -124,6 +124,6 @@ export default () => {
         label="描述信息"
         rules={[{ max: 512, message: '描述信息最多可以填写512个字符!' }]}
       />
-    </LtPage>
+    </LtPage.Modal>
   );
 };

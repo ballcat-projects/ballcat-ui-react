@@ -67,7 +67,7 @@ export default () => {
 
   return (
     <>
-      <LtPage<SysI18nVo, SysI18nQo, SysI18nDto>
+      <LtPage.Modal<SysI18nVo, SysI18nQo, SysI18nDto>
         {...i18n}
         title="国际化信息"
         rowKey="id"
@@ -184,7 +184,7 @@ export default () => {
         )}
 
         <ProFormTextArea name="remark" label="备注" />
-      </LtPage>
+      </LtPage.Modal>
 
       <ModalForm
         title="批量导入：国际化信息"

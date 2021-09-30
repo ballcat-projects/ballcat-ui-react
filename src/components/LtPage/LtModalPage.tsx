@@ -4,35 +4,34 @@ import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { ModalFormRef } from '@/components/LtForm';
 import Auth from '@/components/Auth';
 import LtModalForm from '@/components/LtForm/LtModalForm';
-import type { PageProps } from './typings';
+import type { LtModalPageProps } from './typings';
 import I18n from '@/utils/I18nUtils';
 import { defautlTitle } from '@/components/LtForm/LtModalForm';
 
-const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P, ValueType>) => {
-  const {
-    title,
-    rowKey,
-    query,
-    columns,
-    toolBarActions,
-    onStatusChange,
-    create,
-    edit,
-    onFinish = () => {},
-    children,
-    operateBar,
-    operteBarProps,
-    formData = (data) => {
-      return data as unknown as E;
-    },
-    del,
-    handlerData,
-    tableProps,
-    modalProps,
-    tableRef: tr,
-    modalRef: mr,
-    perStatusChange = () => undefined,
-  } = props;
+const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
+  title,
+  rowKey,
+  query,
+  columns,
+  toolBarActions,
+  onStatusChange,
+  create,
+  edit,
+  onFinish = () => {},
+  children,
+  operateBar,
+  operteBarProps,
+  formData = (data) => {
+    return data as unknown as E;
+  },
+  del,
+  handlerData,
+  tableProps,
+  modalProps,
+  tableRef: tr,
+  modalRef: mr,
+  perStatusChange = () => undefined,
+}: LtModalPageProps<T, U, E, P, ValueType>) => {
   let tableRef = useRef<ActionType>();
   let modalRef = useRef<ModalFormRef<E>>();
 
@@ -195,4 +194,4 @@ const LtPage = <T, U, E, P = E, ValueType = 'text'>(props: PageProps<T, U, E, P,
   );
 };
 
-export default LtPage;
+export default LtModalPage;

@@ -231,7 +231,7 @@ export default () => {
           </Card>
         </Col>
         <Col md={19}>
-          <LtPage<SysUserVo, SysUserQo, SysUserDto>
+          <LtPage.Modal<SysUserVo, SysUserQo, SysUserDto>
             {...user}
             title="系统用户"
             rowKey="userId"
@@ -460,7 +460,7 @@ export default () => {
                 )}
               </Col>
             </Row>
-          </LtPage>
+          </LtPage.Modal>
         </Col>
       </Row>
 

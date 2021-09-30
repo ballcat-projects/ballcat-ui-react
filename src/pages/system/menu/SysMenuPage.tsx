@@ -130,7 +130,7 @@ export default () => {
 
   return (
     <>
-      <LtPage<SysMenuVo, SysMenuQo, SysMenuDto>
+      <LtPage.Modal<SysMenuVo, SysMenuQo, SysMenuDto>
         {...menu}
         title="菜单权限"
         rowKey="id"
@@ -412,7 +412,7 @@ export default () => {
         </Form.Item>
 
         <ProFormTextArea name="remarks" label="备注信息" placeholder="最多输入 50 个字符!" />
-      </LtPage>
+      </LtPage.Modal>
 
       <Modal
         title={`国际化标识: ${i18nCode}`}

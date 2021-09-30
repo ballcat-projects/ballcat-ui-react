@@ -54,7 +54,7 @@ export default (): React.ReactNode => {
 
   return (
     <>
-      <LtPage<SysDictVo, SysDictVo, SysDict>
+      <LtPage.Modal<SysDictVo, SysDictVo, SysDict>
         {...dict}
         rowKey="id"
         columns={dataColumns}
@@ -115,7 +115,7 @@ export default (): React.ReactNode => {
         </Form.Item>
 
         <ProFormTextArea label="备注" name="remarks" placeholder="备注" />
-      </LtPage>
+      </LtPage.Modal>
 
       <SysDictItem visible={itemShow} setVisible={setItemShow} dictData={dictData} />
     </>

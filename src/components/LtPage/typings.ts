@@ -56,8 +56,11 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   children?: React.ReactNode | React.ReactNode[];
   // rowKey columns 等 无法配置
   tableProps?: LtTableProps<T, U, ValueType>;
+  tableRef?: React.MutableRefObject<ActionType | undefined>;
+};
+
+export type LtModalPageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 部分无法配置
   modalProps?: LtModalFormProps<E, P>;
-  tableRef?: React.MutableRefObject<ActionType | undefined>;
   modalRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
-};
+} & PageProps<T, U, E, P, ValueType>;
