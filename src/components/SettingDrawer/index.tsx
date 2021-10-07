@@ -575,9 +575,8 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
                 try {
                   await navigator.clipboard.writeText(genCopySettingJson(settingState));
                   message.success(formatMessage({ id: 'app.setting.copyinfo' }));
-                } catch (error) {
-                  // console.log(error);
-                }
+                  // eslint-disable-next-line no-empty
+                } catch (error) {}
               }}
             >
               {formatMessage({ id: 'app.setting.copy' })}

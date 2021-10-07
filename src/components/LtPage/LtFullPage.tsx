@@ -77,8 +77,6 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
   }, [columns, operateBar]);
 
   const formStatusChange = (status: FormStatus) => {
-    console.log(status);
-
     if (status) {
       // 表单状态不为空
       setTableStyle({ ...tableProps?.style, display: 'none' });
