@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { ModalFormRef } from '@/components/LtForm';
-import LtModalForm from '@/components/LtForm/LtModalForm';
-import type { LtModalPageProps } from './typings';
+import type { FormStatus, ModalFormRef } from '@/components/LtForm';
 import I18n from '@/utils/I18nUtils';
 import utils from './utils';
+import LtFullForm from '../LtForm/LtFullForm';
+import type { LtFullPageProps } from '.';
 
 const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
   title,
@@ -30,7 +30,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
   tableRef: tr,
   modalRef: mr,
   perStatusChange = () => undefined,
-}: LtModalPageProps<T, U, E, P, ValueType>) => {
+}: LtFullPageProps<T, U, E, P, ValueType>) => {
   let tableRef = useRef<ActionType>();
   let modalRef = useRef<ModalFormRef<E>>();
 
@@ -44,6 +44,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
 
   const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
   const [tableColumns, setTableColumns] = useState<ProColumns<T, ValueType>[]>([]);
+  const [tableStyle, setTableStyle] = useState<React.CSSProperties>({});
 
   // 表格上方工具栏更新
   useEffect(() => {
@@ -75,10 +76,25 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, operateBar]);
 
+  const formStatusChange = (status: FormStatus) => {
+    console.log(status);
+
+    if (status) {
+      // 表单状态不为空
+      setTableStyle({ ...tableProps?.style, display: 'none' });
+    } else {
+      setTableStyle({ ...tableProps?.style });
+    }
+    if (onStatusChange) {
+      onStatusChange(status);
+    }
+  };
+
   return (
     <>
       <LtTable<T, U, ValueType>
         {...tableProps}
+        style={tableStyle}
         rowKey={rowKey}
         columns={tableColumns}
         request={query}
@@ -87,10 +103,10 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
         toolbar={{ ...tableProps?.toolbar, actions: toolBarActionsList }}
       />
 
-      <LtModalForm<E, P>
+      <LtFullForm<E, P>
         {...modalProps}
         mfRef={modalRef}
-        onStatusChange={onStatusChange}
+        onStatusChange={formStatusChange}
         handlerData={handlerData}
         create={create}
         edit={edit}
@@ -101,7 +117,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
         }}
       >
         {children}
-      </LtModalForm>
+      </LtFullForm>
     </>
   );
 };

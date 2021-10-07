@@ -1,7 +1,7 @@
 import type { R } from '@/typings';
 import type React from 'react';
 import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
-import type { ModalFormProps, ProFormInstance } from '@ant-design/pro-form';
+import type { ModalFormProps, ProFormInstance, ProFormProps } from '@ant-design/pro-form';
 import type { DictRadioProps, DictSelectProps } from '../Dict';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 import type { CSSProperties } from 'react';
@@ -17,11 +17,11 @@ export type FormRef<E> = {
   create: (data?: any) => void;
   // 获取form表单的 ref
   getFormRef: () => ProFormInstance<E> | undefined;
+  hidden: () => void;
 };
 
-export type ModalFormRef<E> = {
-  hidden: () => void;
-} & FormRef<E>;
+export type ModalFormRef<E> = FormRef<E>;
+export type LtFullFormRef<E> = FormRef<E>;
 
 // e : 表单字段
 // p : 请求字段
@@ -29,7 +29,6 @@ export type FormProps<E, P = E> = {
   mfRef?: React.MutableRefObject<FormRef<E> | undefined>;
   onStatusChange?: (status: FormStatus) => void;
   titleSuffix?: string;
-  width?: string;
   labelCol?: ColProps;
   wrapperCol?: ColProps;
   // 数据处理, 处理后的数据用来发起创建或者编辑请求
@@ -40,14 +39,21 @@ export type FormProps<E, P = E> = {
   edit?: (body: P) => Promise<R<any>>;
   // 请求完成后执行
   onFinish?: (status: FormStatus, body: P) => void;
+  children?: React.ReactNode;
 };
 
 export type LtModalFormProps<E, P = E> = {
   mfRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
-  children?: React.ReactNode;
   // 扩展
   antProps?: ModalFormProps<E>;
-} & FormProps<E, P>;
+  width?: string;
+} & Omit<FormProps<E, P>, 'mfRef'>;
+
+export type LtFullFormProps<E, P = E> = {
+  mfRef?: React.MutableRefObject<LtFullFormRef<E> | undefined>;
+  // 扩展
+  antProps?: ProFormProps<E>;
+} & Omit<FormProps<E, P>, 'mfRef'>;
 
 export type LtFormTooltip = LabelTooltipType & {
   icon?: string | JSX.Element;
