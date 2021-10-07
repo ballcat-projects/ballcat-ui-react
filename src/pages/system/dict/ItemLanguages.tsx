@@ -1,38 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from 'antd';
-import languages from '@/utils/languages';
-import React from 'react';
+import languages, { allTag } from '@/utils/languages';
 
 export type ItemLanguagesProps = {
-  value?: string;
-  onChange?: (value: string) => void;
+  value?: string | Record<string, string>;
+  onChange?: (value: string | Record<string, string>) => void;
 };
 
 const ItemLanguages = (props: ItemLanguagesProps) => {
   const { value, onChange = () => {} } = props;
-  const [json, setJson] = useState<Record<string, string>>(value ? JSON.parse(value) : {});
-  const dom: React.ReactNode[] = [];
+  const [json, setJson] = useState<Record<string, string>>({});
 
-  Object.keys(languages).forEach((key) => {
-    const lang = languages[key];
-    dom.push(
-      <Input
-        key={`sys-dict-item-languages-${lang.label}`}
-        addonBefore={lang.label}
-        defaultValue={json[lang.lang]}
-        onChange={(e) => {
-          const val = e.target.value;
-          const nj = { ...json };
-          nj[lang.lang] = val;
-          setJson(nj);
-          onChange(JSON.stringify(nj));
-        }}
-        style={{ marginBottom: 5 }}
-      />,
-    );
-  });
+  useEffect(() => {
+    let nv = {};
+    if (value) {
+      nv = typeof value === 'string' ? JSON.parse(value) : { ...value };
+    }
+    setJson(nv);
+  }, [value]);
 
-  return <>{dom}</>;
+  return (
+    <>
+      {allTag.map((key) => {
+        const lang = languages[key];
+        return (
+          <Input
+            key={`sys-dict-item-languages-${lang.label}`}
+            addonBefore={lang.label}
+            value={json[lang.lang]}
+            onChange={(e) => {
+              const val = e.target.value;
+              const nj = { ...json };
+              nj[lang.lang] = val;
+              setJson(nj);
+              onChange(nj);
+            }}
+            style={{ marginBottom: 5 }}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 export default ItemLanguages;
