@@ -83,7 +83,11 @@ const Dict = (
         } else {
           I18n.error({ key: 'dict.load.fail', params: { code } });
           // @ts-ignore
-          updateDict(initialState, setInitialState, { dictCode: code, loading: false });
+          updateDict(initialState, setInitialState, {
+            dictCode: code,
+            loading: false,
+            dictItems: [],
+          });
         }
       });
     }

@@ -2,7 +2,7 @@ import type { R } from '@/typings';
 import type React from 'react';
 import type { ColProps, FormItemProps, InputNumberProps } from 'antd';
 import type { ModalFormProps, ProFormInstance, ProFormProps } from '@ant-design/pro-form';
-import type { DictRadioProps, DictSelectProps } from '../Dict';
+import type { DictCheckboxProps, DictRadioProps, DictSelectProps } from '../Dict';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
 import type { CSSProperties } from 'react';
 
@@ -69,6 +69,8 @@ export type LtFormDictProps<V, DP> = {
 export type FormDictRadioProps<V = any> = LtFormDictProps<V, DictRadioProps>;
 
 export type FormDictSelectProps<V = any> = LtFormDictProps<V, DictSelectProps>;
+
+export type FormDictCheckboxProps<V = any> = LtFormDictProps<V, DictCheckboxProps>;
 
 export type FormNumberProps<V = any> = {
   inputProps?: InputNumberProps<number>;

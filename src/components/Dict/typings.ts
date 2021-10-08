@@ -33,3 +33,9 @@ export type DictSelectProps = {
   placeholder?: string;
 } & DictProps &
   DictMultipartProps;
+
+export type DictCheckboxProps = {
+  // 展示文本颜色
+  showTextColor?: boolean;
+} & DictProps &
+  DictMultipartProps;
