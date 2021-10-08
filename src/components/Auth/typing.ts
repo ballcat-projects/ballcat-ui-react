@@ -16,6 +16,7 @@ export type AuthDomProps = {
   domKey?: string | number | null | undefined;
   // 自定义样式, type 如果自定义则无效
   style?: CSSProperties;
+  disabled?: boolean;
 };
 
 export type AuthNoneProps = {
@@ -28,6 +29,8 @@ export type AuthNoneProps = {
   // config.title 会覆盖 confirmTitle
   confirm?: PopconfirmProps;
 } & AuthDomProps;
+
+export type AuthNoneOptionalProps = { permission?: string } & Omit<AuthNoneProps, 'permission'>;
 
 export type AuthAProps = AuthNoneProps;
 

@@ -17,7 +17,7 @@ const getAuthDom = (
   props: AuthNoneProps,
   renderDom: (props: AuthDomProps) => React.ReactNode,
 ): React.ReactNode => {
-  const { permission, text, localeKey, onClick, confirmTitle, confirm, style } = props;
+  const { permission, text, localeKey, onClick, confirmTitle, confirm, style, disabled } = props;
   let { domKey } = props;
   //  是否使用确认框
   const isConfirm = confirm || confirmTitle;
@@ -34,6 +34,7 @@ const getAuthDom = (
   }
 
   let dom = renderDom({
+    disabled,
     text: content,
     domKey: `auth-render-${domKey}`,
     style: { ...style, userSelect: style?.userSelect ? style.userSelect : 'none' },
@@ -92,6 +93,12 @@ const Auth = (props: AuthProps): JSX.Element => {
   return <></>;
 };
 
+const aDisabledStyle: React.CSSProperties = {
+  color: 'rgba(0,0,0,.25)',
+  cursor: 'not-allowed',
+  pointerEvents: 'none',
+};
+
 Auth.A = (props: AuthAProps) => {
   const { permission, domKey } = props;
 
@@ -101,8 +108,16 @@ Auth.A = (props: AuthAProps) => {
       permission={permission}
       render={() =>
         getAuthDom(props, (dp) => {
+          const style = { ...dp.style };
+
+          if (dp.disabled) {
+            style.color = aDisabledStyle.color;
+            style.cursor = aDisabledStyle.cursor;
+            style.pointerEvents = aDisabledStyle.pointerEvents;
+          }
+
           return (
-            <a key={dp.domKey} style={dp.style} onClick={dp.onClick}>
+            <a key={dp.domKey} style={style} onClick={dp.onClick}>
               {dp.text}
             </a>
           );
@@ -132,6 +147,7 @@ Auth.Button = (props: AutnButtonProps) => {
               style={dp.style}
               onClick={dp.onClick}
               danger={danger}
+              disabled={dp.disabled}
             >
               {iconDom}
               {dp.text}
