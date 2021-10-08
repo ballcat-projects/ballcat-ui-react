@@ -100,7 +100,7 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
   }));
 
   return (
-    <Card title={title}>
+    <Card title={title} hidden={hidden}>
       <ProForm<E>
         submitter={{
           render: () => {
@@ -114,7 +114,6 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
         }}
         {...antProps}
         layout="horizontal"
-        hidden={hidden}
         labelCol={labelCol || { sm: { span: 24 }, md: { span: 4 } }}
         wrapperCol={wrapperCol}
         formRef={formRef}
