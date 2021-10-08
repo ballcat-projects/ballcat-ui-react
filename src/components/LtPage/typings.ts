@@ -2,21 +2,21 @@ import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { FormStatus, LtFullFormProps, LtFullFormRef, ModalFormRef } from '../LtForm';
-import type { AuthNoneProps } from '../Auth';
+import type { AuthNoneOptionalProps } from '../Auth';
 import type { LtTableProps } from '../LtTable/typings';
 import type { LtModalFormProps } from '@/components/LtForm';
 
 export type PageToolBarActions = { type: 'create'; permission: string } | JSX.Element;
 
-export type PageOperateBarPreset = {
+export type PageOperateBarPreset<T> = {
   type: 'edit' | 'del' | 'read';
   permission: string;
   // 对 onClick  和 permission 的传递无效
-  props?: AuthNoneProps;
+  props?: AuthNoneOptionalProps | ((data: T) => AuthNoneOptionalProps);
 };
 
 export type PageOperateBar<T> =
-  | PageOperateBarPreset
+  | PageOperateBarPreset<T>
   | ((dom: React.ReactNode, data: T) => JSX.Element);
 
 // t : 表格字典

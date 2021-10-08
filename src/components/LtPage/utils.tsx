@@ -69,13 +69,21 @@ export default {
             return;
           }
 
+          let obProps;
+
+          if (typeof ob.props === 'function') {
+            obProps = ob.props(record);
+          } else {
+            obProps = ob.props;
+          }
+
           if (ob.type === 'read') {
             nodes.push(
               <Auth.A
                 key={`lt-page-auth-read-${record[rowKey]}`}
                 domKey={`lt-page-auth-read-${record[rowKey]}`}
                 text={defautlTitle.read}
-                {...ob.props}
+                {...obProps}
                 permission={ob.permission}
                 onClick={() => {
                   if (perStatusChange('read') === false) {
@@ -91,7 +99,7 @@ export default {
                 key={`lt-page-auth-edit-${record[rowKey]}`}
                 domKey={`lt-page-auth-edit-${record[rowKey]}`}
                 text={defautlTitle.edit}
-                {...ob.props}
+                {...obProps}
                 permission={ob.permission}
                 onClick={() => {
                   if (perStatusChange('edit') === false) {
@@ -108,8 +116,8 @@ export default {
                 domKey={`lt-page-auth-del-${record[rowKey]}`}
                 text={defautlTitle.del}
                 confirmTitle={I18n.text('form.del.config')}
-                {...ob.props}
-                style={{ color: '#ff4d4f', ...ob.props?.style }}
+                {...obProps}
+                style={{ color: '#ff4d4f', ...obProps?.style }}
                 permission={ob.permission}
                 onClick={() => {
                   if (del === undefined) {
