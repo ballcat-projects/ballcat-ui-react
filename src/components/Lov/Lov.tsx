@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LovModal from '@/components/Lov/LovModal';
 
 import * as lovMap from '../../../config/lov';
@@ -17,8 +17,32 @@ for (let i = 0; i < keys.length; i += 1) {
 
 const Lov: React.FC<LovProps> = (props) => {
   const config = cache[props.keyword];
-  const { value, setValue } = props;
+  const { value, onChange } = props;
   const [show, setShow] = useState<boolean>(false);
+  const [lovValue, setLovValue] = useState<any>();
+  const [modalKey, setModalKey] = useState<number>(1);
+
+  const lovValueChange = (val: any) => {
+    if (onChange) {
+      onChange(val);
+    } else {
+      setLovValue(val);
+    }
+  };
+
+  // 在这里更新value之后. lovModal 内部没有更新数据. 展示会有问题
+  // 所以每次在这里更新value之后就更新key, 让lovModal组件销毁, 重新创建一个. 达到强制更新的目的
+  const keyStep = () => {
+    setModalKey(modalKey + 1);
+  };
+
+  useEffect(() => {
+    if (value) {
+      setLovValue(value instanceof Array ? [...value] : [value]);
+    } else {
+      setLovValue(value);
+    }
+  }, [value]);
 
   return (
     <div>
@@ -26,39 +50,43 @@ const Lov: React.FC<LovProps> = (props) => {
         <Select
           allowClear
           mode={'tags'}
-          value={value && (value instanceof Array ? [...value] : [value])}
+          value={lovValue}
           style={{ width: 'calc(100% - 40px)' }}
           open={false}
           onDeselect={(val: any) => {
-            if (value === undefined || value === null) {
+            if (lovValue === undefined || lovValue === null) {
               return;
             }
 
             // 不是多选.
             if (!config.multiple) {
               // 相等, 处理
-              if (value === val) {
-                setValue(undefined);
+              if (lovValue[0] === val) {
+                lovValueChange(undefined);
+                keyStep();
               }
               return;
             }
 
             // 多选, 相等
-            if (value === val) {
+            if (lovValue === val) {
               // 清空选择内容
-              setValue([]);
+              lovValueChange([]);
+              keyStep();
               return;
             }
 
             // 从选中内容中移除val
-            const index = value.indexOf(val);
+            const index = lovValue.indexOf(val);
             if (index !== -1) {
-              value.splice(index, 1);
-              setValue([...value]);
+              lovValue.splice(index, 1);
+              lovValueChange([...lovValue]);
+              keyStep();
             }
           }}
           onClear={() => {
-            setValue(config.multiple ? [] : undefined);
+            lovValueChange(config.multiple ? [] : undefined);
+            keyStep();
           }}
           onClick={() => setShow(true)}
         />
@@ -71,7 +99,15 @@ const Lov: React.FC<LovProps> = (props) => {
           <Icon style={{ fontSize: '16px' }} type="ellipsis" />
         </Button>
       </Input.Group>
-      <LovModal {...props} {...config} show={show} setShow={setShow} setValue={setValue} />
+      <LovModal
+        {...props}
+        {...config}
+        // 通过更新key来达到组件销毁的目的
+        key={`lovModalKey-${modalKey}`}
+        show={show}
+        setShow={setShow}
+        setValue={lovValueChange}
+      />
     </div>
   );
 };

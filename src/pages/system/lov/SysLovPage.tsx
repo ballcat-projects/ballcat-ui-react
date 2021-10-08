@@ -3,7 +3,6 @@ import { Alert, Button, Card, Divider } from 'antd';
 import Lov from '@/components/Lov';
 
 export default (): React.ReactNode => {
-  const [multipleValue, setMultipleValue] = useState<any>(34);
   const [value, setValue] = useState<any>(34);
 
   return (
@@ -16,7 +15,7 @@ export default (): React.ReactNode => {
       />
 
       <Divider>下面是Lov 多选的 Demo</Divider>
-      <Lov value={multipleValue} setValue={setMultipleValue} keyword={'lov_demo_multiple'} />
+      <Lov keyword={'lov_demo_multiple'} />
 
       <Divider>下面是Lov 单选的 Demo</Divider>
       <Button
@@ -28,7 +27,7 @@ export default (): React.ReactNode => {
         切换value
       </Button>
       <span>当前值: {value}</span>
-      <Lov value={value} setValue={setValue} keyword={'lov_demo'} />
+      <Lov value={value} onChange={setValue} keyword={'lov_demo'} />
     </Card>
   );
 };

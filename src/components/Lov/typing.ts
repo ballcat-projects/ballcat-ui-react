@@ -69,7 +69,7 @@ export type LovSearch = {
 
 export type LovModalProps = {
   // 值
-  value: any;
+  value?: any;
   // 参数为新值
-  setValue: (val: any) => void;
+  onChange?: (val: any) => void;
 };
