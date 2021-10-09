@@ -19,7 +19,14 @@ export default ({ value, onChange }: SelectRoleProps) => {
   }, []);
 
   return (
-    <Select allowClear mode="tags" value={value} onChange={onChange} loading={roles.length === 0}>
+    <Select
+      allowClear
+      placeholder="请选择角色!"
+      mode="tags"
+      value={value}
+      onChange={onChange}
+      loading={roles.length === 0}
+    >
       {roles.map((item) => {
         return (
           <Select.Option key={item.value} value={item.value}>
