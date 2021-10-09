@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LtTable from '@/components/LtTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { FormStatus, ModalFormRef } from '@/components/LtForm';
+import type { FormStatus, LtFullFormRef } from '@/components/LtForm';
 import I18n from '@/utils/I18nUtils';
 import utils from './utils';
 import LtFullForm from '../LtForm/LtFullForm';
@@ -32,7 +32,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
   perStatusChange = () => undefined,
 }: LtFullPageProps<T, U, E, P, ValueType>) => {
   let tableRef = useRef<ActionType>();
-  let modalRef = useRef<ModalFormRef<E>>();
+  let modalRef = useRef<LtFullFormRef<E>>();
 
   if (mr) {
     modalRef = mr;

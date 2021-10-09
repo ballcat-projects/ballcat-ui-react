@@ -105,10 +105,17 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
         submitter={{
           render: () => {
             return [
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button
+                key="lt-full-form-submitter-submit"
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+              >
                 提交
               </Button>,
-              <Button onClick={() => switchStatus(undefined)}>取消</Button>,
+              <Button key="lt-full-form-submitter-cancel" onClick={() => switchStatus(undefined)}>
+                取消
+              </Button>,
             ];
           },
         }}
