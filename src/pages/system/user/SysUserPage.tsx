@@ -376,8 +376,8 @@ export default () => {
                 onChange: (keys) => {
                   setSelectedRowKeys(keys);
                 },
+                alwaysShowAlert: true,
               },
-              alwaysShowAlert: true,
               tableAlertOptionRender: false,
               tableAlertRender: () => {
                 return (
@@ -479,7 +479,7 @@ export default () => {
           if (!avatarData) {
             message.error('请指定要更新头像的用户!');
             setAvatarData(undefined);
-            return;
+            return Promise.resolve();
           }
           return user.updateAvatar(avatarData, blob, file).then(() => setAvatarData(undefined));
         }}
