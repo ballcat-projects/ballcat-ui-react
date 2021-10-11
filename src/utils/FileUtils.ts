@@ -17,7 +17,7 @@ async function remoteFileDownload(blob: Blob, fileName?: string) {
 }
 
 async function getBase64(blob: Blob) {
-  return new Promise((resolve, reject) => {
+  return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = (e) => reject(e);
