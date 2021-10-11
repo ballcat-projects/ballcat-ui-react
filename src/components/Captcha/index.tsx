@@ -257,8 +257,10 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
   }
 
   async refresh() {
-    await this.getData();
+    // 复位
     this.setState({
+      backImgBase: '',
+      blockBackImgBase: '',
       moveBlockLeft: undefined,
       leftBarWidth: undefined,
       text: I18n.text('captcha.text'),
@@ -269,6 +271,7 @@ class VerifySlide extends Component<CaptchaProps, CaptchaState> {
       isEnd: false,
       iconClass: 'icon-right',
     });
+    await this.getData();
   }
 
   move(e: any) {

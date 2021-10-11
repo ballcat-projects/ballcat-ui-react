@@ -67,6 +67,7 @@ const Login: React.FC = () => {
         User.set(JSON.stringify(remoteUser));
         // 缓存token
         Token.set(remoteUser.access_token);
+        // @ts-ignore
         setInitialState({ ...initialState, user: remoteUser });
 
         if (!history) return;

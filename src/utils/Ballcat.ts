@@ -1,20 +1,25 @@
 import type { SysDictData, SysDictDataHash, SysDictDataItem } from '@/services/ballcat/system';
+import { settings } from './ConfigUtils';
 
 export const token_key = 'access-token';
-export const user_key = 'ballcat_user';
+export const user_key = 'user';
 export const dict_data_key = 'dict_data';
 export const dict_hash_key = 'dict_hash';
 
+export function getKey(key: string): string {
+  return `${settings.storageOptions.namespace}${key}`;
+}
+
 export function get(key: string): string | null {
-  return localStorage.getItem(key);
+  return localStorage.getItem(getKey(key));
 }
 
 export function set(key: string, val: any): void {
-  localStorage.setItem(key, val);
+  localStorage.setItem(getKey(key), val);
 }
 
 export function remove(key: string): void {
-  localStorage.removeItem(key);
+  localStorage.removeItem(getKey(key));
 }
 
 export const Token = {

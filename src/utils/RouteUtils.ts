@@ -81,8 +81,12 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
 }
 
 //  重定向，并且将当前的 url 保存
-export function redirect(path: string) {
-  goto(`${path}?redirect=${history.location.pathname}`);
+export function redirect(arg: string) {
+  const path = arg.startsWith('/') ? arg : `/${arg}`;
+  const { pathname } = history.location;
+  if (path !== pathname) {
+    goto(`${path}?redirect=${history.location.pathname}`);
+  }
 }
 
 // 网站内部跳转

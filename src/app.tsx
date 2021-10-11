@@ -131,7 +131,12 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
             Token.clean();
             User.clean();
             redirect('user/login');
-            return response;
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw {
+              response,
+              data: json,
+              message: json.message || json.error,
+            };
           }
 
           if (json && json.code !== 200) {
@@ -160,7 +165,17 @@ const errorHandler = (error: ResponseError) => {
     });
   } else {
     notification.error({
-      description: response.status === 401 ? I18n.text('app.error.permissions.description') : msg,
+      description: (
+        <>
+          {response.status === 401 ? (
+            <>
+              {I18n.text('app.error.permissions.description')}
+              <br />
+            </>
+          ) : undefined}
+          {msg}
+        </>
+      ),
       message: I18n.text(
         response.status === 401 ? 'app.error.permissions' : 'global.operation.failed',
       ),

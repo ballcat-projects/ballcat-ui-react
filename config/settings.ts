@@ -1,6 +1,6 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
-const Settings: LayoutSettings & {
+export type ProjectSetting = LayoutSettings & {
   pwa?: boolean;
   logo?: string;
   iconfontUrl: string;
@@ -10,7 +10,15 @@ const Settings: LayoutSettings & {
   defaultLocal: 'zh-CN' | 'en-US';
   // 是否展示水印
   waterMark: boolean;
-} = {
+  storageOptions: {
+    // 缓存key 前缀
+    namespace: string;
+    // 缓存类型, 目前仅支持 localStorage
+    storage: 'local';
+  };
+};
+
+const Settings: ProjectSetting = {
   navTheme: 'dark',
   primaryColor: '#1890ff',
   layout: 'side',
@@ -25,6 +33,10 @@ const Settings: LayoutSettings & {
   historyType: 'hash',
   defaultLocal: 'zh-CN',
   waterMark: true,
+  storageOptions: {
+    namespace: 'ballcat/',
+    storage: 'local',
+  },
 };
 
 export default Settings;
