@@ -2,7 +2,7 @@ import { Button } from 'antd';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
 import ProTable from '@ant-design/pro-table';
-import type { LtTableProps } from '@/components/LtTable/typings';
+import type { TableProps } from '@/components/Table/typings';
 
 export const SortOrderTransfer: Record<string, string> = {
   descend: 'desc',
@@ -48,8 +48,8 @@ const getSearch = (search: false | SearchConfig) => {
   return proSearch;
 };
 
-const LtTable = <T extends Record<string, any>, U extends Record<string, any>, ValueType = 'text'>(
-  props: LtTableProps<T, U, ValueType>,
+const Table = <T extends Record<string, any>, U extends Record<string, any>, ValueType = 'text'>(
+  props: TableProps<T, U, ValueType>,
 ) => {
   const { search, request, rowKey, options, rowSelection } = props;
   const { pagination = {} } = props;
@@ -152,4 +152,4 @@ const LtTable = <T extends Record<string, any>, U extends Record<string, any>, V
   );
 };
 
-export default LtTable;
+export default Table;

@@ -1,4 +1,4 @@
-import type { LtFormGroupProps } from '.';
+import type { FormGroupProps } from '.';
 import React from 'react';
 import { Col, Row } from 'antd';
 
@@ -21,7 +21,7 @@ const handlerNode = (node: JSX.Element) => {
   );
 };
 
-const LtFormGroup = ({ children }: LtFormGroupProps) => {
+const FormGroup = ({ children }: FormGroupProps) => {
   const nodes: JSX.Element[] = [];
 
   if (children instanceof Array) {
@@ -35,4 +35,4 @@ const LtFormGroup = ({ children }: LtFormGroupProps) => {
   return <Row gutter={16}>{nodes}</Row>;
 };
 
-export default LtFormGroup;
+export default FormGroup;

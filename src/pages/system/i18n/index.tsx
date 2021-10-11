@@ -1,4 +1,4 @@
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import type { SysI18nDto, SysI18nLanguage, SysI18nQo, SysI18nVo } from '@/services/ballcat/system';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import { ModalForm } from '@ant-design/pro-form';
@@ -6,7 +6,7 @@ import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { i18n } from '@/services/ballcat/system';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Form, message, Radio, Upload } from 'antd';
-import type { FormStatus } from '@/components/LtForm';
+import type { FormStatus } from '@/components/Form';
 import { useState, useRef } from 'react';
 import Icon from '@/components/Icon';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
@@ -67,7 +67,7 @@ export default () => {
 
   return (
     <>
-      <LtPage.Modal<SysI18nVo, SysI18nQo, SysI18nDto>
+      <Page.Modal<SysI18nVo, SysI18nQo, SysI18nDto>
         {...i18n}
         title="国际化信息"
         rowKey="id"
@@ -184,7 +184,7 @@ export default () => {
         )}
 
         <ProFormTextArea name="remark" label="备注" />
-      </LtPage.Modal>
+      </Page.Modal>
 
       <ModalForm
         title="批量导入：国际化信息"

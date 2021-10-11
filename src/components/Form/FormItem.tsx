@@ -1,9 +1,9 @@
 import { Form } from 'antd';
-import type { LtFormItemProps } from './typings';
+import type { FormItemProps } from './typings';
 import Icon from '../Icon';
 import React from 'react';
 
-function LtFormItem<V = any>(props: LtFormItemProps<V> & { children: JSX.Element }) {
+function FormItem<V = any>(props: FormItemProps<V> & { children: JSX.Element }) {
   const { children } = props;
   let { tooltip } = props;
 
@@ -24,4 +24,4 @@ function LtFormItem<V = any>(props: LtFormItemProps<V> & { children: JSX.Element
   return <Form.Item<V> {...formItemProps}>{children}</Form.Item>;
 }
 
-export default LtFormItem;
+export default FormItem;

@@ -7,7 +7,7 @@ import type {
 } from '@/services/ballcat/system';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import { dictItem } from '@/services/ballcat/system';
 import { Alert, Form, InputNumber, Modal, Popover, Tag } from 'antd';
 import Color from '@/components/Color';
@@ -112,7 +112,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
       {dictData === undefined ? (
         <Alert type="error" message="字典数据异常!" />
       ) : (
-        <LtPage.Modal<SysDictItemVo, SysDictItemQo, ItemForm, SysDictItem>
+        <Page.Modal<SysDictItemVo, SysDictItemQo, ItemForm, SysDictItem>
           {...dictItem}
           rowKey="id"
           columns={dataColumns}
@@ -189,7 +189,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
           </Form.Item>
 
           <ProFormTextArea label="备注" name="remarks" />
-        </LtPage.Modal>
+        </Page.Modal>
       )}
     </Modal>
   );

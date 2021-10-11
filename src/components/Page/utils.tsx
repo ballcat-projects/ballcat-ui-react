@@ -1,10 +1,10 @@
 import type { PageOperateBar, PageToolBarActions } from '.';
 import React from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { FormStatus, ModalFormRef } from '@/components/LtForm';
+import type { FormStatus, ModalFormRef } from '@/components/Form';
 import Auth from '@/components/Auth';
 import I18n from '@/utils/I18nUtils';
-import { defautlTitle } from '@/components/LtForm/LtModalForm';
+import { defautlTitle } from '@/components/Form/ModalForm';
 import type { R } from '@/typings';
 
 type PSC<T> = (st: FormStatus, record?: T) => boolean | void;
@@ -21,7 +21,7 @@ export default {
         if (!React.isValidElement(tb)) {
           tbList.push(
             <Auth.Button
-              domKey="lt-page-tool-bar-action-create"
+              domKey="page-tool-bar-action-create"
               type="primary"
               icon="plus"
               // @ts-ignore
@@ -80,8 +80,8 @@ export default {
           if (ob.type === 'read') {
             nodes.push(
               <Auth.A
-                key={`lt-page-auth-read-${record[rowKey]}`}
-                domKey={`lt-page-auth-read-${record[rowKey]}`}
+                key={`page-auth-read-${record[rowKey]}`}
+                domKey={`page-auth-read-${record[rowKey]}`}
                 text={defautlTitle.read}
                 {...obProps}
                 permission={ob.permission}
@@ -96,8 +96,8 @@ export default {
           } else if (ob.type === 'edit') {
             nodes.push(
               <Auth.A
-                key={`lt-page-auth-edit-${record[rowKey]}`}
-                domKey={`lt-page-auth-edit-${record[rowKey]}`}
+                key={`page-auth-edit-${record[rowKey]}`}
+                domKey={`page-auth-edit-${record[rowKey]}`}
                 text={defautlTitle.edit}
                 {...obProps}
                 permission={ob.permission}
@@ -112,8 +112,8 @@ export default {
           } else {
             nodes.push(
               <Auth.A
-                key={`lt-page-auth-del-${record[rowKey]}`}
-                domKey={`lt-page-auth-del-${record[rowKey]}`}
+                key={`page-auth-del-${record[rowKey]}`}
+                domKey={`page-auth-del-${record[rowKey]}`}
                 text={defautlTitle.del}
                 confirmTitle={I18n.text('form.del.config')}
                 {...obProps}
@@ -134,7 +134,7 @@ export default {
           }
         });
 
-        return <Auth.Group key={`lt-page-auth-group-${record[rowKey]}`}>{nodes}</Auth.Group>;
+        return <Auth.Group key={`page-auth-group-${record[rowKey]}`}>{nodes}</Auth.Group>;
       },
     };
   },

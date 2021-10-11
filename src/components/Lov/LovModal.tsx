@@ -6,7 +6,7 @@ import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRen
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { LovConfig, LovModalProps } from '@/components/Lov/typing';
 import type { PageResult, R } from '@/typings';
-import LtTable from '@/components/LtTable';
+import Table from '@/components/Table';
 
 type ModalProps = {
   show: boolean;
@@ -220,7 +220,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         setShow(false);
       }}
     >
-      <LtTable
+      <Table
         actionRef={tableRef}
         options={false}
         defaultSize={'small'}

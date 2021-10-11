@@ -2,7 +2,7 @@ import type { UploadFile } from 'antd/lib/upload/interface';
 
 export type CropperValue = string | Blob;
 
-export type LtCropperOptions = {
+export type CropperOptions = {
   scaleX?: number;
   scaleY?: number;
   enable?: boolean;
@@ -14,7 +14,7 @@ export type CropperProps = {
   value?: CropperValue;
   onChange?: (value: Blob | undefined) => void;
   onUrlChange?: (url: string | undefined) => void;
-  options?: LtCropperOptions;
+  options?: CropperOptions;
   imgWidth?: number;
   imgHeight?: number;
   previewWidth?: number;

@@ -1,5 +1,5 @@
-import LtPage from '@/components/LtPage';
-import { Badge, Button, Form, Space, Switch } from 'antd';
+import Page from '@/components/Page';
+import { Badge, Button, Form as AntdForm, Space, Switch } from 'antd';
 import type { AnnouncementDto, AnnouncementQo, AnnouncementVo } from '@/services/ballcat/notify';
 import { announcement } from '@/services/ballcat/notify';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
@@ -8,9 +8,9 @@ import { DictSelect, DictTag } from '@/components/Dict';
 import Auth from '@/components/Auth';
 import { useRef, useState } from 'react';
 import { ProFormDateTimePicker, ProFormText } from '@ant-design/pro-form';
-import type { LtFullFormRef } from '@/components/LtForm';
-import { LtFormNumber } from '@/components/LtForm';
-import LtForm from '@/components/LtForm';
+import type { FullFormRef } from '@/components/Form';
+import { FormNumber } from '@/components/Form';
+import Form from '@/components/Form';
 import SelectRole from '@/pages/system/user/SelectRole';
 import SelectOrganization from './SelectOrganization';
 import Lov from '@/components/Lov';
@@ -126,7 +126,7 @@ const recipientFilterConditionNames: Record<number, string> = {
 
 export default () => {
   const tableRef = useRef<ActionType>();
-  const modalRef = useRef<LtFullFormRef<AnnouncementDto>>();
+  const modalRef = useRef<FullFormRef<AnnouncementDto>>();
 
   const [loading, setLoading] = useState(false);
 
@@ -139,7 +139,7 @@ export default () => {
 
   return (
     <>
-      <LtPage.Full<AnnouncementVo, AnnouncementQo, AnnouncementDto>
+      <Page.Full<AnnouncementVo, AnnouncementQo, AnnouncementDto>
         {...announcement}
         title="公告信息"
         rowKey="id"
@@ -261,7 +261,7 @@ export default () => {
       >
         <ProFormText hidden name="id" />
 
-        <LtFormNumber hidden name="status" />
+        <FormNumber hidden name="status" />
 
         <ProFormText
           label="标题"
@@ -275,15 +275,15 @@ export default () => {
           rules={[{ required: true, message: '请输入公告内容!' }]}
         /> */}
 
-        <Form.Item
+        <AntdForm.Item
           label="内容"
           name="content"
           rules={[{ required: true, message: '请输入公告内容!' }]}
         >
           <Editor />
-        </Form.Item>
+        </AntdForm.Item>
 
-        <LtForm.DictSelect
+        <Form.DictSelect
           code="recipient_filter_type"
           label="筛选类型"
           name="recipientFilterType"
@@ -291,7 +291,7 @@ export default () => {
           initialValue={1}
         />
 
-        <Form.Item noStyle shouldUpdate>
+        <AntdForm.Item noStyle shouldUpdate>
           {(form) => {
             let recipientFilterConditionDom: React.ReactNode;
             const type = form.getFieldValue('recipientFilterType');
@@ -321,26 +321,26 @@ export default () => {
             }
 
             return (
-              <Form.Item
+              <AntdForm.Item
                 label="筛选条件"
                 name={recipientFilterConditionNames[type]}
                 rules={[{ required: true, message: '请指定筛选条件!' }]}
                 initialValue={[]}
               >
                 {recipientFilterConditionDom}
-              </Form.Item>
+              </AntdForm.Item>
             );
           }}
-        </Form.Item>
+        </AntdForm.Item>
 
-        <LtForm.DictCheckbox
+        <Form.DictCheckbox
           code="notify_channel"
           label="接收方式"
           name="receiveMode"
           rules={[{ required: true, message: '请选择接收方式!' }]}
         />
 
-        <Form.Item
+        <AntdForm.Item
           label="永久有效"
           name="immortal"
           valuePropName="checked"
@@ -350,9 +350,9 @@ export default () => {
           }}
         >
           <Switch checkedChildren="是" unCheckedChildren="否" />
-        </Form.Item>
+        </AntdForm.Item>
 
-        <Form.Item noStyle shouldUpdate>
+        <AntdForm.Item noStyle shouldUpdate>
           {(form) => {
             const immortal = form.getFieldValue('immortal');
 
@@ -366,8 +366,8 @@ export default () => {
               />
             );
           }}
-        </Form.Item>
-      </LtPage.Full>
+        </AntdForm.Item>
+      </Page.Full>
     </>
   );
 };

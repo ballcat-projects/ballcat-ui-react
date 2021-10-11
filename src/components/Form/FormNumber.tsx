@@ -1,9 +1,9 @@
 import I18n from '@/utils/I18nUtils';
 import { InputNumber } from 'antd';
-import LtFormItem from './LtFormItem';
+import FormItem from './FormItem';
 import type { FormNumberProps } from './typings';
 
-function LtFormNumber<V = any>(props: FormNumberProps<V>) {
+function FormNumber<V = any>(props: FormNumberProps<V>) {
   const {
     label,
     inputProps,
@@ -17,10 +17,10 @@ function LtFormNumber<V = any>(props: FormNumberProps<V>) {
   const numberProps = { style: { width: '100%' }, ...inputProps, placeholder, min, max };
 
   return (
-    <LtFormItem<V> {...props}>
+    <FormItem<V> {...props}>
       <InputNumber<number> {...numberProps} />
-    </LtFormItem>
+    </FormItem>
   );
 }
 
-export default LtFormNumber;
+export default FormNumber;

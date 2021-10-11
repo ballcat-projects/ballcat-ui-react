@@ -1,4 +1,4 @@
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import type {
   SysOrganizationDto,
   SysOrganizationQo,
@@ -10,7 +10,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import Auth from '@/components/Auth';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { message, Form, TreeSelect } from 'antd';
-import { LtFormNumber } from '@/components/LtForm';
+import { FormNumber } from '@/components/Form';
 import TreeUtils from '@/utils/TreeUtils';
 
 const dataColumns: ProColumns<SysOrganizationVo>[] = [
@@ -47,7 +47,7 @@ export default () => {
     { value: 0, label: '根目录', children: [] },
   ]);
   return (
-    <LtPage.Modal<SysOrganizationVo, SysOrganizationQo, SysOrganizationDto>
+    <Page.Modal<SysOrganizationVo, SysOrganizationQo, SysOrganizationDto>
       {...organization}
       title="组织架构"
       rowKey="id"
@@ -111,7 +111,7 @@ export default () => {
         rules={[{ required: true, message: '请填写组织名称' }]}
       />
 
-      <LtFormNumber
+      <FormNumber
         min={0}
         initialValue={1}
         name="sort"
@@ -124,6 +124,6 @@ export default () => {
         label="描述信息"
         rules={[{ max: 512, message: '描述信息最多可以填写512个字符!' }]}
       />
-    </LtPage.Modal>
+    </Page.Modal>
   );
 };

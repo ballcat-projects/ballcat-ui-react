@@ -1,4 +1,4 @@
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import type {
   SysMenuRoleGrateVo,
   SysRole,
@@ -13,8 +13,8 @@ import { menu, role } from '@/services/ballcat/system';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { DictTag } from '@/components/Dict';
 import Auth from '@/components/Auth';
-import type { FormStatus } from '@/components/LtForm';
-import { LtFormDictRadio } from '@/components/LtForm';
+import type { FormStatus } from '@/components/Form';
+import { FormDictRadio } from '@/components/Form';
 import { useState, useRef } from 'react';
 import { message, Drawer, Tree, Spin, Button, Modal, TreeSelect, Popconfirm } from 'antd';
 import type { TreeNode } from '@/typings';
@@ -193,7 +193,7 @@ export default () => {
 
   return (
     <>
-      <LtPage.Modal<SysRoleVo, SysRoleQo, SysRole>
+      <Page.Modal<SysRoleVo, SysRoleQo, SysRole>
         {...role}
         title="角色管理"
         rowKey="id"
@@ -250,7 +250,7 @@ export default () => {
           ]}
         />
 
-        <LtFormDictRadio
+        <FormDictRadio
           name="type"
           label="角色类型"
           code="role_type"
@@ -259,7 +259,7 @@ export default () => {
         />
 
         <ProFormTextArea name="note" label="备注" />
-      </LtPage.Modal>
+      </Page.Modal>
 
       <Drawer
         width="590px"
@@ -301,7 +301,7 @@ export default () => {
         bodyStyle={{ padding: 0 }}
         onCancel={() => bindCancel()}
       >
-        <LtPage.Modal<SysRoleBindVo, SysRoleBindQo, any>
+        <Page.Modal<SysRoleBindVo, SysRoleBindQo, any>
           rowKey="userId"
           query={role.listRoleBindUser}
           tableRef={modalTableRef}

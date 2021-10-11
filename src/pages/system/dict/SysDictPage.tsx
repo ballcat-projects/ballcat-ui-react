@@ -3,9 +3,9 @@ import type { SysDict, SysDictVo } from '@/services/ballcat/system';
 // import {dict} from '@/services/ballcat/system';
 import { dict } from '@/services/ballcat/system';
 import type { ProColumns } from '@ant-design/pro-table';
-import type { FormStatus } from '@/components/LtForm';
+import type { FormStatus } from '@/components/Form';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import SysDictItem from './SysDictItem';
 import { DictRadio, DictTag } from '@/components/Dict';
 import { Form } from 'antd';
@@ -54,7 +54,7 @@ export default (): React.ReactNode => {
 
   return (
     <>
-      <LtPage.Modal<SysDictVo, SysDictVo, SysDict>
+      <Page.Modal<SysDictVo, SysDictVo, SysDict>
         {...dict}
         rowKey="id"
         columns={dataColumns}
@@ -115,7 +115,7 @@ export default (): React.ReactNode => {
         </Form.Item>
 
         <ProFormTextArea label="备注" name="remarks" placeholder="备注" />
-      </LtPage.Modal>
+      </Page.Modal>
 
       <SysDictItem visible={itemShow} setVisible={setItemShow} dictData={dictData} />
     </>

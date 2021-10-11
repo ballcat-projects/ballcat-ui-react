@@ -1,10 +1,10 @@
 import type { PageResult, QueryParam, R } from '@/typings';
 import type React from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { FormStatus, LtFullFormProps, LtFullFormRef, ModalFormRef } from '../LtForm';
+import type { FormStatus, FullFormProps, FullFormRef, ModalFormRef } from '../Form';
 import type { AuthNoneOptionalProps } from '../Auth';
-import type { LtTableProps } from '../LtTable/typings';
-import type { LtModalFormProps } from '@/components/LtForm';
+import type { TableProps } from '../Table/typings';
+import type { ModalFormProps } from '@/components/Form';
 
 export type PageToolBarActions = { type: 'create'; permission: string } | JSX.Element;
 
@@ -57,18 +57,18 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   onError?: (e: any) => void;
   children?: React.ReactNode | React.ReactNode[];
   // rowKey columns 等 无法配置
-  tableProps?: LtTableProps<T, U, ValueType>;
+  tableProps?: TableProps<T, U, ValueType>;
   tableRef?: React.MutableRefObject<ActionType | undefined>;
 };
 
-export type LtModalPageProps<T, U, E, P = E, ValueType = 'text'> = {
+export type ModalPageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 部分无法配置
-  modalProps?: LtModalFormProps<E, P>;
+  modalProps?: ModalFormProps<E, P>;
   modalRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
 } & PageProps<T, U, E, P, ValueType>;
 
-export type LtFullPageProps<T, U, E, P = E, ValueType = 'text'> = {
+export type FullPageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 部分无法配置
-  modalProps?: LtFullFormProps<E, P>;
-  modalRef?: React.MutableRefObject<LtFullFormRef<E> | undefined>;
+  modalProps?: FullFormProps<E, P>;
+  modalRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
 } & PageProps<T, U, E, P, ValueType>;

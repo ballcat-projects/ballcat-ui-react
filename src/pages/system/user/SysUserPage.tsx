@@ -22,13 +22,13 @@ import { useState, useEffect, useRef } from 'react';
 import type { Key } from 'rc-tree/lib/interface';
 import Icon from '@/components/Icon';
 import { user } from '@/services/ballcat/system';
-import LtPage from '@/components/LtPage';
+import Page from '@/components/Page';
 import { ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import SrcUtils from '@/utils/SrcUtils';
 import { DictTag } from '@/components/Dict';
-import type { FormStatus, ModalFormRef } from '@/components/LtForm';
-import { LtFormDictRadio } from '@/components/LtForm';
+import type { FormStatus, ModalFormRef } from '@/components/Form';
+import { FormDictRadio } from '@/components/Form';
 import { pwd } from '@/utils/Encrypt';
 import SelectRole from './SelectRole';
 import Auth from '@/components/Auth';
@@ -231,7 +231,7 @@ export default () => {
           </Card>
         </Col>
         <Col md={19}>
-          <LtPage.Modal<SysUserVo, SysUserQo, SysUserDto>
+          <Page.Modal<SysUserVo, SysUserQo, SysUserDto>
             {...user}
             title="系统用户"
             rowKey="userId"
@@ -439,7 +439,7 @@ export default () => {
               </Col>
 
               <Col xs={24} sm={24} md={12}>
-                <LtFormDictRadio
+                <FormDictRadio
                   name="sex"
                   label="性别"
                   code="gender"
@@ -460,7 +460,7 @@ export default () => {
                 )}
               </Col>
             </Row>
-          </LtPage.Modal>
+          </Page.Modal>
         </Col>
       </Row>
 

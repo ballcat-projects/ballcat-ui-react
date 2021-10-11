@@ -1,5 +1,5 @@
-import type { FormStatus } from '@/components/LtForm';
-import LtPage from '@/components/LtPage';
+import type { FormStatus } from '@/components/Form';
+import Page from '@/components/Page';
 import type { SysConfig, SysConfigQo, SysConfigVo } from '@/services/ballcat/system';
 import { config } from '@/services/ballcat/system';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
@@ -58,7 +58,7 @@ export default () => {
   const [status, setStatus] = useState<FormStatus>(undefined);
 
   return (
-    <LtPage.Modal<SysConfigVo, SysConfigQo, SysConfig>
+    <Page.Modal<SysConfigVo, SysConfigQo, SysConfig>
       {...config}
       title="配置信息"
       rowKey="id"
@@ -91,6 +91,6 @@ export default () => {
       />
       <ProFormText name="category" label="分类" />
       <ProFormTextArea name="description" label="备注" />
-    </LtPage.Modal>
+    </Page.Modal>
   );
 };

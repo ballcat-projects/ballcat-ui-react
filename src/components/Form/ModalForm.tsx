@@ -1,7 +1,7 @@
 import { useState, useRef, useImperativeHandle } from 'react';
-import type { LtModalFormProps, FormStatus } from './typings';
+import type { ModalFormProps, FormStatus } from './typings';
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { ModalForm } from '@ant-design/pro-form';
+import { ModalForm as AntdModalForm } from '@ant-design/pro-form';
 import type { R } from '@/typings';
 import I18n from '@/utils/I18nUtils';
 
@@ -12,7 +12,7 @@ export const defautlTitle = {
   del: I18n.text('form.del'),
 };
 
-const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
+const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   const {
     mfRef,
     onStatusChange = () => {},
@@ -94,7 +94,7 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
   }));
 
   return (
-    <ModalForm<E>
+    <AntdModalForm<E>
       {...antProps}
       width={width}
       layout="horizontal"
@@ -120,8 +120,8 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
       onError={onError}
     >
       {children}
-    </ModalForm>
+    </AntdModalForm>
   );
 };
 
-export default LtModalForm;
+export default ModalForm;

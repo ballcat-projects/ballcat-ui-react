@@ -2,12 +2,12 @@ import { useState, useRef } from 'react';
 import type { SysI18nListVo, SysMenuDto, SysMenuQo, SysMenuVo } from '@/services/ballcat/system';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
-import type { FormStatus, ModalFormRef } from '@/components/LtForm';
-import LtForm, { LtFormNumber } from '@/components/LtForm';
-import { LtFormDictRadio } from '@/components/LtForm';
+import type { FormStatus, ModalFormRef } from '@/components/Form';
+import Form, { FormNumber } from '@/components/Form';
+import { FormDictRadio } from '@/components/Form';
 import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import LtPage from '@/components/LtPage';
-import { message, Button, Form, Modal, TreeSelect } from 'antd';
+import Page from '@/components/Page';
+import { message, Button, Form as AntdForm, Modal, TreeSelect } from 'antd';
 import { menu, i18n } from '@/services/ballcat/system';
 import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
@@ -130,7 +130,7 @@ export default () => {
 
   return (
     <>
-      <LtPage.Modal<SysMenuVo, SysMenuQo, SysMenuDto>
+      <Page.Modal<SysMenuVo, SysMenuQo, SysMenuDto>
         {...menu}
         title="菜单权限"
         rowKey="id"
@@ -206,18 +206,18 @@ export default () => {
           tooltip
         />
 
-        <Form.Item label="上级菜单" name="parentId" initialValue={0}>
+        <AntdForm.Item label="上级菜单" name="parentId" initialValue={0}>
           <TreeSelect
             treeData={treeSelectData}
             treeDefaultExpandedKeys={[0]}
             dropdownStyle={{ maxHeight: '350px', overflow: 'auto' }}
           />
-        </Form.Item>
+        </AntdForm.Item>
 
-        <LtFormDictRadio code="menu_type" name="type" label="菜单类型" initialValue={0} />
+        <FormDictRadio code="menu_type" name="type" label="菜单类型" initialValue={0} />
 
-        <LtForm.Group>
-          <LtFormNumber
+        <Form.Group>
+          <FormNumber
             name="id"
             label="菜单ID"
             tooltip="菜单ID的长度固定为 6，由三部分构成。前两位是目录序号，中间两位是菜单序号，最后两位是按钮序号。例如目录的ID结构应为：XX0000，菜单结构为 XXXX00，按钮ID结构为 XXXXXX"
@@ -258,7 +258,7 @@ export default () => {
             ]}
           />
 
-          <LtFormNumber
+          <FormNumber
             name="sort"
             label="显示排序"
             placeholder="排序值(升序)"
@@ -266,9 +266,9 @@ export default () => {
             min={0}
             required
           />
-        </LtForm.Group>
+        </Form.Group>
 
-        <Form.Item noStyle shouldUpdate>
+        <AntdForm.Item noStyle shouldUpdate>
           {(form) => {
             const type = form.getFieldValue('type');
             let titleAddonAfter: React.ReactNode;
@@ -312,23 +312,23 @@ export default () => {
                   }
                 />
 
-                <Form.Item
+                <AntdForm.Item
                   label="菜单名称国际化"
                   tooltip="菜单标题将作为国际化信息的标识"
                   name="i18nMessages"
                   hidden={!showI18n || isBtn(type) || status === 'edit'}
                 >
                   <SysI18nCreate code={form.getFieldValue('title')} />
-                </Form.Item>
+                </AntdForm.Item>
 
                 {/* 不是按钮时展示 */}
                 {isBtn(type) ? (
                   <></>
                 ) : (
-                  <LtForm.Group>
-                    <Form.Item name="icon" label="菜单图标">
+                  <Form.Group>
+                    <AntdForm.Item name="icon" label="菜单图标">
                       <IconSelect />
-                    </Form.Item>
+                    </AntdForm.Item>
 
                     <ProFormText
                       name="path"
@@ -339,7 +339,7 @@ export default () => {
                         { pattern: /^[a-z0-9-]+$/, message: '仅小写字母、中划线、数字!' },
                       ]}
                     />
-                  </LtForm.Group>
+                  </Form.Group>
                 )}
 
                 {/* 仅在菜单类型为 菜单 时展示 */}
@@ -347,7 +347,7 @@ export default () => {
                   <></>
                 ) : (
                   <>
-                    <LtForm.Group>
+                    <Form.Group>
                       <ProFormSelect
                         name="targetType"
                         label="打开方式"
@@ -368,7 +368,7 @@ export default () => {
                           { label: '关闭', value: 0 },
                         ]}
                       />
-                    </LtForm.Group>
+                    </Form.Group>
 
                     <ProFormText
                       required
@@ -409,10 +409,10 @@ export default () => {
               </>
             );
           }}
-        </Form.Item>
+        </AntdForm.Item>
 
         <ProFormTextArea name="remarks" label="备注信息" placeholder="最多输入 50 个字符!" />
-      </LtPage.Modal>
+      </Page.Modal>
 
       <Modal
         title={`国际化标识: ${i18nCode}`}

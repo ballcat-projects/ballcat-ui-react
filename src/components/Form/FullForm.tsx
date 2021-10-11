@@ -4,7 +4,7 @@ import type { ProFormInstance } from '@ant-design/pro-form';
 import ProForm from '@ant-design/pro-form';
 import type { R } from '@/typings';
 import I18n from '@/utils/I18nUtils';
-import type { LtFullFormProps } from '.';
+import type { FullFormProps } from '.';
 import { Button, Card } from 'antd';
 
 export const defautlTitle = {
@@ -14,7 +14,7 @@ export const defautlTitle = {
   del: I18n.text('form.del'),
 };
 
-const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
+const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
   const {
     mfRef,
     onStatusChange = () => {},
@@ -146,4 +146,4 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
   );
 };
 
-export default LtFullForm;
+export default FullForm;

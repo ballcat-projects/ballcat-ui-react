@@ -18,7 +18,7 @@ export const DEFAULT_COLORS = [
   '#F6BD16', // 9 - 黄色
 ];
 
-const LtColor = (props: ColorProps) => {
+const Color = (props: ColorProps) => {
   const {
     value,
     onChange = () => {},
@@ -84,4 +84,4 @@ const LtColor = (props: ColorProps) => {
   );
 };
 
-export default LtColor;
+export default Color;

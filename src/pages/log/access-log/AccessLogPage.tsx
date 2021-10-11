@@ -1,4 +1,4 @@
-import LtTable from '@/components/LtTable';
+import Table from '@/components/Table';
 import type { AccessLogQo, AccessLogVo } from '@/services/ballcat/log';
 import { access } from '@/services/ballcat/log';
 import type { ProColumns } from '@ant-design/pro-table';
@@ -75,7 +75,7 @@ const dataColumns: ProColumns<AccessLogVo>[] = [
 
 export default () => {
   return (
-    <LtTable<AccessLogVo, AccessLogQo>
+    <Table<AccessLogVo, AccessLogQo>
       headerTitle="访问日志"
       rowKey="id"
       request={access.query}

@@ -1,5 +1,5 @@
 import { DictTag } from '@/components/Dict';
-import LtTable from '@/components/LtTable';
+import Table from '@/components/Table';
 import type { OperationLogQo, OperationLogVo } from '@/services/ballcat/log';
 import { operation } from '@/services/ballcat/log';
 import type { ProColumns } from '@ant-design/pro-table';
@@ -85,7 +85,7 @@ const dataColumns: ProColumns<OperationLogVo>[] = [
 
 export default () => {
   return (
-    <LtTable<OperationLogVo, OperationLogQo>
+    <Table<OperationLogVo, OperationLogQo>
       headerTitle="登陆日志"
       rowKey="id"
       request={operation.query}

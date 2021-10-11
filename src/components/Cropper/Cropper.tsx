@@ -1,6 +1,6 @@
-import type { LtCropperOptions, CropperProps } from '.';
+import type { CropperOptions, CropperProps } from '.';
 import type { ReactCropperElement } from 'react-cropper';
-import Cropper from 'react-cropper';
+import ReactCropper from 'react-cropper';
 import { useState, useEffect, useRef, useMemo, useImperativeHandle } from 'react';
 import { Col, Row } from 'antd';
 import 'cropperjs/dist/cropper.css';
@@ -11,7 +11,7 @@ import FileUtils from '@/utils/FileUtils';
 /**
  * https://github.com/fengyuanchen/cropperjs#options
  */
-const defaultOptions: LtCropperOptions = {
+const defaultOptions: CropperOptions = {
   viewMode: 2,
   // 是否显示背景的马赛克
   background: true,
@@ -40,7 +40,7 @@ const defaultOptions: LtCropperOptions = {
   highlight: true,
 };
 
-const LtCropper = ({
+const Cropper = ({
   value,
   onChange,
   onUrlChange,
@@ -112,7 +112,7 @@ const LtCropper = ({
     <Row style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
       <Col xs={24} md={12}>
         <div style={{ width: '100%' }}>
-          <Cropper
+          <ReactCropper
             {...defaultOptions}
             {...options}
             preview=".lt-cropper-preview"
@@ -150,6 +150,6 @@ const LtCropper = ({
   );
 };
 
-LtCropper.Avatar = CropperAvatar;
+Cropper.Avatar = CropperAvatar;
 
-export default LtCropper;
+export default Cropper;

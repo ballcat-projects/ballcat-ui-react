@@ -1,5 +1,5 @@
 import { DictSelect, DictTag } from '@/components/Dict';
-import LtTable from '@/components/LtTable';
+import Table from '@/components/Table';
 import type { LoginLogQo, LoginLogVo } from '@/services/ballcat/log';
 import { login } from '@/services/ballcat/log';
 import type { ProColumns } from '@ant-design/pro-table';
@@ -80,7 +80,7 @@ const dataColumns: ProColumns<LoginLogVo>[] = [
 
 export default () => {
   return (
-    <LtTable<LoginLogVo, LoginLogQo>
+    <Table<LoginLogVo, LoginLogQo>
       headerTitle="登陆日志"
       rowKey="id"
       request={login.query}
