@@ -22,7 +22,7 @@ const Notify = {
       width: 800,
       icon: (
         <Icon
-          type="ballcat-icon-notification"
+          type="notification"
           style={{ color: '#1890ff', fontSize: '22px', marginRight: '16px', float: 'left' }}
         />
       ),
