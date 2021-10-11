@@ -35,14 +35,16 @@ const Icon: React.FC<IconProps> = (props: IconProps) => {
 
   // 自定义图标渲染
   return (
-    <i className="i-icon" {...realProps}>
+    <i className="i-icon">
       <svg
+        {...realProps}
         style={{
           width: '1em',
           height: '1em',
           verticalAlign: '-0.15em',
           fill: 'currentColor',
           overflow: 'hidden',
+          ...realProps.style,
         }}
       >
         <use xlinkHref={`#${type}`} />
