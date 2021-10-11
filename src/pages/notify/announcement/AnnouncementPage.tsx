@@ -15,6 +15,7 @@ import SelectRole from '@/pages/system/user/SelectRole';
 import SelectOrganization from './SelectOrganization';
 import Lov from '@/components/Lov';
 import Notify from '@/utils/NotifyUtils';
+import Editor from '@/components/Editor';
 
 const typeBadges: Record<
   number,
@@ -129,6 +130,13 @@ export default () => {
 
   const [loading, setLoading] = useState(false);
 
+  const submit = (status: number) => {
+    setLoading(true);
+    const form = modalRef.current?.getFormRef();
+    form?.setFieldsValue({ status });
+    form?.submit();
+  };
+
   return (
     <>
       <LtPage.Full<AnnouncementVo, AnnouncementQo, AnnouncementDto>
@@ -220,6 +228,7 @@ export default () => {
                   <div style={{ textAlign: 'center' }}>
                     <Space>
                       <Button
+                        loading={loading}
                         onClick={() => {
                           // @ts-ignore
                           Notify.preview(form?.getFieldsValue());
@@ -227,31 +236,27 @@ export default () => {
                       >
                         预览
                       </Button>
-                      <Button
-                        type="primary"
-                        onClick={() => {
-                          form?.setFieldsValue({ status: 2 });
-                          form?.submit();
-                        }}
-                      >
+                      <Button loading={loading} type="primary" onClick={() => submit(2)}>
                         仅保存
                       </Button>
-                      <Button
-                        type="primary"
-                        onClick={() => {
-                          form?.setFieldsValue({ status: 1 });
-                          form?.submit();
-                        }}
-                      >
+                      <Button loading={loading} type="primary" onClick={() => submit(1)}>
                         保存并发布
                       </Button>
-                      <Button onClick={() => modalRef.current?.hidden()}>取消</Button>
+                      <Button loading={loading} onClick={() => modalRef.current?.hidden()}>
+                        取消
+                      </Button>
                     </Space>
                   </div>,
                 ];
               },
             },
           },
+        }}
+        onFinish={() => {
+          setLoading(false);
+        }}
+        onError={() => {
+          setLoading(false);
         }}
       >
         <ProFormText hidden name="id" />
@@ -264,11 +269,19 @@ export default () => {
           rules={[{ required: true, message: '请输入公告标题!' }]}
         />
 
-        <ProFormText
+        {/* <ProFormText
           label="内容"
           name="content"
           rules={[{ required: true, message: '请输入公告内容!' }]}
-        />
+        /> */}
+
+        <Form.Item
+          label="内容"
+          name="content"
+          rules={[{ required: true, message: '请输入公告内容!' }]}
+        >
+          <Editor />
+        </Form.Item>
 
         <LtForm.DictSelect
           code="recipient_filter_type"
