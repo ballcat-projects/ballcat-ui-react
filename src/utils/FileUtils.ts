@@ -16,4 +16,13 @@ async function remoteFileDownload(blob: Blob, fileName?: string) {
   }
 }
 
-export default { remoteFileDownload };
+async function getBase64(blob: Blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (e) => reject(e);
+    reader.readAsDataURL(blob);
+  });
+}
+
+export default { remoteFileDownload, getBase64 };

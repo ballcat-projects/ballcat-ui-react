@@ -6,6 +6,7 @@ import { Col, Row } from 'antd';
 import 'cropperjs/dist/cropper.css';
 import { debounce } from 'lodash';
 import LtCropperAvatar from './LtCropperAvatar';
+import FileUtils from '@/utils/FileUtils';
 
 /**
  * https://github.com/fengyuanchen/cropperjs#options
@@ -54,15 +55,6 @@ const LtCropper = ({
 
   const [originSrc, setOriginSrc] = useState<string>();
 
-  const blobToSrc = (blob: Blob) => {
-    const render = new FileReader();
-    render.onload = (e) => {
-      // @ts-ignore
-      setOriginSrc(e.target?.result);
-    };
-    render.readAsDataURL(blob);
-  };
-
   // 防抖
   const debounceChange = useMemo(
     () =>
@@ -109,7 +101,10 @@ const LtCropper = ({
     if (typeof value === 'string') {
       setOriginSrc(value);
     } else {
-      blobToSrc(value);
+      FileUtils.getBase64(value).then((url) => {
+        // @ts-ignore
+        setOriginSrc(url);
+      });
     }
   }, [value]);
 
