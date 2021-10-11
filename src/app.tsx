@@ -24,6 +24,7 @@ export const initialStateConfig = {
 export async function getInitialState(): Promise<GLOBAL.Is> {
   const is: GLOBAL.Is = {
     settings: {},
+    menuFirst: '/',
   };
   const menuArray: any[] = [];
   let dictHashs: SysDictDataHash = {};

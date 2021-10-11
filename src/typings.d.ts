@@ -72,6 +72,7 @@ declare namespace GLOBAL {
   type Is = {
     settings?: Partial<LayoutSettings>;
     menuArray?: MenuDataItem[];
+    menuFirst: string;
     routerLoad?: boolean;
     user?: GLOBAL.UserInfo;
     dict?: {

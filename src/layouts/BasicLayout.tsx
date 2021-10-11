@@ -12,7 +12,7 @@ import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
-import { redirect } from '@/utils/RouteUtils';
+import { redirect, goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 
@@ -53,6 +53,15 @@ const breadcrumbRender = (
     }
   }
   return list;
+};
+
+const getFirstUrl = (menuArray: MenuDataItem[]): string => {
+  const menu = menuArray[0];
+  if (menu.children && menu.children.length > 0) {
+    return getFirstUrl(menu.children);
+  }
+
+  return `${menu.path}`;
 };
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -109,9 +118,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         route.routes.splice(0, ol);
       }
 
-      setInitialState({ ...initialState, settings: { ...settings }, routerLoad: true });
+      setInitialState({
+        ...initialState,
+        settings: { ...settings },
+        routerLoad: true,
+        menuFirst: getFirstUrl(initialState.menuArray),
+      });
     }
   }, [initialState, initialState?.menuArray]);
+
+  if (location.pathname === '/' && initialState?.menuFirst && initialState.menuFirst !== '/') {
+    goto(initialState.menuFirst);
+  }
 
   return (
     <ProLayout
@@ -144,7 +162,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           redirect('/user/login');
         }
       }}
-      onMenuHeaderClick={() => history.push('/')}
+      onMenuHeaderClick={() => history.push(initialState?.menuFirst || '/')}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (!menuItemProps.path || location.pathname === menuItemProps.path) {
           return defaultDom;
