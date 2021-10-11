@@ -53,6 +53,8 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
   onStatusChange?: (st: FormStatus) => void;
   // 创建, 编辑 请求完成后执行
   onFinish?: (status: FormStatus, body: P) => void;
+  // 创建, 编辑 请求出错成后执行
+  onError?: (e: any) => void;
   children?: React.ReactNode | React.ReactNode[];
   // rowKey columns 等 无法配置
   tableProps?: LtTableProps<T, U, ValueType>;

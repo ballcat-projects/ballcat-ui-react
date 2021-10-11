@@ -25,6 +25,7 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
     edit,
     handlerData = (body) => body as unknown as P,
     onFinish = () => {},
+    onError = () => {},
     antProps,
   } = props;
   const formRef = useRef<ProFormInstance<E>>();
@@ -116,6 +117,7 @@ const LtModalForm = <E, P = E>(props: LtModalFormProps<E, P>) => {
 
         return Promise.resolve(false);
       }}
+      onError={onError}
     >
       {children}
     </ModalForm>

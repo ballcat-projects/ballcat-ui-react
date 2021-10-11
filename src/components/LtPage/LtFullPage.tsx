@@ -17,6 +17,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
   create,
   edit,
   onFinish = () => {},
+  onError = () => {},
   children,
   operateBar,
   operteBarProps,
@@ -113,6 +114,7 @@ const LtModalPage = <T, U, E, P = E, ValueType = 'text'>({
           onFinish(st, body);
           I18n.success('global.operation.success');
         }}
+        onError={onError}
       >
         {children}
       </LtFullForm>

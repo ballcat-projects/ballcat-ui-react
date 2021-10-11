@@ -39,6 +39,8 @@ export type FormProps<E, P = E> = {
   edit?: (body: P) => Promise<R<any>>;
   // 请求完成后执行
   onFinish?: (status: FormStatus, body: P) => void;
+  // 创建, 编辑 请求出错成后执行
+  onError?: (e: any) => void;
   children?: React.ReactNode;
 };
 

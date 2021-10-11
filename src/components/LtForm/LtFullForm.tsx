@@ -26,6 +26,7 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
     edit,
     handlerData = (body) => body as unknown as P,
     onFinish = () => {},
+    onError = () => {},
     antProps,
   } = props;
   const formRef = useRef<ProFormInstance<E>>();
@@ -77,7 +78,8 @@ const LtFullForm = <E, P = E>(props: LtFullFormProps<E, P>) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch((e) => onError(e));
   };
 
   useImperativeHandle(mfRef, () => ({
