@@ -1,13 +1,15 @@
 import type { SysDictData, SysDictDataHash, SysDictDataItem } from '@/services/ballcat/system';
+import type { ProjectSetting } from 'config/settings';
 import { settings } from './ConfigUtils';
 
 export const token_key = 'access-token';
 export const user_key = 'user';
 export const dict_data_key = 'dict_data';
 export const dict_hash_key = 'dict_hash';
+export const layout_setting_key = 'layout_setting';
 
 export function getKey(key: string): string {
-  return `${settings.storageOptions.namespace}${key}`;
+  return `${settings.storageOptions?.namespace}${key}`;
 }
 
 export function get(key: string): string | null {
@@ -98,5 +100,18 @@ export const Dict = {
         // 数字
         return Number(val);
     }
+  },
+};
+
+export const LayoutSetting = {
+  get: (): ProjectSetting => {
+    const ls = get(layout_setting_key);
+    if (ls) {
+      return JSON.parse(ls);
+    }
+    return { ...settings };
+  },
+  set: (ps: ProjectSetting) => {
+    set(layout_setting_key, JSON.stringify(ps));
   },
 };

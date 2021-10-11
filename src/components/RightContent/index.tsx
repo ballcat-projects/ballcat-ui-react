@@ -1,19 +1,16 @@
 import { Space } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import React from 'react';
+import { MoreOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
 import { SelectLang, useModel } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 // @ts-ignore
 import styles from './index.less';
 import SettingDrawer from '@/components/SettingDrawer';
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
 const GlobalHeaderRight: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const setSettings = (newSettings: LayoutSettings) => {
-    setInitialState({ ...initialState, settings: newSettings });
-  };
+  const { initialState } = useModel('@@initialState');
+  const [showSetting, setShowSetting] = useState(false);
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -61,12 +58,17 @@ const GlobalHeaderRight: React.FC = () => {
       <Avatar />
       <SelectLang className={styles.action} />
 
-      <SettingDrawer
-        settings={initialState.settings}
-        // @ts-ignore
-        onSettingChange={setSettings}
-        hideHintAlert={true}
-      />
+      <span
+        className={styles.action}
+        style={{ cursor: 'pointer' }}
+        onClick={() => {
+          setShowSetting(true);
+        }}
+      >
+        <MoreOutlined style={{ fontSize: '16px', fontWeight: 'bolder' }} />
+      </span>
+
+      <SettingDrawer hideHintAlert collapse={showSetting} onCollapseChange={setShowSetting} />
     </Space>
   );
 };

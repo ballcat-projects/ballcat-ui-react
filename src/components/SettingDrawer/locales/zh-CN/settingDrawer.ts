@@ -11,7 +11,7 @@ export default {
   'app.setting.themecolor.sunset': '日暮',
   'app.setting.themecolor.cyan': '明青',
   'app.setting.themecolor.green': '极光绿',
-  'app.setting.themecolor.daybreak': '拂晓蓝（默认）',
+  'app.setting.themecolor.daybreak': '拂晓蓝',
   'app.setting.themecolor.geekblue': '极客蓝',
   'app.setting.themecolor.purple': '酱紫',
   'app.setting.navigationmode': '导航模式',

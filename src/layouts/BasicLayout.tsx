@@ -120,7 +120,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
       setInitialState({
         ...initialState,
-        settings: { ...settings },
+        settings: { ...settings, ...initialState.settings },
         routerLoad: true,
         menuFirst: getFirstUrl(initialState.menuArray),
       });

@@ -6,7 +6,7 @@ import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi
 import { getMenu, redirect } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import { User, Token, Dict } from '@/utils/Ballcat';
+import { User, Token, Dict, LayoutSetting } from '@/utils/Ballcat';
 import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
 import { dict } from '@/services/ballcat/system';
 import I18n from './utils/I18nUtils';
@@ -23,7 +23,7 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<GLOBAL.Is> {
   const is: GLOBAL.Is = {
-    settings: {},
+    settings: LayoutSetting.get(),
     menuFirst: '/',
   };
   const menuArray: any[] = [];

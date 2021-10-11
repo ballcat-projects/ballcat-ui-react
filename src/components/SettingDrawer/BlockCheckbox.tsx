@@ -2,16 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Tooltip } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import { getFormatMessage } from './index';
 
 export type BlockCheckboxProps = {
   value: string;
   onChange: (key: string) => void;
   list?: {
-    title: string;
+    titleKey: string;
     key: string;
   }[];
   configType: string;
   prefixCls: string;
+};
+
+const keyPrefix = {
+  theme: 'app.setting.pagestyle.',
+  layout: 'app.setting.',
 };
 
 const BlockCheckbox: React.FC<BlockCheckboxProps> = ({
@@ -25,7 +31,10 @@ const BlockCheckbox: React.FC<BlockCheckboxProps> = ({
   const [dom, setDom] = useState<JSX.Element[]>([]);
   useEffect(() => {
     const domList = (list || []).map((item) => (
-      <Tooltip title={item.title} key={item.key}>
+      <Tooltip
+        title={getFormatMessage()({ id: `${keyPrefix[configType]}${item.titleKey}` })}
+        key={item.key}
+      >
         <div
           className={classNames(
             `${baseClassName}-item`,
