@@ -20,7 +20,7 @@ export type FormRef<E> = {
   // 新增
   create: (data?: any) => void;
   // 获取form表单的 ref
-  getFormRef: () => ProFormInstance<E> | undefined;
+  getForm: () => ProFormInstance<E> | undefined;
   hidden: () => void;
 };
 
@@ -30,7 +30,7 @@ export type FullFormRef<E> = FormRef<E>;
 // e : 表单字段
 // p : 请求字段
 export type FormProps<E, P = E> = {
-  mfRef?: React.MutableRefObject<FormRef<E> | undefined>;
+  formRef?: React.MutableRefObject<FormRef<E> | undefined>;
   onStatusChange?: (status: FormStatus) => void;
   titleSuffix?: string;
   labelCol?: ColProps;
@@ -49,17 +49,17 @@ export type FormProps<E, P = E> = {
 };
 
 export type ModalFormProps<E, P = E> = {
-  mfRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
+  formRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
   // 扩展
   antProps?: AntdModalFormProps<E>;
   width?: string;
-} & Omit<FormProps<E, P>, 'mfRef'>;
+} & Omit<FormProps<E, P>, 'formRef'>;
 
 export type FullFormProps<E, P = E> = {
-  mfRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
+  formRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
   // 扩展
   antProps?: ProFormProps<E>;
-} & Omit<FormProps<E, P>, 'mfRef'>;
+} & Omit<FormProps<E, P>, 'formRef'>;
 
 export type FormTooltip = LabelTooltipType & {
   icon?: string | JSX.Element;

@@ -88,7 +88,7 @@ export default () => {
           return treeSelectData[0].children;
         },
       }}
-      modalProps={{ titleSuffix: '组织' }}
+      formProps={{ titleSuffix: '组织' }}
     >
       <ProFormText name="id" hidden />
 

@@ -16,7 +16,7 @@ export const defautlTitle = {
 
 const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
   const {
-    mfRef,
+    formRef: currencyRef,
     onStatusChange = () => {},
     labelCol,
     wrapperCol,
@@ -82,7 +82,7 @@ const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
       .catch((e) => onError(e));
   };
 
-  useImperativeHandle(mfRef, () => ({
+  useImperativeHandle(currencyRef, () => ({
     // 只读
     read: (row: E) => {
       switchStatus('read', { ...row });
@@ -95,7 +95,7 @@ const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
     create: (data?: any) => {
       switchStatus('create', data);
     },
-    getFormRef: () => formRef.current,
+    getForm: () => formRef.current,
     hidden: () => {
       switchStatus(undefined);
     },

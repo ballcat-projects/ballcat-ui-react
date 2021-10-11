@@ -27,7 +27,7 @@ const isDir = (data: SysMenuVo | any) => {
 };
 
 export default () => {
-  const modalRef = useRef<ModalFormRef<SysMenuDto>>();
+  const formRef = useRef<ModalFormRef<SysMenuDto>>();
   const tableRef = useRef<ActionType>();
   const [status, setStatus] = useState<FormStatus>(undefined);
   const [treeSelectData, setTreeSelectData] = useState<any[]>([
@@ -40,7 +40,7 @@ export default () => {
 
   const editI18n = (code: string) => {
     if (code && code.length > 0) {
-      modalRef.current?.hidden();
+      formRef.current?.hidden();
       setI18nCode(code);
       setI18nData([]);
       setI18nVisible(true);
@@ -137,7 +137,7 @@ export default () => {
         columns={dataColumns}
         onStatusChange={setStatus}
         toolBarActions={[{ type: 'create', permission: 'system:menu:add' }]}
-        modalRef={modalRef}
+        formRef={formRef}
         tableRef={tableRef}
         operateBar={[
           (dom, record) => {
@@ -152,7 +152,7 @@ export default () => {
                   const type = Math.min(record.type + 1, 2);
                   // 子项的父级 , 如果是按钮. 不能添加子项. 所以和它自己平级
                   const parentId = isBtn(record) ? record.parentId : record.id;
-                  modalRef.current?.create({ parentId, type });
+                  formRef.current?.create({ parentId, type });
                 }}
               />
             );
@@ -193,7 +193,7 @@ export default () => {
             return treeData;
           },
         }}
-        modalProps={{ titleSuffix: '菜单' }}
+        formProps={{ titleSuffix: '菜单' }}
       >
         <ProFormText
           rules={
@@ -278,7 +278,7 @@ export default () => {
                   type="primary"
                   onClick={() => {
                     editI18n(form.getFieldValue('title'));
-                    modalRef?.current?.hidden();
+                    formRef?.current?.hidden();
                   }}
                 >
                   编辑国际化配置

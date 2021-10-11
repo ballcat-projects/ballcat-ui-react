@@ -81,7 +81,7 @@ export default (): React.ReactNode => {
             permission: 'system:dict:del',
           },
         ]}
-        modalProps={{ titleSuffix: '字典' }}
+        formProps={{ titleSuffix: '字典' }}
       >
         <ProFormText name="id" hidden />
         <ProFormText

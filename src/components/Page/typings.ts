@@ -63,12 +63,12 @@ export type PageProps<T, U, E, P = E, ValueType = 'text'> = {
 
 export type ModalPageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 部分无法配置
-  modalProps?: ModalFormProps<E, P>;
-  modalRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
+  formProps?: ModalFormProps<E, P>;
+  formRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
 } & PageProps<T, U, E, P, ValueType>;
 
 export type FullPageProps<T, U, E, P = E, ValueType = 'text'> = {
   // 部分无法配置
-  modalProps?: FullFormProps<E, P>;
-  modalRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
+  formProps?: FullFormProps<E, P>;
+  formRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
 } & PageProps<T, U, E, P, ValueType>;

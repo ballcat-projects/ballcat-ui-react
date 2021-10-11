@@ -108,7 +108,7 @@ export default () => {
           { type: 'edit', permission: 'i18n:i18n-data:edit' },
           { type: 'del', permission: 'i18n:i18n-data:del' },
         ]}
-        modalProps={{ titleSuffix: '国际化信息' }}
+        formProps={{ titleSuffix: '国际化信息' }}
         tableProps={{ formRef: tableFormRef }}
         onStatusChange={setStatus}
       >

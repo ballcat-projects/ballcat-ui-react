@@ -68,7 +68,7 @@ export default () => {
         { type: 'edit', permission: 'system:config:edit' },
         { type: 'del', permission: 'system:config:del' },
       ]}
-      modalProps={{ titleSuffix: '配置' }}
+      formProps={{ titleSuffix: '配置' }}
       onStatusChange={setStatus}
     >
       <ProFormText hidden name="id" />

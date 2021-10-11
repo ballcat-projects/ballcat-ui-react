@@ -126,13 +126,13 @@ const recipientFilterConditionNames: Record<number, string> = {
 
 export default () => {
   const tableRef = useRef<ActionType>();
-  const modalRef = useRef<FullFormRef<AnnouncementDto>>();
+  const formRef = useRef<FullFormRef<AnnouncementDto>>();
 
   const [loading, setLoading] = useState(false);
 
   const submit = (status: number) => {
     setLoading(true);
-    const form = modalRef.current?.getFormRef();
+    const form = formRef.current?.getForm();
     form?.setFieldsValue({ status });
     form?.submit();
   };
@@ -217,12 +217,12 @@ export default () => {
 
           return data;
         }}
-        modalRef={modalRef}
-        modalProps={{
+        formRef={formRef}
+        formProps={{
           antProps: {
             submitter: {
               render: () => {
-                const form = modalRef.current?.getFormRef();
+                const form = formRef.current?.getForm();
 
                 return [
                   <div style={{ textAlign: 'center' }}>
@@ -242,7 +242,7 @@ export default () => {
                       <Button loading={loading} type="primary" onClick={() => submit(1)}>
                         保存并发布
                       </Button>
-                      <Button loading={loading} onClick={() => modalRef.current?.hidden()}>
+                      <Button loading={loading} onClick={() => formRef.current?.hidden()}>
                         取消
                       </Button>
                     </Space>

@@ -14,7 +14,7 @@ export const defautlTitle = {
 
 const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   const {
-    mfRef,
+    formRef: currencyRef,
     onStatusChange = () => {},
     width,
     labelCol,
@@ -74,7 +74,7 @@ const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     setVisible(true);
   };
 
-  useImperativeHandle(mfRef, () => ({
+  useImperativeHandle(currencyRef, () => ({
     // 只读
     read: (row: E) => {
       switchStatus('read', { ...row });
@@ -87,7 +87,7 @@ const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     create: (data?: any) => {
       switchStatus('create', data);
     },
-    getFormRef: () => formRef.current,
+    getForm: () => formRef.current,
     hidden: () => {
       switchStatus(undefined);
     },

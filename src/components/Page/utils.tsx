@@ -12,7 +12,7 @@ type PSC<T> = (st: FormStatus, record?: T) => boolean | void;
 export default {
   generateToolBarActionsList<T, E>(
     perStatusChange: PSC<T>,
-    modalRef: React.MutableRefObject<ModalFormRef<E> | undefined>,
+    formRef: React.MutableRefObject<ModalFormRef<E> | undefined>,
     actions?: PageToolBarActions[],
   ) {
     if (actions && actions.length > 0) {
@@ -31,7 +31,7 @@ export default {
                 if (perStatusChange('create') === false) {
                   return;
                 }
-                modalRef.current?.create();
+                formRef.current?.create();
               }}
             />,
           );
@@ -49,7 +49,7 @@ export default {
     rowKey: string,
     perStatusChange: PSC<T>,
     formData: (data: T) => E,
-    modalRef: React.MutableRefObject<ModalFormRef<E> | undefined>,
+    formRef: React.MutableRefObject<ModalFormRef<E> | undefined>,
     tableRef: React.MutableRefObject<ActionType | undefined>,
     del?: (body: T) => Promise<R<any>>,
     operteBarProps?: { title?: string; width?: number; fixed?: 'left' | 'right' | boolean },
@@ -89,7 +89,7 @@ export default {
                   if (perStatusChange('read') === false) {
                     return;
                   }
-                  modalRef.current?.read(formData(record));
+                  formRef.current?.read(formData(record));
                 }}
               />,
             );
@@ -105,7 +105,7 @@ export default {
                   if (perStatusChange('edit') === false) {
                     return;
                   }
-                  modalRef.current?.edit(formData(record));
+                  formRef.current?.edit(formData(record));
                 }}
               />,
             );

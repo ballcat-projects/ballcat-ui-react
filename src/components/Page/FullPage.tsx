@@ -27,20 +27,20 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   del,
   handlerData,
   tableProps,
-  modalProps,
-  tableRef: tr,
-  modalRef: mr,
+  formProps,
+  tableRef: pTableRef,
+  formRef: pFormRef,
   perStatusChange = () => undefined,
 }: FullPageProps<T, U, E, P, ValueType>) => {
   let tableRef = useRef<ActionType>();
-  let modalRef = useRef<FullFormRef<E>>();
+  let formRef = useRef<FullFormRef<E>>();
 
-  if (mr) {
-    modalRef = mr;
+  if (pFormRef) {
+    formRef = pFormRef;
   }
 
-  if (tr) {
-    tableRef = tr;
+  if (pTableRef) {
+    tableRef = pTableRef;
   }
 
   const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
@@ -50,7 +50,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   // 表格上方工具栏更新
   useEffect(() => {
     setToolBarActionsList(
-      utils.generateToolBarActionsList(perStatusChange, modalRef, toolBarActions),
+      utils.generateToolBarActionsList(perStatusChange, formRef, toolBarActions),
     );
   }, [toolBarActions]);
 
@@ -65,7 +65,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
           rowKey,
           perStatusChange,
           formData,
-          modalRef,
+          formRef,
           tableRef,
           del,
           operteBarProps,
@@ -103,8 +103,8 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
       />
 
       <FullForm<E, P>
-        {...modalProps}
-        mfRef={modalRef}
+        {...formProps}
+        formRef={formRef}
         onStatusChange={formStatusChange}
         handlerData={handlerData}
         create={create}

@@ -38,7 +38,7 @@ import Cropper from '@/components/Cropper';
 
 export default () => {
   const tableRef = useRef<ActionType>();
-  const modalRef = useRef<ModalFormRef<SysUserDto>>();
+  const formRef = useRef<ModalFormRef<SysUserDto>>();
 
   const [treeData, setTreeData] = useState<any[]>([]);
   const [treeHighData, setTreeHighData] = useState<any[]>([]);
@@ -237,7 +237,7 @@ export default () => {
             rowKey="userId"
             columns={dataColumns}
             tableRef={tableRef}
-            modalRef={modalRef}
+            formRef={formRef}
             handlerData={(body, st) => {
               if (st === 'create') {
                 return { ...body, pass: pwd.encrypt(body.pass) };
@@ -258,7 +258,7 @@ export default () => {
                             <Menu.Item key={`user-edit-item-${record.userId}`}>
                               <a
                                 onClick={() =>
-                                  modalRef.current?.edit(record as unknown as SysUserDto)
+                                  formRef.current?.edit(record as unknown as SysUserDto)
                                 }
                               >
                                 编辑
@@ -394,7 +394,7 @@ export default () => {
                 );
               },
             }}
-            modalProps={{ titleSuffix: '用户' }}
+            formProps={{ titleSuffix: '用户' }}
             onStatusChange={setStatus}
           >
             <Row>
