@@ -1,11 +1,11 @@
-import type { LtCropperOptions, LtCropperProps } from '.';
+import type { LtCropperOptions, CropperProps } from '.';
 import type { ReactCropperElement } from 'react-cropper';
 import Cropper from 'react-cropper';
 import { useState, useEffect, useRef, useMemo, useImperativeHandle } from 'react';
 import { Col, Row } from 'antd';
 import 'cropperjs/dist/cropper.css';
 import { debounce } from 'lodash';
-import LtCropperAvatar from './LtCropperAvatar';
+import CropperAvatar from './CropperAvatar';
 import FileUtils from '@/utils/FileUtils';
 
 /**
@@ -50,7 +50,7 @@ const LtCropper = ({
   previewWidth = imgWidth,
   previewHeight = imgHeight,
   cr,
-}: LtCropperProps) => {
+}: CropperProps) => {
   const cropperRef = useRef<ReactCropperElement>(null);
 
   const [originSrc, setOriginSrc] = useState<string>();
@@ -150,6 +150,6 @@ const LtCropper = ({
   );
 };
 
-LtCropper.Avatar = LtCropperAvatar;
+LtCropper.Avatar = CropperAvatar;
 
 export default LtCropper;

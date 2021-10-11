@@ -34,7 +34,7 @@ import SelectRole from './SelectRole';
 import Auth from '@/components/Auth';
 import Grant from './Grant';
 import Pass from './Pass';
-import LtCropper from '@/components/LtCropper';
+import Cropper from '@/components/Cropper';
 
 export default () => {
   const tableRef = useRef<ActionType>();
@@ -468,7 +468,7 @@ export default () => {
 
       <Pass visible={passVisible} onVisibleChange={setPassVisible} record={passRecord} />
 
-      <LtCropper.Avatar
+      <Cropper.Avatar
         visible={avatarData !== undefined}
         onVisibleChange={(flag) => {
           if (!flag) {

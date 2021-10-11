@@ -1,6 +1,6 @@
 import { Button, Col, Modal, Row, Spin, Upload } from 'antd';
-import type { LtCropperAvatarProps, LtCropperRef } from '.';
-import LtCropper from '.';
+import type { CropperAvatarProps, CropperRef } from '.';
+import Cropper from '.';
 import { useState, useRef } from 'react';
 import type { UploadFile } from 'antd/lib/upload/interface';
 import Icon from '../Icon';
@@ -9,8 +9,8 @@ import I18n from '@/utils/I18nUtils';
 const avatarHeight = 200;
 const avatarWidth = 200;
 
-export default ({ visible, onVisibleChange = () => {}, onSave }: LtCropperAvatarProps) => {
-  const cropperRef = useRef<LtCropperRef>();
+export default ({ visible, onVisibleChange = () => {}, onSave }: CropperAvatarProps) => {
+  const cropperRef = useRef<CropperRef>();
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imgBlob, setImgBlob] = useState<Blob>();
@@ -89,7 +89,7 @@ export default ({ visible, onVisibleChange = () => {}, onSave }: LtCropperAvatar
       onCancel={() => onVisibleChange(false)}
     >
       <Spin spinning={saveLoading}>
-        <LtCropper
+        <Cropper
           imgHeight={350}
           imgWidth={350}
           previewHeight={avatarHeight}

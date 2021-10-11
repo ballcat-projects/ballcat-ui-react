@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Popover } from 'antd';
-import type { LtColorProps } from './typings';
+import type { ColorProps } from './typings';
 import { SketchPicker } from 'react-color';
 import Icon from '../Icon';
 import I18n from '@/utils/I18nUtils';
@@ -18,7 +18,7 @@ export const DEFAULT_COLORS = [
   '#F6BD16', // 9 - 黄色
 ];
 
-const LtColor = (props: LtColorProps) => {
+const LtColor = (props: ColorProps) => {
   const {
     value,
     onChange = () => {},

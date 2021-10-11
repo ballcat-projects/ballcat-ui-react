@@ -1,6 +1,6 @@
 import type { UploadFile } from 'antd/lib/upload/interface';
 
-export type LtCropperValue = string | Blob;
+export type CropperValue = string | Blob;
 
 export type LtCropperOptions = {
   scaleX?: number;
@@ -10,8 +10,8 @@ export type LtCropperOptions = {
   rotateTo?: number;
 } & Omit<Cropper.Options<HTMLImageElement>, 'crop'>;
 
-export type LtCropperProps = {
-  value?: LtCropperValue;
+export type CropperProps = {
+  value?: CropperValue;
   onChange?: (value: Blob | undefined) => void;
   onUrlChange?: (url: string | undefined) => void;
   options?: LtCropperOptions;
@@ -19,10 +19,10 @@ export type LtCropperProps = {
   imgHeight?: number;
   previewWidth?: number;
   previewHeight?: number;
-  cr?: React.MutableRefObject<LtCropperRef | undefined>;
+  cr?: React.MutableRefObject<CropperRef | undefined>;
 };
 
-export type LtCropperAvatarProps = {
+export type CropperAvatarProps = {
   visible?: boolean;
   onVisibleChange?: (v: boolean) => void;
   /**
@@ -32,7 +32,7 @@ export type LtCropperAvatarProps = {
   onSave?: (v: Blob, file: UploadFile) => Promise<void>;
 };
 
-export type LtCropperRef = {
+export type CropperRef = {
   // 传入正数放大， 负数缩小, 值 0-1 (zoom(0.1) 放大 10%)
   zoom: (ratio: number) => void;
   // 传入正数右旋转，负数左旋转, (rotate(90) 右转90度)

@@ -10,7 +10,7 @@ import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import LtPage from '@/components/LtPage';
 import { dictItem } from '@/services/ballcat/system';
 import { Alert, Form, InputNumber, Modal, Popover, Tag } from 'antd';
-import LtColor from '@/components/LtColor';
+import Color from '@/components/Color';
 import { sysDictItemAttributesKeys } from '@/services/ballcat/system';
 import ItemLanguages from './ItemLanguages';
 
@@ -151,12 +151,12 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
               return (
                 <>
                   <Form.Item label="文本颜色" name="textColor">
-                    <LtColor>
+                    <Color>
                       <span style={{ color: form.getFieldValue('textColor') }}>颜色预览</span>
-                    </LtColor>
+                    </Color>
                   </Form.Item>
                   <Form.Item label="标签颜色" name="tagColor">
-                    <LtColor>
+                    <Color>
                       <Popover
                         trigger="click"
                         content={() =>
@@ -173,7 +173,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
                       >
                         <Tag color={form.getFieldValue('tagColor')}>切换预设</Tag>
                       </Popover>
-                    </LtColor>
+                    </Color>
                   </Form.Item>
 
                   <Form.Item label="国际化" name="languages">

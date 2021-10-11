@@ -2,7 +2,7 @@ import type React from 'react';
 import type { PopoverProps } from 'antd';
 import type { SketchPickerProps } from 'react-color';
 
-export type LtColorProps = {
+export type ColorProps = {
   // 初始颜色
   value?: string;
   // 预设颜色
