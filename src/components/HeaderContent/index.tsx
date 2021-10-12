@@ -41,7 +41,6 @@ const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) 
 
       <Breadcrumb style={{ width: 'calc(100% - 64px)', display: 'inline-block' }}>
         <Breadcrumb.Item>
-          {' '}
           <Icon style={{ ...iconStyle, marginRight: 0 }} type={'home'} />
         </Breadcrumb.Item>
         {breadcrumbData}

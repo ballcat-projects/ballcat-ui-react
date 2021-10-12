@@ -26,25 +26,24 @@ const Icon: React.FC<IconProps> = (props: IconProps) => {
     type = settings.iconPrefix + type;
   }
 
-  const realStyle = { ...style };
-  if (!realStyle.cursor) {
-    realStyle.cursor = 'pointer';
-  }
-
-  const realProps = { ...props, type, style: realStyle };
-
   // 自定义图标渲染
   return (
-    <i className="i-icon">
+    <i
+      className="i-icon"
+      {...props}
+      style={{
+        ...style,
+        cursor: style?.cursor || 'pointer',
+        lineHeight: style?.lineHeight || style?.fontSize,
+      }}
+    >
       <svg
-        {...realProps}
         style={{
           width: '1em',
           height: '1em',
           verticalAlign: '-0.15em',
           fill: 'currentColor',
           overflow: 'hidden',
-          ...realProps.style,
         }}
       >
         <use xlinkHref={`#${type}`} />

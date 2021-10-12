@@ -15,6 +15,7 @@ import Footer from '@/components/Footer';
 import { redirect, goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
+import Icon from '@/components/Icon';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -62,6 +63,23 @@ const getFirstUrl = (menuArray: MenuDataItem[]): string => {
   }
 
   return `${menu.path}`;
+};
+
+const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon?: string) => {
+  return (
+    <span className="ant-pro-menu-item" title={title}>
+      {!icon ? undefined : (
+        <Icon
+          type={icon}
+          style={{
+            marginRight: collapsed && hasSub ? '20px' : '10px',
+            fontSize: collapsed ? '18px' : '16px',
+          }}
+        />
+      )}
+      <span className="ant-pro-menu-item-title">{title}</span>
+    </span>
+  );
 };
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -158,9 +176,15 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         }
       }}
       onMenuHeaderClick={() => history.push(initialState?.menuFirst || '/')}
-      menuItemRender={(menuItemProps, defaultDom) => {
+      subMenuItemRender={(item) => {
+        const { title, icon } = item.meta;
+        return renderMenuItem(collapsed, title, true, icon);
+      }}
+      menuItemRender={(menuItemProps) => {
+        const { redirectPath, title, icon } = menuItemProps.meta;
+
         if (!menuItemProps.path || location.pathname === menuItemProps.path) {
-          return defaultDom;
+          return renderMenuItem(collapsed, title, false, icon);
         }
 
         if (menuItemProps.isUrl) {
@@ -170,8 +194,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             </a>
           );
         }
-        const to = menuItemProps.meta?.redirectPath || menuItemProps.path;
-        return <Link to={to}>{defaultDom}</Link>;
+
+        return (
+          <Link to={redirectPath || menuItemProps.path}>
+            {renderMenuItem(collapsed, title, false, icon)}
+          </Link>
+        );
       }}
       rightContentRender={() => <RightContent />}
     >

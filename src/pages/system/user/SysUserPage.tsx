@@ -208,7 +208,12 @@ export default () => {
               placeholder="输入内容以搜索组织"
               style={{ marginBottom: 5 }}
               addonAfter={
-                <Icon type="redo" style={{ fontSize: 18 }} onClick={() => loadTreeData()} />
+                <Icon
+                  title="刷新数据"
+                  type="redo"
+                  style={{ fontSize: 18 }}
+                  onClick={() => loadTreeData()}
+                />
               }
               onChange={(e) => {
                 setTreeSeachValue(e.target.value);
