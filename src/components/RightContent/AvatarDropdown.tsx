@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { LogoutOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Menu, Modal, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
@@ -12,11 +12,32 @@ import I18n from '@/utils/I18nUtils';
 import SrcUtils from '@/utils/SrcUtils';
 
 export type GlobalHeaderRightProps = {
-  menu?: boolean;
+  exitConfirm?: boolean;
 };
 
-const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
+const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
+
+  const exitHandler = useCallback(() => {
+    return outLogin().then(() => {
+      // @ts-ignore
+      setInitialState({ ...initialState, user: undefined });
+      User.clean();
+      Token.clean();
+      //  退出登录，并且将当前的 url 保存
+      const { query = {}, pathname } = history.location;
+      const { redirect } = query;
+      // Note: There may be security issues, please note
+      if (window.location.pathname !== '/user/login' && !redirect) {
+        history.replace({
+          pathname: '/user/login',
+          search: stringify({
+            redirect: pathname,
+          }),
+        });
+      }
+    });
+  }, [initialState, setInitialState]);
 
   const onMenuClick = useCallback(
     (event: {
@@ -27,28 +48,21 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
     }) => {
       const { key } = event;
       if (key === 'logout' && initialState) {
-        outLogin().then(() => {
-          setInitialState({ ...initialState, user: undefined });
-          User.clean();
-          Token.clean();
-          //  退出登录，并且将当前的 url 保存
-          const { query = {}, pathname } = history.location;
-          const { redirect } = query;
-          // Note: There may be security issues, please note
-          if (window.location.pathname !== '/user/login' && !redirect) {
-            history.replace({
-              pathname: '/user/login',
-              search: stringify({
-                redirect: pathname,
-              }),
-            });
-          }
-        });
+        if (exitConfirm) {
+          Modal.confirm({
+            title: I18n.text('hint'),
+            content: I18n.text('logout.confirm.content'),
+            onOk: async () => exitHandler(),
+          });
+        } else {
+          exitHandler();
+        }
+
         return;
       }
       history.push(`/user/${key}`);
     },
-    [initialState, setInitialState],
+    [initialState, setInitialState, exitConfirm],
   );
 
   const loading = (

@@ -28,4 +28,8 @@ export default {
   'icon.clean': 'Clean icon',
 
   'cropper.avatar.select': 'Please select a picture!',
+
+  'logout.confirm.content': 'Are you sure you want to log out?',
+
+  hint: 'hint',
 };

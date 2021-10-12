@@ -55,7 +55,8 @@ const GlobalHeaderRight: React.FC = () => {
       >
         <QuestionCircleOutlined />
       </span>
-      <Avatar />
+      {/* 如果不需要退出确认. 移除 exitConfirm 即可 */}
+      <Avatar exitConfirm />
       <SelectLang className={styles.action} />
 
       <span

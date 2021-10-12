@@ -27,4 +27,8 @@ export default {
   'icon.clean': '清空图标',
 
   'cropper.avatar.select': '请选择图片!',
+
+  'logout.confirm.content': '确定要退出登录吗?',
+
+  hint: '提示',
 };
