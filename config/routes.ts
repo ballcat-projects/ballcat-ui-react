@@ -15,14 +15,15 @@
     component: '../layouts',
     routes: [
       // {
-      //   path: '/',
+      //   path: '/welcome234',
+      //   name: 'welcome',
       //   redirect: '/welcome',
       // },
       // {
       //   path: '/welcome',
       //   name: 'welcome',
       //   icon: 'smile',
-      //   component: './welcome',
+      //   component: './exception/error',
       // },
     ],
   },

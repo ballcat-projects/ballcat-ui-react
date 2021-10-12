@@ -6,9 +6,35 @@ import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
 
+export type BallcatMenuItem = {
+  children: MenuDataItem[];
+  routes: MenuDataItem[];
+  component: any;
+  path: string;
+  redirect?: string;
+  meta?: Record<string, any>;
+  exact?: boolean;
+} & MenuDataItem;
+
 export async function getMenu() {
   const { data: remoteList } = await router();
   return serializationRemoteList(remoteList, 0, '');
+}
+
+function getRedirectPath(menu: BallcatMenuItem): string {
+  let redirectPath = menu.path;
+
+  if (menu.children && menu.children.length > 0) {
+    const cm = menu.children[0];
+    // 非菜单页. 寻找下级
+    if (!cm.exact) {
+      return getRedirectPath(cm as BallcatMenuItem);
+    }
+
+    redirectPath = cm.path || redirectPath;
+  }
+
+  return redirectPath;
 }
 
 export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path: string) {
@@ -18,12 +44,8 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
     if (val.parentId === pId) {
       const menuPath = val.path.startsWith('/') ? val.path : `/${val.path}`;
       // @ts-ignore
-      const menu: MenuDataItem & {
-        children: MenuDataItem[];
-        routes: MenuDataItem[];
-        component: any;
-      } = {
-        hideInMenu: val.hidden,
+      const menu: BallcatMenuItem = {
+        hideInMenu: Boolean(val.hidden),
         icon: val.icon ? React.createElement(Icon, { type: `${val.icon}` }) : undefined,
         locale: false,
         path: `${path}${menuPath}`,
@@ -35,7 +57,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
 
       // 目录处理
       if (val.type === 0) {
-        const childrenArray = serializationRemoteList(list, val.id, menuPath);
+        const childrenArray = serializationRemoteList(list, val.id, menu.path);
         // 需要添加一个404的路由, 否则 二级,三级的不存在路由 会在右边展示空白
         childrenArray.push({
           component: dynamic({
@@ -43,8 +65,12 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
             loading: LoadingComponent,
           }),
         });
+
         menu.routes = childrenArray;
         menu.children = childrenArray;
+        menu.meta = { ...menu.meta, redirectPath: getRedirectPath(menu) };
+        // menu.redirect = getRedirectPath(menu)
+        // menu.path = ''
       }
       // 菜单处理
       else if (val.type === 1) {

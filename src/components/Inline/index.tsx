@@ -1,24 +1,31 @@
 import { Component } from 'react';
-import type { BasicLayoutProps } from '@ant-design/pro-layout';
-import type { GLOBAL } from '@/typings';
 import './index.less';
+import type { Route } from '@ant-design/pro-layout/lib/typings';
 
-interface InlineState {
-  meta: GLOBAL.Router;
-  iFrameHeight: number;
+export type InlineMeta = {
+  uri: string;
+};
+
+export interface InlineState {
+  meta: InlineMeta;
 }
 
-class Inline extends Component<BasicLayoutProps, InlineState> {
-  constructor(props: BasicLayoutProps) {
+export type InlineProps = {
+  meta?: InlineMeta;
+  route?: Route;
+};
+
+class Inline extends Component<InlineProps, InlineState> {
+  constructor(props: InlineProps) {
     super(props);
-    this.state = {
-      meta: props.route?.meta,
-      iFrameHeight: 0,
-    };
+    const { meta, route } = props;
+    this.state = { meta: meta || route?.meta };
   }
 
   render() {
-    return <iframe className="iframe" src={this.state.meta.uri} />;
+    const { meta } = this.state;
+
+    return <iframe className="iframe" src={meta.uri} />;
   }
 }
 

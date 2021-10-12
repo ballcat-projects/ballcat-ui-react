@@ -95,13 +95,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       initialState?.menuArray &&
       initialState?.menuArray.length > 0
     ) {
-      const first = { path: '/', redirect: `${initialState.menuArray[0].path}`, exact: true };
-
-      // @ts-ignore
-      route.children.push(first);
-      // @ts-ignore
-      route.routes.push(first);
-
       for (let i = 0; i < initialState.menuArray.length; i += 1) {
         const menu = initialState.menuArray[i];
         // @ts-ignore
@@ -112,10 +105,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
       // 旧路由长度
       const ol = route.routes.length - initialState.menuArray.length;
-      if (ol > 0) {
+      // 允许多少个旧路由
+      const allowMax = 0;
+      if (ol > allowMax) {
         // 移出旧路由
-        route.children.splice(0, ol);
-        route.routes.splice(0, ol);
+        route.children.splice(allowMax, ol);
+        route.routes.splice(allowMax, ol);
       }
 
       setInitialState({
@@ -130,6 +125,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   if (location.pathname === '/' && initialState?.menuFirst && initialState.menuFirst !== '/') {
     goto(initialState.menuFirst);
   }
+
+  console.log('layout', route, location, children);
 
   return (
     <ProLayout
@@ -175,16 +172,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             </a>
           );
         }
+        const to = menuItemProps.meta?.redirectPath || menuItemProps.path;
+        console.log('mentItemRender', to, menuItemProps);
 
-        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
-      }}
-      itemRender={(nr, params, routes, paths) => {
-        const first = routes.indexOf(nr) === 0;
-        return first ? (
-          <Link to={paths.join('/')}>{nr.breadcrumbName}</Link>
-        ) : (
-          <span>{nr.breadcrumbName}</span>
-        );
+        return <Link to={to}>{defaultDom}</Link>;
       }}
       rightContentRender={() => <RightContent />}
     >
