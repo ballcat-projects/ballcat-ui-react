@@ -15,6 +15,7 @@ import RegionalSetting from './RegionalChange';
 import { useModel } from 'umi';
 import ConfigUtils from '@/utils/ConfigUtils';
 import type { BodyProps, MergerSettingsType, SettingDrawerProps } from './typings';
+import { LayoutSetting as LayoutSettingUtils } from '@/utils/Ballcat';
 
 export const getFormatMessage = (): ((data: { id: string; defaultMessage?: string }) => string) => {
   const formatMessage = ({ id }: { id: string; defaultMessage?: string }): string => {
@@ -161,6 +162,8 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
       }
     }
 
+    // 缓存
+    LayoutSettingUtils.set(nextState);
     // @ts-ignore
     setInitialState({ ...initialState, settings: nextState });
   };
