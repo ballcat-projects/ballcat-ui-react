@@ -18,8 +18,6 @@
 //     };
 
 //     we.config.customUploadImg = (files, insertImg)=>{
-//         console.log(files,insertImg);
-
 //     }
 
 //     we.create();

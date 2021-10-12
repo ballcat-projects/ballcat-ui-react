@@ -126,8 +126,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     goto(initialState.menuFirst);
   }
 
-  console.log('layout', route, location, children);
-
   return (
     <ProLayout
       logo={'./logo.svg'}
@@ -173,8 +171,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           );
         }
         const to = menuItemProps.meta?.redirectPath || menuItemProps.path;
-        console.log('mentItemRender', to, menuItemProps);
-
         return <Link to={to}>{defaultDom}</Link>;
       }}
       rightContentRender={() => <RightContent />}
