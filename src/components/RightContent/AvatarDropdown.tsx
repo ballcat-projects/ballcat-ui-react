@@ -10,6 +10,7 @@ import { outLogin } from '@/services/ant-design-pro/api';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import UrlUtils from '@/utils/UrlUtils';
+import Icon from '../Icon';
 
 export type GlobalHeaderRightProps = {
   exitConfirm?: boolean;
@@ -101,6 +102,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar
           size="small"
+          icon={<Icon type="user" />}
           className={styles.avatar}
           src={user?.info?.avatar ? UrlUtils.resolveImage(user.info.avatar) : undefined}
           alt="avatar"
