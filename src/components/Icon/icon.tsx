@@ -34,7 +34,11 @@ const Icon: React.FC<IconProps> = (props: IconProps) => {
       style={{
         ...style,
         cursor: style?.cursor || 'pointer',
-        lineHeight: style?.lineHeight || style?.fontSize,
+        lineHeight:
+          style?.lineHeight ||
+          (style?.fontSize && !style.fontSize.toString().endsWith('px')
+            ? `${style.fontSize}px`
+            : style?.fontSize),
       }}
     >
       <svg
