@@ -1,5 +1,5 @@
-import Editor from './BraftEditor';
+import WangEditor from './WangEditor';
 
 export * from './typings';
 
-export default Editor;
+export default WangEditor;

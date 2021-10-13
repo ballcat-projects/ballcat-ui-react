@@ -25,7 +25,7 @@ import { user } from '@/services/ballcat/system';
 import Page from '@/components/Page';
 import { ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import SrcUtils from '@/utils/SrcUtils';
+import UrlUtils from '@/utils/UrlUtils';
 import { DictTag } from '@/components/Dict';
 import type { FormStatus, ModalFormRef } from '@/components/Form';
 import { FormDictRadio } from '@/components/Form';
@@ -133,7 +133,7 @@ export default () => {
               size="large"
               style={{ cursor: 'pointer' }}
               icon={<Icon type="user" />}
-              src={SrcUtils.resolve(record.avatar)}
+              src={UrlUtils.resolveImage(record.avatar)}
             />
           </span>
         );

@@ -43,7 +43,6 @@
     "@ant-design/pro-table": "^2.54.3",
     "@umijs/route-utils": "^1.0.36",
     "antd": "^4.16.13",
-    "braft-editor": "^2.3.9",
     "classnames": "^2.2.6",
     "crypto-js": "^4.0.0",
     "lodash": "^4.17.11",
@@ -56,7 +55,8 @@
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.0.4",
     "react-transition-group": "^4.4.2",
-    "umi": "^v3.4.0"
+    "umi": "^v3.4.0",
+    "wangeditor": "^4.7.8"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.0.2",

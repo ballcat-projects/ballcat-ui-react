@@ -9,7 +9,7 @@ import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
-import SrcUtils from '@/utils/SrcUtils';
+import UrlUtils from '@/utils/UrlUtils';
 
 export type GlobalHeaderRightProps = {
   exitConfirm?: boolean;
@@ -102,7 +102,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
         <Avatar
           size="small"
           className={styles.avatar}
-          src={SrcUtils.resolve(user?.info?.avatar)}
+          src={user?.info?.avatar ? UrlUtils.resolveImage(user.info.avatar) : undefined}
           alt="avatar"
         />
         <span className={`${styles.name} anticon`}>{user?.info?.nickname}</span>

@@ -1,5 +1,4 @@
 import type { PageResult, QueryParam, R } from '@/typings';
-import type { UploadFile } from 'antd/lib/upload/interface';
 import { request } from 'umi';
 import type { AnnouncementDto, AnnouncementQo, AnnouncementVo } from './typings';
 
@@ -31,35 +30,37 @@ export async function del(body: AnnouncementVo) {
 }
 
 export function publish(body: AnnouncementVo) {
-  return request(`notify/announcement/publish/${body.id}`, {
-    method: 'patch',
+  return request<R<any>>(`notify/announcement/publish/${body.id}`, {
+    method: 'PATCH',
   });
 }
 
 export function close(body: AnnouncementVo) {
-  return request(`notify/announcement/close/${body.id}`, {
-    method: 'patch',
+  return request<R<any>>(`notify/announcement/close/${body.id}`, {
+    method: 'PATCH',
   });
 }
 
-export function uploadImage(resultFiles: UploadFile[]) {
-  const formData = new FormData();
-  resultFiles.forEach((file) => {
-    formData.append('files', file.originFileObj as Blob);
+export function uploadImage(blobs: Blob[]) {
+  const fd = new FormData();
+  blobs.forEach((blob) => {
+    fd.append('files', blob);
   });
-  return request('notify/announcement/image', {
-    body: formData,
+
+  return request<R<string[]>>('notify/announcement/image', {
+    method: 'POST',
+    body: fd,
   });
 }
 
 export function getUserAnnouncements() {
-  return request('notify/announcement/user', {
-    method: 'get',
+  return request<R<any>>('notify/announcement/user', {
+    method: 'GET',
   });
 }
 
 export function readAnnouncement(id: string) {
-  return request(`notify/user-announcement/read/${id}`, {
-    method: 'patch',
+  return request<R<any>>(`notify/user-announcement/read/${id}`, {
+    method: 'PATCH',
   });
 }

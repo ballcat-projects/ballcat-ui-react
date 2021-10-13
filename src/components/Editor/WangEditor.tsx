@@ -1,41 +1,89 @@
-// import type { EditorProps } from '.';
-// import WangEditor from 'wangeditor';
-// import { useState, useEffect } from 'react';
+import type { WangEditorProps } from '.';
+import WangEditor from 'wangeditor';
+import { useState, useEffect, useCallback } from 'react';
+import FileUtils from '@/utils/FileUtils';
+import UrlUtils from '@/utils/UrlUtils';
 
-// const editorId = 'wang-editor-dom';
-// export default ({ value, onChange, uploadImage }: EditorProps) => {
-//   const [editor, setEditor] = useState<WangEditor>();
-//   const [content, setContent] = useState<string>();
+export default ({
+  readOnly,
+  value,
+  onChange,
+  uploadImage,
+  uploadVideo,
+  uploadAudio,
+}: WangEditorProps) => {
+  const [editor, setEditor] = useState<WangEditor>();
 
-//   useEffect(() => {
-//     const we = new WangEditor(`#${editorId}`);
-//     setEditor(we);
+  const update = useCallback(
+    (val: string) => {
+      if (onChange) {
+        onChange(val);
+      }
+    },
+    [onChange],
+  );
 
-//     we.config.onchange = (val: string) => {
-//       if (onChange) {
-//         onChange(val);
-//       }
-//     };
+  useEffect(() => {
+    const we = new WangEditor(`#wang-editor-dom`);
+    setEditor(we);
+    we.config.onchange = (val: string) => update(val);
 
-//     we.config.customUploadImg = (files, insertImg)=>{
-//     }
+    // if(uploadImage){
+    we.config.customUploadImg = (files: File[], insertFn: (url: string) => void) => {
+      if (uploadImage) {
+        // 自定义上传
+        uploadImage(files).then((urls) => {
+          urls.forEach((url) => {
+            insertFn(UrlUtils.resolveImage(url));
+          });
+        });
+      } else {
+        // base64解析上传
+        files.forEach((file) => {
+          FileUtils.getBase64(file).then((b6) => {
+            insertFn(b6 as string);
+          });
+        });
+      }
+    };
 
-//     we.create();
+    if (uploadVideo) {
+      we.config.customUploadVideo = (files: File[], insertFn: (url: string) => void) => {
+        uploadVideo(files).then((urls) => {
+          urls.forEach((url) => {
+            insertFn(UrlUtils.resolveVideo(url));
+          });
+        });
+      };
+    }
 
-//     return () => {
-//       we.destroy();
-//     };
-//   }, [onChange]);
+    // 用户无操作 200 毫秒更新值
+    we.config.onchangeTimeout = 200;
+    we.config.zIndex = 100;
+    we.create();
 
-//   useEffect(() => {
-//     if (value !== editor?.txt.html()) {
-//       editor?.txt.html(value);
-//     }
-//   }, [editor, value]);
+    return () => {
+      we.destroy();
+    };
+  }, [uploadImage, uploadVideo, uploadAudio]);
 
-//   return (
-//     <>
-//       <div id={editorId}></div>
-//     </>
-//   );
-// };
+  useEffect(() => {
+    if (readOnly) {
+      editor?.disable();
+    } else {
+      editor?.enable();
+    }
+  }, [editor, readOnly]);
+
+  useEffect(() => {
+    if (value !== editor?.txt.html()) {
+      editor?.txt.html(value);
+    }
+  }, [editor, value]);
+
+  return (
+    <>
+      <div id="wang-editor-dom"></div>
+    </>
+  );
+};

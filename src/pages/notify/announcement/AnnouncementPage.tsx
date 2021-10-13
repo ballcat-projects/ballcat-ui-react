@@ -269,18 +269,18 @@ export default () => {
           rules={[{ required: true, message: '请输入公告标题!' }]}
         />
 
-        {/* <ProFormText
-          label="内容"
-          name="content"
-          rules={[{ required: true, message: '请输入公告内容!' }]}
-        /> */}
-
         <AntdForm.Item
           label="内容"
           name="content"
           rules={[{ required: true, message: '请输入公告内容!' }]}
         >
-          <Editor />
+          <Editor
+            uploadImage={async (blobs: Blob[]) => {
+              return announcement.uploadImage(blobs).then(({ data }) => {
+                return data;
+              });
+            }}
+          />
         </AntdForm.Item>
 
         <Form.DictSelect
