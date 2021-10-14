@@ -10,6 +10,8 @@ export type ProjectSetting = LayoutSettings & {
   defaultLocal: 'zh-CN' | 'en-US';
   // 是否展示水印
   waterMark: boolean;
+  // 是否展示顶部多页签
+  multiTab: boolean;
   storageOptions: {
     // 缓存key 前缀
     namespace: string;
@@ -33,6 +35,7 @@ const Settings: ProjectSetting = {
   historyType: 'hash',
   defaultLocal: 'zh-CN',
   waterMark: true,
+  multiTab: true,
   storageOptions: {
     namespace: 'ballcat/',
     storage: 'local',

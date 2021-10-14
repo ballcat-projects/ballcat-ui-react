@@ -4,7 +4,7 @@ import type {
   Settings,
 } from '@ant-design/pro-layout';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import RightContent from '@/components/RightContent';
 import { history, Link, useIntl, useModel } from 'umi';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
@@ -16,6 +16,8 @@ import { redirect, goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
+import type { MultiTabRef } from '@/components/MultiTab';
+import MultiTab from '@/components/MultiTab';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -95,6 +97,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     },
   } = props;
 
+  const multiTabRef = useRef<MultiTabRef>();
+
   const [collapsed, setCollapsed] = useState(false);
   const [reload, setReload] = useState(false);
   I18n.setIntl(useIntl());
@@ -162,6 +166,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       collapsedButtonRender={false}
       collapsed={collapsed}
       onCollapse={setCollapsed}
+      contentStyle={{ marginTop: settings.multiTab ? '56px' : undefined }}
+      headerRender={(headerProps, defaultDom) => {
+        if (settings.multiTab) {
+          return (
+            <>
+              {defaultDom}
+              <MultiTab multiTabRef={multiTabRef} />
+            </>
+          );
+        }
+        return defaultDom;
+      }}
       headerContentRender={() => {
         return (
           <HeaderContent
