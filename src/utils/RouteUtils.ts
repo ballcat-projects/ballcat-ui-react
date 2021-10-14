@@ -77,8 +77,17 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
         if (val.targetType === 1) {
           component = dynamic({
             loader: () => {
-              // TODO 导入模块异常时, 展示异常页面. import是异步.无法捕获.
-              return import(`@/pages/${val.uri}`);
+              return new Promise((resolve) => {
+                import(`@/pages/${val.uri}`)
+                  .then((page) => {
+                    resolve(page);
+                  })
+                  .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.error('页面加载异常', err);
+                    import(`@/pages/exception/error`).then((errPage) => resolve(errPage));
+                  });
+              });
             },
             loading: LoadingComponent,
           });
@@ -117,3 +126,12 @@ export function redirect(arg: string) {
 export function goto(path: string) {
   history.push(path);
 }
+
+const RouteUtils = {
+  getMenu,
+  getRedirectPath,
+  redirect,
+  goto,
+};
+
+export default RouteUtils;

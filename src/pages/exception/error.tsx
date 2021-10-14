@@ -2,11 +2,11 @@ import { Button, Result } from 'antd';
 import React from 'react';
 import { history } from 'umi';
 
-const Error: React.FC = () => (
+const ErrorPage: React.FC = () => (
   <Result
     status="error"
-    title="页面配置异常"
-    subTitle="抱歉，您访问的页面配置异常, 请联系管理员!"
+    title="页面加载异常"
+    subTitle="抱歉，您访问的页面加载异常, 请联系管理员!"
     extra={
       <Button
         type="primary"
@@ -20,4 +20,4 @@ const Error: React.FC = () => (
   />
 );
 
-export default Error;
+export default ErrorPage;

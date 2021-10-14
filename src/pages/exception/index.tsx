@@ -1,4 +1,4 @@
 import NoFoundPage from './404';
-import Error from './error';
+import ErrorPage from './error';
 
-export { NoFoundPage, Error };
+export { NoFoundPage, ErrorPage };
