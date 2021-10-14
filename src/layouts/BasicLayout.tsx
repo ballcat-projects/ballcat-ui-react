@@ -100,6 +100,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   I18n.setIntl(useIntl());
   const { initialState, setInitialState } = useModel('@@initialState');
 
+  let renderDom = children;
+
+  if (reload) {
+    renderDom = <LoadingComponent />;
+  }
+
   useEffect(() => {
     if (!route.children) {
       route.children = [];
@@ -182,7 +188,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       menuItemRender={(menuItemProps) => {
         const { redirectPath, title, icon } = menuItemProps.meta;
-
         if (!menuItemProps.path || location.pathname === menuItemProps.path) {
           return renderMenuItem(collapsed, title, false, icon);
         }
@@ -203,16 +208,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       rightContentRender={() => <RightContent />}
     >
-      {reload ? (
-        <LoadingComponent />
-      ) : (
-        <WaterMark
-          content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
-          style={{ height: '100%' }}
-        >
-          {children}
-        </WaterMark>
-      )}
+      <WaterMark
+        content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
+        style={{ height: '100%' }}
+      >
+        {renderDom}
+      </WaterMark>
     </ProLayout>
   );
 };

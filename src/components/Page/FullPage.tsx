@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Table from '@/components/Table';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import React, { useState, useRef } from 'react';
+import type { ActionType } from '@ant-design/pro-table';
 import type { FormStatus, FullFormRef } from '@/components/Form';
 import I18n from '@/utils/I18nUtils';
-import utils from './utils';
 import FullForm from '../Form/FullForm';
 import type { FullPageProps } from '.';
+import BasePage from './BasePage';
 
 const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   title,
@@ -43,39 +42,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
     tableRef = pTableRef;
   }
 
-  const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
-  const [tableColumns, setTableColumns] = useState<ProColumns<T, ValueType>[]>([]);
   const [tableStyle, setTableStyle] = useState<React.CSSProperties>({});
-
-  // 表格上方工具栏更新
-  useEffect(() => {
-    setToolBarActionsList(
-      utils.generateToolBarActionsList(perStatusChange, formRef, toolBarActions),
-    );
-  }, [toolBarActions]);
-
-  // 表格列更新
-  useEffect(() => {
-    const newColumns = columns ? [...columns] : [];
-
-    if (operateBar && operateBar.length > 0) {
-      newColumns.push(
-        utils.generateOperateBar(
-          operateBar,
-          rowKey,
-          perStatusChange,
-          formData,
-          formRef,
-          tableRef,
-          del,
-          operteBarProps,
-        ),
-      );
-    }
-
-    setTableColumns(newColumns);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns, operateBar]);
 
   const formStatusChange = (status: FormStatus) => {
     if (status) {
@@ -91,33 +58,38 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
 
   return (
     <>
-      <Table<T, U, ValueType>
-        {...tableProps}
-        style={tableStyle}
+      <BasePage<T, U, E, ValueType>
         rowKey={rowKey}
-        columns={tableColumns}
-        request={query}
-        headerTitle={title}
-        actionRef={tableRef}
-        toolbar={{ ...tableProps?.toolbar, actions: toolBarActionsList }}
-      />
-
-      <FullForm<E, P>
-        {...formProps}
+        columns={columns}
+        query={query}
+        title={title}
+        toolBarActions={toolBarActions}
+        operateBar={operateBar}
+        operteBarProps={operteBarProps}
+        perStatusChange={perStatusChange}
+        formData={formData}
+        del={del}
+        tableProps={{ ...tableProps, style: tableStyle }}
+        tableRef={tableRef}
         formRef={formRef}
-        onStatusChange={formStatusChange}
-        handlerData={handlerData}
-        create={create}
-        edit={edit}
-        onFinish={(st, body) => {
-          tableRef.current?.reload();
-          onFinish(st, body);
-          I18n.success('global.operation.success');
-        }}
-        onError={onError}
       >
-        {children}
-      </FullForm>
+        <FullForm<E, P>
+          {...formProps}
+          formRef={formRef}
+          onStatusChange={formStatusChange}
+          handlerData={handlerData}
+          create={create}
+          edit={edit}
+          onFinish={(st, body) => {
+            tableRef.current?.reload();
+            onFinish(st, body);
+            I18n.success('global.operation.success');
+          }}
+          onError={onError}
+        >
+          {children}
+        </FullForm>
+      </BasePage>
     </>
   );
 };

@@ -5,14 +5,8 @@ import ProForm from '@ant-design/pro-form';
 import type { R } from '@/typings';
 import I18n from '@/utils/I18nUtils';
 import type { FullFormProps } from '.';
+import { defautlTitle } from '.';
 import { Button, Card } from 'antd';
-
-export const defautlTitle = {
-  read: I18n.text('form.read'),
-  edit: I18n.text('form.edit'),
-  create: I18n.text('form.create'),
-  del: I18n.text('form.del'),
-};
 
 const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
   const {
@@ -121,10 +115,10 @@ const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
             ];
           },
         }}
-        {...antProps}
         layout="horizontal"
         labelCol={labelCol || { sm: { span: 24 }, md: { span: 4 } }}
         wrapperCol={wrapperCol}
+        {...antProps}
         formRef={formRef}
         onFinish={async (values) => {
           switch (status) {
