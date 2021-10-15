@@ -59,7 +59,7 @@ const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
     req?: (body: P) => Promise<R<any>>,
   ) => {
     if (req === undefined) {
-      I18n.error({ key: 'orm.error.request', params: { title: defautlTitle[st] } });
+      I18n.error({ key: 'form.error.request', params: { title: defautlTitle[st] } });
       return Promise.resolve(false);
     }
     setLoading(true);

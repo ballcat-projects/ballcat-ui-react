@@ -133,7 +133,10 @@ const BasePage = <T, U, E, ValueType = 'text'>({
                   permission={ob.permission}
                   onClick={() => {
                     if (del === undefined) {
-                      I18n.error({ key: 'orm.error.request', params: { title: defautlTitle.del } });
+                      I18n.error({
+                        key: 'form.error.request',
+                        params: { title: defautlTitle.del },
+                      });
                       return;
                     }
                     del(record).then(() => {
