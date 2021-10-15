@@ -118,7 +118,7 @@ declare namespace GLOBAL {
     token_type: 'bearer';
     attributes: {
       permissions: string[];
-      roles: string[];
+      roleCodes: string[];
     };
   };
 }
