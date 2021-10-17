@@ -1,9 +1,9 @@
 import React from 'react';
 import { List, Select, Switch, Tooltip } from 'antd';
-import type { ProSettings } from '@ant-design/pro-layout';
 import { settings as defaultSettings } from '@/utils/ConfigUtils';
 import type { SettingItemProps } from './typings';
 import { getFormatMessage } from './index';
+import type { ProjectSetting } from 'config/settings';
 
 export const renderLayoutSettingItem = (item: SettingItemProps) => {
   const action = React.cloneElement(item.action, {
@@ -18,11 +18,11 @@ export const renderLayoutSettingItem = (item: SettingItemProps) => {
   );
 };
 const LayoutSetting: React.FC<{
-  settings: Partial<ProSettings>;
+  settings: Partial<ProjectSetting>;
   changeSetting: (key: string, value: any, hideLoading?: boolean) => void;
 }> = ({ settings = {}, changeSetting }) => {
   const formatMessage = getFormatMessage();
-  const { contentWidth, splitMenus, fixedHeader, layout, fixSiderbar } =
+  const { contentWidth, splitMenus, fixedHeader, layout, fixSiderbar, multiTab } =
     settings || defaultSettings;
 
   return (
@@ -93,6 +93,20 @@ const LayoutSetting: React.FC<{
               className="fix-siderbar"
               checked={!!fixSiderbar}
               onChange={(checked) => changeSetting('fixSiderbar', checked)}
+            />
+          ),
+        },
+        {
+          title: formatMessage({
+            id: 'app.setting.showTabs',
+            defaultMessage: 'Show top tab',
+          }),
+          action: (
+            <Switch
+              size="small"
+              className="fix-siderbar"
+              checked={!!multiTab}
+              onChange={(checked) => changeSetting('multiTab', checked)}
             />
           ),
         },
