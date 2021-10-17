@@ -207,7 +207,6 @@ export default () => {
           }
           name="originalId"
           hidden
-          tooltip
         />
 
         <AntdForm.Item label="上级菜单" name="parentId" initialValue={0}>

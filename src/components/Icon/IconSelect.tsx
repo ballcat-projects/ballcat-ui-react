@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Icon from './Icon';
+import Icon from '@/components/Icon';
 import './IconSelect.less';
 import { Input, Modal, Tabs } from 'antd';
 import I18n from '@/utils/I18nUtils';
