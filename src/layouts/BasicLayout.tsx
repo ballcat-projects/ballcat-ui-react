@@ -180,9 +180,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       collapsedButtonRender={false}
       collapsed={collapsed}
       onCollapse={setCollapsed}
-      contentStyle={{ marginTop: settings.multiTab ? '56px' : undefined }}
+      contentStyle={{ marginTop: initialState?.settings.multiTab ? '56px' : undefined }}
       headerRender={(headerProps, defaultDom) => {
-        if (settings.multiTab) {
+        if (initialState?.settings.multiTab) {
           return (
             <>
               {defaultDom}

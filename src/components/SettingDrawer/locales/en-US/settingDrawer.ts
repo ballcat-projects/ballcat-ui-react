@@ -26,6 +26,7 @@ export default {
   'app.setting.splitMenus': 'Split Menus',
   'app.setting.fixedheader': 'Fixed Header',
   'app.setting.fixedsidebar': 'Fixed Sidebar',
+  'app.setting.showTabs': 'Show top tab',
   'app.setting.fixedsidebar.hint': 'Works on Side Menu Layout',
   'app.setting.hideheader': 'Hidden Header when scrolling',
   'app.setting.hideheader.hint': 'Works when Hidden Header is enabled',
