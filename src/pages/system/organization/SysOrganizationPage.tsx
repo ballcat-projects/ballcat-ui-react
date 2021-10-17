@@ -12,6 +12,7 @@ import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { message, Form, TreeSelect } from 'antd';
 import { FormNumber } from '@/components/Form';
 import TreeUtils from '@/utils/TreeUtils';
+import { InteractionOutlined } from '@ant-design/icons';
 
 const dataColumns: ProColumns<SysOrganizationVo>[] = [
   { title: '组织名称', dataIndex: 'name', hideInTable: true },
@@ -58,7 +59,7 @@ export default () => {
           permission="system:organization:revised"
           text="校正层级深度"
           type="primary"
-          icon="Interaction"
+          icon={<InteractionOutlined />}
           danger
           confirm={{ title: '确认进行校正操作?', overlayStyle: { width: '200px' } }}
           onClick={() => {

@@ -1,8 +1,7 @@
-import Icon from './icon';
 import IconSelect from './IconSelect';
+import Icon from './Icon';
 import SvgIcon from './SvgIcon';
-
-const allIcon = require(`@ant-design/icons`);
+import { allIcon } from './allIcon';
 
 export { IconSelect, SvgIcon, allIcon };
 
