@@ -14,6 +14,7 @@ import Icon, { IconSelect } from '@/components/Icon';
 import I18n from '@/utils/I18nUtils';
 import Auth from '@/components/Auth';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
+import { DownOutlined, EditOutlined, UpOutlined } from '@ant-design/icons';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -77,11 +78,14 @@ export default () => {
       render: (dom, record) => {
         return (
           <>
-            <Icon type={record.icon} /> {record.i18nTitle}{' '}
+            <Icon type={record.icon} /> {record.i18nTitle}
             {isBtn(record) ? (
               ''
             ) : (
-              <Icon type="edit" style={{ fontSize: 14 }} onClick={() => editI18n(record.title)} />
+              <EditOutlined
+                style={{ marginLeft: '5px', color: '#1890ff' }}
+                onClick={() => editI18n(record.title)}
+              />
             )}
           </>
         );
@@ -285,11 +289,11 @@ export default () => {
                 </Button>
               );
             } else if (!isBtn(type)) {
-              const iconType = showI18n ? 'down' : 'up';
+              const AddonIcon = showI18n ? DownOutlined : UpOutlined;
               const textPrefix = showI18n ? '展开' : '收起';
               titleAddonAfter = (
                 <Button hidden={isBtn(type)} onClick={() => setShowI18n(!showI18n)} type="primary">
-                  <Icon type={iconType} />
+                  <AddonIcon />
                   {textPrefix}国际化配置
                 </Button>
               );

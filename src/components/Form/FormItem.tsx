@@ -1,6 +1,6 @@
 import { Form } from 'antd';
 import type { FormItemProps } from './typings';
-import Icon from '../Icon';
+import Icon from '@/components/Icon';
 import React from 'react';
 
 function FormItem<V = any>(props: FormItemProps<V> & { children: JSX.Element }) {

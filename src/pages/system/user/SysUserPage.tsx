@@ -20,7 +20,6 @@ import {
 } from 'antd';
 import { useState, useEffect, useRef } from 'react';
 import type { Key } from 'rc-tree/lib/interface';
-import Icon from '@/components/Icon';
 import { user } from '@/services/ballcat/system';
 import Page from '@/components/Page';
 import { ProFormRadio, ProFormText } from '@ant-design/pro-form';
@@ -35,6 +34,14 @@ import Auth from '@/components/Auth';
 import Grant from './Grant';
 import Pass from './Pass';
 import Cropper from '@/components/Cropper';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  InfoOutlined,
+  LockOutlined,
+  RedoOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 
 export default () => {
   const tableRef = useRef<ActionType>();
@@ -132,7 +139,7 @@ export default () => {
               shape="square"
               size="large"
               style={{ cursor: 'pointer' }}
-              icon={<Icon type="user" />}
+              icon={<UserOutlined />}
               src={UrlUtils.resolveImage(record.avatar)}
             />
           </span>
@@ -208,9 +215,8 @@ export default () => {
               placeholder="输入内容以搜索组织"
               style={{ marginBottom: 5 }}
               addonAfter={
-                <Icon
+                <RedoOutlined
                   title="刷新数据"
-                  type="redo"
                   style={{ fontSize: 18 }}
                   onClick={() => loadTreeData()}
                 />
@@ -347,11 +353,11 @@ export default () => {
                       }}
                     >
                       <Menu.Item key="open">
-                        <Icon type="delete" style={{ marginRight: '10px' }} />
+                        <DeleteOutlined style={{ marginRight: '10px' }} />
                         开启
                       </Menu.Item>
                       <Menu.Item key="lock">
-                        <Icon type="lock" style={{ marginRight: '10px' }} />
+                        <LockOutlined style={{ marginRight: '10px' }} />
                         锁定
                       </Menu.Item>
                     </Menu>
@@ -359,7 +365,7 @@ export default () => {
                 >
                   <Button>
                     批量操作
-                    <Icon type="down" style={{ marginLeft: '5px' }} />
+                    <DownOutlined style={{ marginLeft: '5px' }} />
                   </Button>
                 </Dropdown>
               ) : (
@@ -387,10 +393,7 @@ export default () => {
               tableAlertRender: () => {
                 return (
                   <>
-                    <Icon
-                      type="info-circle-fill"
-                      style={{ color: '#1890ff', marginRight: 5, fontSize: 14 }}
-                    />
+                    <InfoOutlined style={{ color: '#1890ff', marginRight: 5, fontSize: 14 }} />
                     已选择: <span style={{ color: '#1890ff' }}>{selectedRowKeys.length}</span>
                     <a onClick={() => setSelectedRowKeys([])} style={{ marginLeft: '24px' }}>
                       清空

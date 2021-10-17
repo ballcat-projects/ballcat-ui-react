@@ -5,6 +5,7 @@ import type { BasePageProps } from '.';
 import Auth from '../Auth';
 import { defautlTitle } from '../Form';
 import I18n from '@/utils/I18nUtils';
+import { PlusOutlined } from '@ant-design/icons';
 
 const BasePage = <T, U, E, ValueType = 'text'>({
   title,
@@ -41,7 +42,7 @@ const BasePage = <T, U, E, ValueType = 'text'>({
             <Auth.Button
               domKey="page-tool-bar-action-create"
               type="primary"
-              icon="plus"
+              icon={<PlusOutlined />}
               // @ts-ignore
               permission={tb.permission}
               text={defautlTitle.create}

@@ -8,10 +8,10 @@ import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Form, message, Radio, Upload } from 'antd';
 import type { FormStatus } from '@/components/Form';
 import { useState, useRef } from 'react';
-import Icon from '@/components/Icon';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 import FileUtils from '@/utils/FileUtils';
 import type { UploadFile } from 'antd/lib/upload/interface';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 
 const dataColumns: ProColumns<SysI18nVo>[] = [
   {
@@ -97,10 +97,10 @@ export default () => {
                 .finally(() => setExportLoading(false));
             }}
           >
-            <Icon type="download" /> 导出
+            <DownloadOutlined /> 导出
           </Button>,
           <Button loading={importLoading} onClick={() => setImportVisible(true)}>
-            <Icon type="upload" /> 导入
+            <UploadOutlined /> 导入
           </Button>,
           { type: 'create', permission: 'i18n:i18n-data:add' },
         ]}
@@ -222,7 +222,7 @@ export default () => {
         >
           <Upload accept=".xls,.xlsx" maxCount={1}>
             <Button loading={importLoading} onClick={() => setImportVisible(true)}>
-              <Icon type="upload" />
+              <UploadOutlined />
               选择文件
             </Button>
 

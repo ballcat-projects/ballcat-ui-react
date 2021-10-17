@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Modal, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
@@ -10,7 +10,6 @@ import { outLogin } from '@/services/ant-design-pro/api';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import UrlUtils from '@/utils/UrlUtils';
-import Icon from '../Icon';
 
 export type GlobalHeaderRightProps = {
   exitConfirm?: boolean;
@@ -102,7 +101,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar
           size="small"
-          icon={<Icon type="user" />}
+          icon={<UserOutlined />}
           className={styles.avatar}
           src={user?.info?.avatar ? UrlUtils.resolveImage(user.info.avatar) : undefined}
           alt="avatar"

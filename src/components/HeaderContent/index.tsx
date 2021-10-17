@@ -1,7 +1,12 @@
 import React from 'react';
-import Icon from '@/components/Icon';
 import { Breadcrumb } from 'antd';
 import I18n from '@/utils/I18nUtils';
+import {
+  HomeOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 
 interface HeaderContentProps {
   collapsed: boolean;
@@ -12,36 +17,33 @@ interface HeaderContentProps {
 
 const iconStyle = {
   cursor: 'pointer',
-  fontSize: '18px',
-  height: '18px',
-  width: '18px',
+  fontSize: '16px',
   marginRight: '5px',
 };
 
 const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) => {
   const { collapsed, onCollapse, onReload, breadcrumbData } = props;
+  const CollapsedIcon = collapsed ? MenuUnfoldOutlined : MenuFoldOutlined;
 
   return (
     <div>
-      <Icon
+      <CollapsedIcon
         title={I18n.text('component.global.header.content.fold')}
         style={iconStyle}
         onClick={() => onCollapse(!collapsed)}
-        type={collapsed ? 'indent' : 'outdent'}
       />
-      <Icon
+      <ReloadOutlined
         title={I18n.text('component.global.header.content.reload')}
         style={iconStyle}
         onClick={() => {
           onReload(true);
           window.location.reload();
         }}
-        type={'reload'}
       />
 
       <Breadcrumb style={{ width: 'calc(100% - 64px)', display: 'inline-block' }}>
         <Breadcrumb.Item>
-          <Icon style={{ ...iconStyle, marginRight: 0 }} type={'home'} />
+          <HomeOutlined style={{ ...iconStyle, marginRight: 0 }} />
         </Breadcrumb.Item>
         {breadcrumbData}
       </Breadcrumb>

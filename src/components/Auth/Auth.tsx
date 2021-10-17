@@ -11,7 +11,7 @@ import type {
 } from '.';
 import I18n from '@/utils/I18nUtils';
 import type { GLOBAL } from '@/typings';
-import Icon from '../Icon';
+import Icon from '@/components/Icon';
 
 const getAuthDom = (
   props: AuthNoneProps,
@@ -130,8 +130,10 @@ Auth.A = (props: AuthAProps) => {
 Auth.Button = (props: AutnButtonProps) => {
   const { permission, domKey, type, icon, danger } = props;
   let iconDom: React.ReactNode;
-  if (icon) {
+  if (icon && typeof icon === 'string') {
     iconDom = <Icon type={icon} style={{ marginRight: '5px' }} />;
+  } else {
+    iconDom = icon;
   }
 
   return (
