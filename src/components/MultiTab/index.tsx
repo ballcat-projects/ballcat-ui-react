@@ -21,11 +21,11 @@ const MultiTab = () => {
   const close = useCallback(
     (...closeArray: string[]) => {
       if (!closeArray || closeArray.length === 0) {
-        I18n.warning('没有可以被关闭的标签页!');
+        I18n.warning('multiTab.close.no');
         return;
       }
       if (nodes.length === 1) {
-        I18n.warning('禁止关闭最后一个标签页!');
+        I18n.warning('multiTab.close.disable');
         return;
       }
 
@@ -116,16 +116,16 @@ const MultiTab = () => {
   const overlay = (
     <Menu key="MultiTabDropdown" onContextMenu={(e) => e.preventDefault()}>
       <Menu.Item key="MultiTabDropdown-close" onClick={() => close(cacheActiveKey)}>
-        关闭标签
+        {I18n.text('multiTab.close')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-left" onClick={() => closeLeft(cacheActiveKey)}>
-        关闭左侧标签
+        {I18n.text('multiTab.close.left')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-right" onClick={() => closeRight(cacheActiveKey)}>
-        关闭右侧标签
+        {I18n.text('multiTab.close.right')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-other" onClick={() => closeOther(cacheActiveKey)}>
-        关闭其他标签
+        {I18n.text('multiTab.close.other')}
       </Menu.Item>
     </Menu>
   );

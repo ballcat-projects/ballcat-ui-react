@@ -32,4 +32,11 @@ export default {
   'logout.confirm.content': 'Are you sure you want to log out?',
 
   hint: 'hint',
+
+  'multiTab.close': 'Close tab',
+  'multiTab.close.left': 'Close left tab',
+  'multiTab.close.right': 'Close right tab',
+  'multiTab.close.other': 'Close other tab',
+  'multiTab.close.no': 'There are no tabs that can be closed!',
+  'multiTab.close.disable': 'Prohibit closing the last tab!',
 };
