@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LovModal from '@/components/Lov/LovModal';
 
 import * as lovMap from '../../../config/lov';
@@ -22,27 +22,31 @@ const Lov: React.FC<LovProps> = (props) => {
   const [lovValue, setLovValue] = useState<any>();
   const [modalKey, setModalKey] = useState<number>(1);
 
-  const lovValueChange = (val: any) => {
-    if (onChange) {
-      onChange(val);
-    } else {
-      setLovValue(val);
-    }
-  };
-
   // 在这里更新value之后. lovModal 内部没有更新数据. 展示会有问题
   // 所以每次在这里更新value之后就更新key, 让lovModal组件销毁, 重新创建一个. 达到强制更新的目的
-  const keyStep = () => {
+  const keyStep = useCallback(() => {
     setModalKey(modalKey + 1);
-  };
+  }, [modalKey]);
+
+  const lovValueChange = useCallback(
+    (val: any) => {
+      if (onChange) {
+        onChange(val);
+      } else {
+        setLovValue(val instanceof Array ? val : [val]);
+      }
+    },
+    [onChange],
+  );
 
   useEffect(() => {
     if (value) {
-      setLovValue(value instanceof Array ? [...value] : [value]);
+      setLovValue(value instanceof Array && config.multiple ? [...value] : [value]);
     } else {
-      setLovValue(value);
+      setLovValue([]);
     }
-  }, [value]);
+    keyStep();
+  }, [config.multiple, value]);
 
   return (
     <div>
@@ -102,6 +106,7 @@ const Lov: React.FC<LovProps> = (props) => {
       <LovModal
         {...props}
         {...config}
+        value={lovValue}
         // 通过更新key来达到组件销毁的目的
         key={`lovModalKey-${modalKey}`}
         show={show}

@@ -191,13 +191,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
   }, [config.keyword]);
 
   useEffect(() => {
-    if (value === undefined || value === null) {
-      setShowData([]);
-    } else if (config.multiple) {
-      setShowData(value instanceof Array ? [...value] : [value]);
-    } else {
-      setShowData([value]);
-    }
+    setShowData([...value]);
   }, [value]);
 
   const style = { ...defaultModalStyle, ...modalStyle };
@@ -265,7 +259,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         tableExtraRender={() => {
           return (
             <Select
-              value={value && showData}
+              value={showData}
               mode={'tags'}
               style={{ width: '100%', paddingLeft: '24px', paddingRight: '24px' }}
               open={false}
