@@ -16,8 +16,8 @@ for (let i = 0; i < keys.length; i += 1) {
 }
 
 const Lov: React.FC<LovProps> = (props) => {
-  const config = cache[props.keyword];
-  const { value, onChange } = props;
+  const { value, onChange, keyword, overwriteConfig } = props;
+  const config = { ...cache[keyword], ...overwriteConfig };
   const [show, setShow] = useState<boolean>(false);
   const [lovValue, setLovValue] = useState<any>();
   const [modalKey, setModalKey] = useState<number>(1);

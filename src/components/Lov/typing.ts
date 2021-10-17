@@ -2,6 +2,8 @@ import type React from 'react';
 
 export type LovProps = {
   keyword: string;
+  // 覆写配置
+  overwriteConfig?: Partial<LovConfig<any>>;
 } & LovModalProps;
 
 export type LovConfig<T> = {
@@ -17,7 +19,7 @@ export type LovConfig<T> = {
   method: 'GET' | 'POST' | 'HEAD' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'TRACE';
   // 参数位置
   position: 'DATA' | 'PARAMS';
-  // 固定请求参数
+  // 固定请求参数, 该参数值会覆盖搜索栏中同名的参数值
   fixedParams?: Record<string, any>;
   // 是否多选
   multiple: boolean;
@@ -72,4 +74,6 @@ export type LovModalProps = {
   value?: any;
   // 参数为新值
   onChange?: (val: any) => void;
+  // 动态参数. 该参数值会覆盖 固定参数以及搜索栏中同名的参数值
+  dynamicParams?: Record<string, any>;
 };
