@@ -24,7 +24,16 @@ export default ({
   );
 
   useEffect(() => {
-    const we = new WangEditor(`#wang-editor-dom`);
+    let we: WangEditor;
+
+    try {
+      we = new WangEditor(`#wang-editor-dom`);
+    } catch (e) {
+      // 组件缓存时. 从有这个组件的页面切换出去会导致这里不停的报错. 找不到 wang-editor-dom Dom.
+      // 这里捕获异常就不管了.  切换回来这个组件会重新渲染
+      return () => {};
+    }
+
     setEditor(we);
     we.config.onchange = (val: string) => update(val);
 
