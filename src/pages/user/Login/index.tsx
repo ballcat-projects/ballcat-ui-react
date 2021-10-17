@@ -58,7 +58,7 @@ const Login: React.FC = () => {
         // 解析远程数据
         const remoteUser = {
           ...res,
-          roles: res.attributes.roles,
+          roles: res.attributes.roleCodes,
           permissions: res.attributes.permissions,
         };
 

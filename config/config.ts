@@ -47,4 +47,5 @@ export default defineConfig({
   },
   // Fast Refresh 热更新
   fastRefresh: {},
+  extraBabelPlugins: ['react-activation/babel'],
 });

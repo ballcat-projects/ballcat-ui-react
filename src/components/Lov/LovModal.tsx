@@ -108,7 +108,8 @@ function getRet(row: any, config: LovConfig<any>) {
 const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) => {
   const config: LovConfig<any> = props;
 
-  const { value, setValue, title, show, setShow, modalStyle, modalProperties } = props;
+  const { value, setValue, title, show, setShow, modalStyle, modalProperties, dynamicParams } =
+    props;
 
   const tableRef = useRef<ActionType>();
 
@@ -257,7 +258,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
             method: config.method,
             sendMessage: false,
           };
-          option[config.position.toLowerCase()] = { ...p, ...config.fixedParams };
+          option[config.position.toLowerCase()] = { ...p, ...config.fixedParams, ...dynamicParams };
 
           return request<R<PageResult<any>>>(config.url, option);
         }}

@@ -141,12 +141,10 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
     if (key === 'layout') {
       nextState.contentWidth = value === 'top' ? 'Fixed' : 'Fluid';
     }
-    if (key === 'layout' && value !== 'mix') {
-      nextState.splitMenus = false;
+    if (key === 'layout') {
+      nextState.splitMenus = value === 'mix';
     }
-    if (key === 'layout' && value === 'mix') {
-      nextState.navTheme = 'light';
-    }
+
     if (key === 'colorWeak' && value === true) {
       const dom = document.querySelector('body');
       if (dom) {

@@ -4,13 +4,7 @@ import type { ProFormInstance } from '@ant-design/pro-form';
 import { ModalForm as AntdModalForm } from '@ant-design/pro-form';
 import type { R } from '@/typings';
 import I18n from '@/utils/I18nUtils';
-
-export const defautlTitle = {
-  read: I18n.text('form.read'),
-  edit: I18n.text('form.edit'),
-  create: I18n.text('form.create'),
-  del: I18n.text('form.del'),
-};
+import { defautlTitle } from '.';
 
 const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
   const {
@@ -45,7 +39,7 @@ const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
     req?: (body: P) => Promise<R<any>>,
   ) => {
     if (req === undefined) {
-      I18n.error({ key: 'orm.error.request', params: { title: defautlTitle[st] } });
+      I18n.error({ key: 'form.error.request', params: { title: defautlTitle[st] } });
       return Promise.resolve(false);
     }
 
@@ -95,13 +89,13 @@ const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
 
   return (
     <AntdModalForm<E>
-      {...antProps}
       width={width}
       layout="horizontal"
       labelCol={labelCol || { sm: { span: 24 }, md: { span: 4 } }}
       wrapperCol={wrapperCol}
-      formRef={formRef}
       title={modalTitle}
+      {...antProps}
+      formRef={formRef}
       visible={visible}
       onVisibleChange={setVisible}
       onFinish={async (values) => {

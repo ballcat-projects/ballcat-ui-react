@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import './index.less';
 import type { Route } from '@ant-design/pro-layout/lib/typings';
 
 export type InlineMeta = {
@@ -25,7 +24,12 @@ class Inline extends Component<InlineProps, InlineState> {
   render() {
     const { meta } = this.state;
 
-    return <iframe className="iframe" src={meta.uri} />;
+    return (
+      <iframe
+        style={{ boxSizing: 'border-box', height: '100%', width: '100%', border: '0' }}
+        src={meta.uri}
+      />
+    );
   }
 }
 
