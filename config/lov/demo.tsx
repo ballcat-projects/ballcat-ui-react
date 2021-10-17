@@ -15,6 +15,10 @@ export const LovDemoMultiple: LovConfig<SysUserVo> = {
   ret: 'userId',
   columns: [
     {
+      title: 'ID',
+      field: 'userId',
+    },
+    {
       title: '用户名',
       field: 'username',
       copy: true,
@@ -63,6 +67,10 @@ export const LovDemo: LovConfig<SysUserVo> = {
   isRet: true,
   ret: 'userId',
   columns: [
+    {
+      title: 'ID',
+      field: 'userId',
+    },
     {
       title: '用户名',
       field: 'username',
