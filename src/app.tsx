@@ -87,12 +87,7 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
     headers['Accept-Language'] = I18n.getLocal();
   }
 
-  let { sendMessage } = options;
-  if (sendMessage === undefined || sendMessage === null) {
-    sendMessage = true;
-  }
-
-  return { url: newUrl, options: { ...options, headers, sendMessage } };
+  return { url: newUrl, options: { ...options, headers } };
 };
 
 /**
