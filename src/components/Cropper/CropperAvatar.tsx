@@ -3,8 +3,14 @@ import type { CropperAvatarProps, CropperRef } from '.';
 import Cropper from '.';
 import { useState, useRef } from 'react';
 import type { UploadFile } from 'antd/lib/upload/interface';
-import Icon from '../Icon';
 import I18n from '@/utils/I18nUtils';
+import {
+  MinusOutlined,
+  PlusOutlined,
+  RedoOutlined,
+  UndoOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 
 const avatarHeight = 200;
 const avatarWidth = 200;
@@ -44,22 +50,22 @@ export default ({ visible, onVisibleChange = () => {}, onSave }: CropperAvatarPr
               onChange={(e) => setFileList(e.fileList)}
             >
               <Button>
-                <Icon type="upload" />
+                <UploadOutlined />
                 选择图片
               </Button>
             </Upload>
 
             <Button style={{ marginLeft: '8px' }} onClick={() => cropperHander('zoom', 0.1)}>
-              <Icon type="plus" />
+              <PlusOutlined />
             </Button>
             <Button onClick={() => cropperHander('zoom', -0.1)}>
-              <Icon type="minus" />
+              <MinusOutlined />
             </Button>
             <Button onClick={() => cropperHander('rotate', -90)}>
-              <Icon type="undo" />
+              <UndoOutlined />
             </Button>
             <Button onClick={() => cropperHander('rotate', 90)}>
-              <Icon type="redo" />
+              <RedoOutlined />
             </Button>
           </Col>
 

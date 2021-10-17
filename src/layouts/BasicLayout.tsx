@@ -71,15 +71,7 @@ const getFirstUrl = (menuArray: MenuDataItem[]): string => {
 const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon?: string) => {
   return (
     <span className="ant-pro-menu-item" title={title}>
-      {!icon ? undefined : (
-        <Icon
-          type={icon}
-          style={{
-            marginRight: collapsed && hasSub ? '20px' : '10px',
-            fontSize: collapsed ? '18px' : '16px',
-          }}
-        />
-      )}
+      {!icon ? undefined : <Icon type={icon} />}
       <span className="ant-pro-menu-item-title">{title}</span>
     </span>
   );
@@ -170,7 +162,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   return (
     <ProLayout
-      logo={'./logo.svg'}
+      logo={settings.logo}
       {...settings}
       {...initialState?.settings}
       formatMessage={I18n.getIntl().formatMessage}

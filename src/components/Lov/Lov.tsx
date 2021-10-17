@@ -4,7 +4,7 @@ import LovModal from '@/components/Lov/LovModal';
 import * as lovMap from '../../../config/lov';
 import type { LovConfig, LovProps } from './typing';
 import { Button, Input, Select } from 'antd';
-import Icon from '@/components/Icon';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 const cache: Record<string, LovConfig<any>> = {};
 // 使用 Object.keys 用来遍历模块
@@ -100,7 +100,7 @@ const Lov: React.FC<LovProps> = (props) => {
             setShow(true);
           }}
         >
-          <Icon style={{ fontSize: '16px' }} type="ellipsis" />
+          <EllipsisOutlined style={{ fontSize: '16px' }} />
         </Button>
       </Input.Group>
       <LovModal

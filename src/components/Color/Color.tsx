@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Popover } from 'antd';
 import type { ColorProps } from './typings';
 import { SketchPicker } from 'react-color';
-import Icon from '../Icon';
 import I18n from '@/utils/I18nUtils';
+import { SvgIcon } from '@/components/Icon';
+import { DeleteOutlined } from '@ant-design/icons';
 
 export const DEFAULT_COLORS = [
   '#FF9D4E', // 0 - 橘黄色
@@ -67,17 +68,20 @@ const Color = (props: ColorProps) => {
           </div>
         }
       >
-        <Icon
+        <SvgIcon.Straw
           title={I18n.text('color.select')}
-          type="xiguan1"
-          style={{ marginRight: '5px', cursor: 'pointer', marginLeft: `${children ? 5 : 0}px` }}
+          style={{
+            marginRight: '5px',
+            cursor: 'pointer',
+            marginLeft: `${children ? 5 : 0}px`,
+            color: '#1890ff',
+          }}
         />
       </Popover>
 
-      <Icon
+      <DeleteOutlined
         title={I18n.text('color.clean')}
-        type="delete-fill"
-        style={{ color: '#1890ff', cursor: 'pointer' }}
+        style={{ color: '#EB1621', cursor: 'pointer' }}
         onClick={() => setColor(undefined)}
       />
     </>

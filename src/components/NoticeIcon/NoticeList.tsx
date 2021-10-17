@@ -4,7 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 // @ts-ignore
 import styles from './NoticeList.less';
-import Icon from '../Icon';
+import { UserOutlined } from '@ant-design/icons';
 
 export type NoticeIconTabProps = {
   count?: number;
@@ -56,7 +56,7 @@ const NoticeList: React.FC<NoticeIconTabProps> = ({
           // eslint-disable-next-line no-nested-ternary
           const leftIcon = item.avatar ? (
             typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar} icon={<Icon type="user" />} />
+              <Avatar className={styles.avatar} src={item.avatar} icon={<UserOutlined />} />
             ) : (
               <span className={styles.iconElement}>{item.avatar}</span>
             )

@@ -1,58 +1,27 @@
-import { createFromIconfontCN } from '@ant-design/icons';
+import { Spin } from 'antd';
 import React from 'react';
-import { settings } from '@/utils/ConfigUtils';
 import './Icon.less';
+import { allIcon } from '.';
+import type { IconProps } from './typings';
 
-interface IconProps {
-  style?: React.CSSProperties;
-  onClick?: (e: any) => void;
-  type: string;
+const converTypeToIconPath = (type: string) => {
+  let path = '';
 
-  [key: string]: any;
-}
+  type.split('-').forEach((t) => {
+    path = `${path}${t.substr(0, 1).toLocaleUpperCase()}${t.substring(1).toLocaleLowerCase()}`;
+  });
 
-// 引入图标
-createFromIconfontCN({
-  scriptUrl: settings.iconfontUrl,
-});
+  return `${path}Outlined`;
+};
 
 const Icon: React.FC<IconProps> = (props: IconProps) => {
-  const { style } = props;
-  let { type } = props;
-  if (!type || type.length === 0) {
-    return <></>;
-  }
-  if (type && !type.startsWith(settings.iconPrefix)) {
-    type = settings.iconPrefix + type;
-  }
+  const { type } = props;
+  const IconType = allIcon[converTypeToIconPath(type)];
 
-  // 自定义图标渲染
-  return (
-    <i
-      className="i-icon"
-      {...props}
-      style={{
-        ...style,
-        cursor: style?.cursor || 'pointer',
-        lineHeight:
-          style?.lineHeight ||
-          (style?.fontSize && !style.fontSize.toString().endsWith('px')
-            ? `${style.fontSize}px`
-            : style?.fontSize),
-      }}
-    >
-      <svg
-        style={{
-          width: '1em',
-          height: '1em',
-          verticalAlign: '-0.15em',
-          fill: 'currentColor',
-          overflow: 'hidden',
-        }}
-      >
-        <use xlinkHref={`#${type}`} />
-      </svg>
-    </i>
+  return IconType ? (
+    <IconType {...props} />
+  ) : (
+    <Spin spinning size="small" style={{ marginRight: '2px' }} />
   );
 };
 

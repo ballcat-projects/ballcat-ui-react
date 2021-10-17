@@ -1,6 +1,6 @@
-import Icon from '@/components/Icon';
 import { Modal } from 'antd';
 import { announcement } from '@/services/ballcat/notify';
+import { NotificationOutlined } from '@ant-design/icons';
 
 export type NotifyProps = { id: string; content: string; title: string };
 
@@ -21,8 +21,7 @@ const Notify = {
       content: <div dangerouslySetInnerHTML={{ __html: content }}></div>,
       width: 800,
       icon: (
-        <Icon
-          type="notification"
+        <NotificationOutlined
           style={{ color: '#1890ff', fontSize: '22px', marginRight: '16px', float: 'left' }}
         />
       ),

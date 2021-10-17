@@ -35,7 +35,7 @@ export type AuthNoneOptionalProps = { permission?: string } & Omit<AuthNoneProps
 export type AuthAProps = AuthNoneProps;
 
 export type AutnButtonProps = {
-  icon?: string;
+  icon?: React.ReactNode | string;
   type?: ButtonType;
   danger?: boolean;
 } & AuthNoneProps;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Input, Popover, Transfer } from 'antd';
 import { transferTags } from '@/utils/languages';
 import type { SysI18nLanguage } from '@/services/ballcat/system';
-import Icon from '@/components/Icon';
+import { PlusOutlined } from '@ant-design/icons';
 
 const defaultTags = ['zh-CN', 'en-US'];
 
@@ -93,7 +93,7 @@ const SysI18nCreate = (props: SysI18nCreateProps) => {
         }
       >
         <Button type="dashed" style={{ width: '100%' }}>
-          <Icon type="plus" />
+          <PlusOutlined />
           添加语言
         </Button>
       </Popover>

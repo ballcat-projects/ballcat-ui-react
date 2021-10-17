@@ -1,6 +1,6 @@
+import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 import type { CSSProperties } from 'react';
 import { useState, useCallback, useEffect } from 'react';
-import Icon from '../Icon';
 
 export type FullScreenProps = {
   full?: boolean;
@@ -55,9 +55,10 @@ const FullScreen = ({ full, onFullChange, iconStyle, dom }: FullScreenProps) => 
     };
   }, []);
 
+  const FullIcon = isFull ? FullscreenExitOutlined : FullscreenOutlined;
+
   return (
-    <Icon
-      type={isFull ? 'fullscreen-exit' : 'fullscreen'}
+    <FullIcon
       style={{ fontSize: '16px', ...iconStyle }}
       onClick={() => {
         // 外部自定义触发是否全屏
