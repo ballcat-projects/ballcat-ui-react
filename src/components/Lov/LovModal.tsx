@@ -191,7 +191,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
   }, [config.keyword]);
 
   useEffect(() => {
-    setShowData([...value]);
+    setShowData(value ? [...value] : []);
   }, [value]);
 
   const style = { ...defaultModalStyle, ...modalStyle };
@@ -250,7 +250,6 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         request={(p) => {
           const option = {
             method: config.method,
-            sendMessage: false,
           };
           option[config.position.toLowerCase()] = { ...p, ...config.fixedParams, ...dynamicParams };
 
