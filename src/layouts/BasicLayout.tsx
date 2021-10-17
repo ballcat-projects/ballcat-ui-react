@@ -4,25 +4,26 @@ import type {
   Settings,
 } from '@ant-design/pro-layout';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import RightContent from '@/components/RightContent';
 import { history, Link, useIntl, useModel } from 'umi';
-import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
-import { redirect, goto } from '@/utils/RouteUtils';
+import RouteUtils, { redirect, goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
-import type { MultiTabRef } from '@/components/MultiTab';
+import { AliveScope } from 'react-activation';
 import MultiTab from '@/components/MultiTab';
+import { KeepAlive as ReactKeepAlive } from 'react-activation';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
   route: ProLayoutProps['route'] & {
     authority: string[];
+    routes: any[];
   };
   settings: Settings;
 } & ProLayoutProps;
@@ -97,18 +98,31 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     },
   } = props;
 
-  const multiTabRef = useRef<MultiTabRef>();
-
+  const keepAliveProps = { id: undefined, name: undefined };
+  const [breadcrumbList, setBreadcrumbList] = useState<any[]>([]);
   const [collapsed, setCollapsed] = useState(false);
   const [reload, setReload] = useState(false);
   I18n.setIntl(useIntl());
   const { initialState, setInitialState } = useModel('@@initialState');
+  const [keepAlivePropsState, keepAlivePropsDispatch] = useReducer(
+    (_state: any, newVal: any) => newVal,
+    keepAliveProps,
+  );
 
-  let renderDom = children;
-
-  if (reload) {
-    renderDom = <LoadingComponent />;
-  }
+  useEffect(() => {
+    if (location.pathname) {
+      const list = breadcrumbRender(location.pathname, route.routes);
+      setBreadcrumbList(list);
+      if (list.length > 0) {
+        const currenMenu = RouteUtils.getMenuDict()[location.pathname];
+        const newKeepAliveProps = {
+          id: currenMenu.id,
+          name: currenMenu.path,
+        };
+        keepAlivePropsDispatch(newKeepAliveProps);
+      }
+    }
+  }, [keepAlivePropsDispatch, location.pathname, route, route.routes]);
 
   useEffect(() => {
     if (!route.children) {
@@ -172,7 +186,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           return (
             <>
               {defaultDom}
-              <MultiTab multiTabRef={multiTabRef} />
+              <MultiTab />
             </>
           );
         }
@@ -182,7 +196,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return (
           <HeaderContent
             // @ts-ignore
-            breadcrumbData={breadcrumbRender(location.pathname, route.routes)}
+            breadcrumbData={breadcrumbList}
             collapsed={collapsed}
             onCollapse={setCollapsed}
             onReload={setReload}
@@ -224,12 +238,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       rightContentRender={() => <RightContent />}
     >
-      <WaterMark
-        content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
-        style={{ height: '100%' }}
-      >
-        {renderDom}
-      </WaterMark>
+      <AliveScope>
+        <WaterMark
+          content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
+          style={{ height: '100%' }}
+        >
+          {initialState?.routerLoad ? (
+            <ReactKeepAlive id={keepAlivePropsState.id} name={keepAlivePropsState.name}>
+              {children}
+            </ReactKeepAlive>
+          ) : undefined}
+        </WaterMark>
+      </AliveScope>
     </ProLayout>
   );
 };

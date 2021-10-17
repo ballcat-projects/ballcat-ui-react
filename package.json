@@ -49,6 +49,7 @@
     "moment": "^2.25.3",
     "omit.js": "^2.0.2",
     "react": "^17.0.0",
+    "react-activation": "^0.9.4",
     "react-color": "2.19.3",
     "react-cropper": "2.1.8",
     "react-dev-inspector": "^1.1.1",

@@ -5,6 +5,7 @@ import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
 
 export type BallcatMenuItem = {
+  id: number;
   children: MenuDataItem[];
   routes: MenuDataItem[];
   component: any;
@@ -12,10 +13,14 @@ export type BallcatMenuItem = {
   redirect?: string;
   meta?: Record<string, any>;
   exact?: boolean;
+  name: string;
 } & MenuDataItem;
+
+let menuDict: Record<string, BallcatMenuItem> = {};
 
 export async function getMenu() {
   const { data: remoteList } = await router();
+  menuDict = {};
   return serializationRemoteList(remoteList, 0, '');
 }
 
@@ -43,6 +48,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
       const menuPath = val.path.startsWith('/') ? val.path : `/${val.path}`;
       // @ts-ignore
       const menu: BallcatMenuItem = {
+        id: val.id,
         hideInMenu: Boolean(val.hidden),
         icon: val.icon,
         locale: false,
@@ -104,6 +110,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
           menu.target = '_blank';
           menu.path = val.uri;
         }
+        menuDict[menu.path] = menu;
         menu.component = component;
       }
       menus.push(menu);
@@ -132,6 +139,7 @@ const RouteUtils = {
   getRedirectPath,
   redirect,
   goto,
+  getMenuDict: () => menuDict,
 };
 
 export default RouteUtils;
