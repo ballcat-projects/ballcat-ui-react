@@ -1,7 +1,6 @@
 import type { IntlShape } from 'react-intl';
 import { message } from 'antd';
 import type { ConfigOnClose } from 'antd/lib/message';
-import { get } from './Ballcat';
 import { settings } from './ConfigUtils';
 
 export type I18nParams =
@@ -24,7 +23,7 @@ const I18n = {
   },
   getIntl: () => intl,
   getLocal: () => {
-    const local = get('umi_locale');
+    const local = localStorage.getItem('umi_locale');
     if (local && local.length > 0) {
       return local;
     }
