@@ -1,6 +1,5 @@
 import { Spin } from 'antd';
 import React from 'react';
-import './Icon.less';
 import { allIcon } from '.';
 import type { IconProps } from './typings';
 
