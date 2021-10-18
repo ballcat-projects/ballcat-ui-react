@@ -26,7 +26,16 @@ const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) 
   const CollapsedIcon = collapsed ? MenuUnfoldOutlined : MenuFoldOutlined;
 
   return (
-    <div>
+    <div
+      style={{
+        overflow: 'hidden',
+        display: 'flex',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
+        alignContent: 'center',
+        height: '100%',
+      }}
+    >
       <CollapsedIcon
         title={I18n.text('component.global.header.content.fold')}
         style={iconStyle}
@@ -41,7 +50,7 @@ const HeaderContent: React.FC<HeaderContentProps> = (props: HeaderContentProps) 
         }}
       />
 
-      <Breadcrumb style={{ width: 'calc(100% - 64px)', display: 'inline-block' }}>
+      <Breadcrumb style={{ width: '300px' }}>
         <Breadcrumb.Item>
           <HomeOutlined style={{ ...iconStyle, marginRight: 0 }} />
         </Breadcrumb.Item>
