@@ -108,8 +108,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       if (list.length > 0) {
         const currenMenu = RouteUtils.getMenuDict()[location.pathname];
         const newKeepAliveProps = {
-          id: currenMenu.id,
-          name: currenMenu.path,
+          id: currenMenu?.id,
+          name: currenMenu?.path,
         };
         keepAlivePropsDispatch(newKeepAliveProps);
       }
@@ -235,7 +235,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
           style={{ height: '100%' }}
         >
-          {initialState?.routerLoad ? (
+          {initialState?.routerLoad && keepAlivePropsState.id ? (
             <ReactKeepAlive id={keepAlivePropsState.id} name={keepAlivePropsState.name}>
               {children}
             </ReactKeepAlive>
