@@ -4,6 +4,8 @@ export type ProjectSetting = LayoutSettings & {
   pwa?: boolean;
   logo?: string;
   historyType: 'browser' | 'hash' | 'memory';
+  // 是否开启国际化
+  i18n: boolean;
   // 默认语言
   defaultLocal: 'zh-CN' | 'en-US';
   // 是否展示水印
@@ -29,6 +31,7 @@ const Settings: ProjectSetting = {
   pwa: false,
   logo: './logo.svg',
   historyType: 'hash',
+  i18n: true,
   defaultLocal: 'zh-CN',
   waterMark: true,
   multiTab: true,

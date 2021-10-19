@@ -118,7 +118,7 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
+      <div hidden={!settings.i18n} className={styles.lang} data-lang>
         {SelectLang && <SelectLang />}
       </div>
       <VerifySlide

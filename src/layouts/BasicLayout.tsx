@@ -96,6 +96,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [reload, setReload] = useState(false);
   I18n.setIntl(useIntl());
+
+  // 国际化关闭, 当前语言与默认语言不符
+  if (!settings.i18n && I18n.getLocal() !== settings.defaultLocal) {
+    // 切换语言
+    I18n.setLocal(settings.defaultLocal);
+  }
+
   const { initialState, setInitialState } = useModel('@@initialState');
   const [keepAlivePropsState, keepAlivePropsDispatch] = useReducer(
     (_state: any, newVal: any) => newVal,
