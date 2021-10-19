@@ -2,6 +2,7 @@ import type { IntlShape } from 'react-intl';
 import { message } from 'antd';
 import type { ConfigOnClose } from 'antd/lib/message';
 import { settings } from './ConfigUtils';
+import { setLocale } from 'umi';
 
 export type I18nParams =
   | string
@@ -28,6 +29,9 @@ const I18n = {
       return local;
     }
     return settings.defaultLocal;
+  },
+  setLocal: (local: string) => {
+    setLocale(local);
   },
   text: (key: string, params?: Record<string, string>, defaultMessage = key) => {
     return I18n.getIntl().formatMessage({ id: key, defaultMessage }, params);

@@ -7,6 +7,7 @@ import Avatar from './AvatarDropdown';
 import styles from './index.less';
 import SettingDrawer from '@/components/SettingDrawer';
 import FullScreen from '../FullScreen';
+import { settings } from '@/utils/ConfigUtils';
 
 const GlobalHeaderRight: React.FC = () => {
   const { initialState } = useModel('@@initialState');
@@ -40,7 +41,7 @@ const GlobalHeaderRight: React.FC = () => {
 
       {/* 如果不需要退出确认. 移除 exitConfirm 即可 */}
       <Avatar exitConfirm />
-      <SelectLang className={styles.action} />
+      {settings.i18n && <SelectLang className={styles.action} />}
 
       <span
         className={styles.action}
