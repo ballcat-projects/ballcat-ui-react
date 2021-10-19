@@ -11,13 +11,14 @@ import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
-import RouteUtils, { redirect, goto } from '@/utils/RouteUtils';
+import RouteUtils, { goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
 import { AliveScope } from 'react-activation';
 import MultiTab from '@/components/MultiTab';
 import { KeepAlive as ReactKeepAlive } from 'react-activation';
+import Notify from '@/utils/NotifyUtils';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -200,7 +201,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         if (!initialState?.user?.info && location.pathname !== '/user/login') {
           User.clean();
           Token.clean();
-          redirect('/user/login');
+          Notify.logout();
         }
       }}
       onMenuHeaderClick={() => history.push(initialState?.menuFirst || '/')}

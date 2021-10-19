@@ -3,13 +3,14 @@ import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
 import { dynamic } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
-import { getMenu, redirect } from '@/utils/RouteUtils';
+import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { User, Token, Dict, LayoutSetting } from '@/utils/Ballcat';
 import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
 import { dict } from '@/services/ballcat/system';
 import I18n from './utils/I18nUtils';
+import Notify from './utils/NotifyUtils';
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -125,7 +126,7 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
             // token 鉴权异常
             Token.clean();
             User.clean();
-            redirect('user/login');
+            Notify.logout();
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw {
               response,
