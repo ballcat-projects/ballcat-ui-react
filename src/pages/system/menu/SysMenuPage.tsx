@@ -78,10 +78,9 @@ export default () => {
       render: (dom, record) => {
         return (
           <>
-            <Icon type={record.icon} /> {record.i18nTitle}
-            {isBtn(record) ? (
-              ''
-            ) : (
+            {record.icon && <Icon type={record.icon} style={{ marginRight: '5px' }} />}
+            {record.i18nTitle}
+            {isBtn(record) && (
               <EditOutlined
                 style={{ marginLeft: '5px', color: '#1890ff' }}
                 onClick={() => editI18n(record.title)}
