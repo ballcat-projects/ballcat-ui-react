@@ -37,4 +37,8 @@ export default {
   'multiTab.close.other': '关闭其他标签',
   'multiTab.close.no': '没有可以被关闭的标签页!',
   'multiTab.close.disable': '禁止关闭最后一个标签页!',
+
+  'notify.logout.title': '系统提示',
+  'notify.logout.content': '登录状态已过期, 请退出重新登录!',
+  'notify.logout.okText': '重新登录',
 };

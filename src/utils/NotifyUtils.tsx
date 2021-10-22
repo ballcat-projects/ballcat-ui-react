@@ -2,8 +2,14 @@ import { Modal } from 'antd';
 import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
 import RouteUtils from './RouteUtils';
+import I18n from './I18nUtils';
 
 export type NotifyProps = { id: string; content: string; title: string };
+
+const logoutHandler = () => {
+  Modal.destroyAll();
+  RouteUtils.redirect('/user/login');
+};
 
 const readNotice = (id: string) => {
   if (id && id.length > 0) {
@@ -34,13 +40,13 @@ const Notify = {
   },
   logout: () => {
     Modal.info({
-      title: '系统提示',
-      content: '登录状态已过期, 请退出重新登录!',
+      title: I18n.text('notify.logout.title'),
+      content: I18n.text('notify.logout.content'),
       closable: false,
       keyboard: false,
-      okText: '重新登录',
-      onOk: () => RouteUtils.redirect('/user/login'),
-      onCancel: () => RouteUtils.redirect('/user/login'),
+      okText: I18n.text('notify.logout.okText'),
+      onOk: () => logoutHandler(),
+      onCancel: () => logoutHandler(),
     });
   },
 };

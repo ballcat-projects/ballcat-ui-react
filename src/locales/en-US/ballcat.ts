@@ -39,4 +39,8 @@ export default {
   'multiTab.close.other': 'Close other tab',
   'multiTab.close.no': 'There are no tabs that can be closed!',
   'multiTab.close.disable': 'Prohibit closing the last tab!',
+
+  'notify.logout.title': 'System hint',
+  'notify.logout.content': 'The login status has expired, please log out and log in again!',
+  'notify.logout.okText': 'Login again',
 };
