@@ -205,7 +205,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
-        if (!initialState?.user?.info && location.pathname !== '/user/login') {
+        if (!initialState?.user?.info) {
           User.clean();
           Token.clean();
           Notify.logout();

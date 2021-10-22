@@ -53,7 +53,7 @@ const Login: React.FC = () => {
   const loginHandler = async (values: API.LoginParams) => {
     setSubmitting(true);
     // 登录
-    login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
+    return login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
       .then(async (res) => {
         // 解析远程数据
         const remoteUser = {
@@ -100,7 +100,7 @@ const Login: React.FC = () => {
   /**
    * 登录处理
    */
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: API.LoginParams) => {
     if (captcha) {
       if (!vs) {
         I18n.error('pages.login.module.failure');
@@ -110,7 +110,7 @@ const Login: React.FC = () => {
       setCaptchaSow(true);
       vs.refresh();
     } else {
-      await loginHandler(loginParams);
+      await loginHandler(values);
     }
   };
 
@@ -162,8 +162,8 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              setLoginParams(values as API.LoginParams);
-              await handleSubmit();
+              setLoginParams(values);
+              await handleSubmit(values as API.LoginParams);
             }}
           >
             <Tabs activeKey={type} onChange={setType}>

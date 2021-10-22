@@ -1,7 +1,7 @@
 import { PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
-import { dynamic } from 'umi';
+import { dynamic, history } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
 import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
@@ -126,7 +126,9 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
             // token 鉴权异常
             Token.clean();
             User.clean();
-            Notify.logout();
+            if (history.location.pathname !== 'user/login') {
+              Notify.logout();
+            }
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw {
               response,

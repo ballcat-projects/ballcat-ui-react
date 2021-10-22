@@ -3,6 +3,7 @@ import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
 import RouteUtils from './RouteUtils';
 import I18n from './I18nUtils';
+import { history } from 'umi';
 
 export type NotifyProps = { id: string; content: string; title: string };
 
@@ -39,6 +40,10 @@ const Notify = {
     });
   },
   logout: () => {
+    // 登录页不提示
+    if (history.location.pathname === '/user/login') {
+      return;
+    }
     Modal.info({
       title: I18n.text('notify.logout.title'),
       content: I18n.text('notify.logout.content'),
