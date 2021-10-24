@@ -16,6 +16,7 @@ import { useModel } from 'umi';
 import ConfigUtils from '@/utils/ConfigUtils';
 import type { BodyProps, MergerSettingsType, SettingDrawerProps } from './typings';
 import { LayoutSetting as LayoutSettingUtils } from '@/utils/Ballcat';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
 export const getFormatMessage = (): ((data: { id: string; defaultMessage?: string }) => string) => {
   const formatMessage = ({ id }: { id: string; defaultMessage?: string }): string => {
@@ -97,7 +98,7 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
   const { hideColors, hideHintAlert, hideCopyButton, getContainer, prefixCls = 'ant-pro' } = props;
 
   const { initialState, setInitialState } = useModel('@@initialState');
-  const layoutSetting = initialState?.settings || ConfigUtils.settings;
+  const layoutSetting: Partial<LayoutSettings> = initialState?.settings || ConfigUtils.settings;
 
   const [show, setShow] = useMergedState(false, {
     value: props.collapse,
@@ -134,8 +135,10 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
     const nextState = { ...layoutSetting };
     nextState[key] = value;
 
-    if (key === 'navTheme') {
-      nextState.primaryColor = 'daybreak';
+    if (value === undefined) {
+      delete nextState[key];
+    } else {
+      nextState[key] = value;
     }
 
     if (key === 'layout') {

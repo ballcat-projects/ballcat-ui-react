@@ -78,6 +78,8 @@ const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon
   );
 };
 
+const footerRender = () => <Footer />;
+
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
     children,
@@ -157,7 +159,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
       setInitialState({
         ...initialState,
-        settings: { ...settings, ...initialState.settings },
+        // @ts-ignore
+        settings: { footerRender, ...settings, ...initialState.settings },
         routerLoad: true,
         menuFirst: getFirstUrl(initialState.menuArray),
       });
@@ -170,19 +173,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   return (
     <ProLayout
+      footerRender={footerRender}
+      {...(initialState?.settings || settings)}
       logo={settings.logo}
-      {...settings}
-      {...initialState?.settings}
       formatMessage={I18n.getIntl().formatMessage}
-      footerRender={() => <Footer />}
       {...props}
       route={route}
       collapsedButtonRender={false}
       collapsed={collapsed}
       onCollapse={setCollapsed}
-      contentStyle={{ marginTop: initialState?.settings.multiTab ? '56px' : undefined }}
+      contentStyle={{ marginTop: initialState?.settings?.multiTab ? '56px' : undefined }}
       headerRender={(headerProps, defaultDom) => {
-        if (initialState?.settings.multiTab) {
+        if (initialState?.settings?.multiTab) {
           return (
             <>
               {defaultDom}

@@ -11,8 +11,6 @@ const RegionalSetting: React.FC<{
   const formatMessage = getFormatMessage();
   const regionalSetting = ['header', 'footer', 'menu', 'menuHeader'];
 
-  // 目前版本 settingDrawer 脚本配置 footer 有问题. 关了无法展示. 移除
-  regionalSetting.splice(regionalSetting.indexOf('footer'), 1);
   // 默认自己绑定在顶栏, 关闭了自己就没了
   regionalSetting.splice(regionalSetting.indexOf('header'), 1);
 

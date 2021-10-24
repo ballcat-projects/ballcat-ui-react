@@ -1,5 +1,6 @@
 import type { MenuDataItem } from '@ant-design/pro-layout';
 import type { SysDictData, SysDictDataHash } from './services/ballcat/system';
+import type { ProjectSetting } from 'config/settings';
 
 declare module 'slash2';
 declare module '*.css';
@@ -70,7 +71,7 @@ export type TreeNode<T> = {
 
 declare namespace GLOBAL {
   type Is = {
-    settings?: Partial<LayoutSettings>;
+    settings?: Partial<ProjectSetting>;
     menuArray?: MenuDataItem[];
     menuFirst: string;
     routerLoad?: boolean;

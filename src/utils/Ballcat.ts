@@ -111,7 +111,7 @@ export const LayoutSetting = {
     }
     return { ...settings };
   },
-  set: (ps: ProjectSetting) => {
+  set: (ps: Partial<ProjectSetting>) => {
     set(layout_setting_key, JSON.stringify(ps));
   },
 };
