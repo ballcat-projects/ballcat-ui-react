@@ -14,7 +14,7 @@ import Icon, { IconSelect } from '@/components/Icon';
 import I18n from '@/utils/I18nUtils';
 import Auth from '@/components/Auth';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
-import { DownOutlined, EditOutlined, UpOutlined } from '@ant-design/icons';
+import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -80,11 +80,9 @@ export default () => {
           <>
             {record.icon && <Icon type={record.icon} style={{ marginRight: '5px' }} />}
             {record.i18nTitle}
-            {isBtn(record) && (
-              <EditOutlined
-                style={{ marginLeft: '5px', color: '#1890ff' }}
-                onClick={() => editI18n(record.title)}
-              />
+            {/* 菜单和目录都有对应的文本要展示 */}
+            {!isBtn(record) && (
+              <EditTwoTone style={{ marginLeft: '5px' }} onClick={() => editI18n(record.title)} />
             )}
           </>
         );
