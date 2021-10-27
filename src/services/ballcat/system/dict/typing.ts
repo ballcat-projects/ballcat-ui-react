@@ -59,12 +59,57 @@ export type SysDictQo = {
 // 字典查询返回
 export type SysDictVo = SysDict;
 
-export const sysDictItemAttributesKeys = ['languages', 'tagColor', 'textColor'];
+export type BadgeStatus = 'success' | 'processing' | 'default' | 'error' | 'warning';
+export const badgeStatusArray = ['success', 'processing', 'default', 'error', 'warning'];
+export const badgeDefaultColorArray = [
+  'pink',
+  'red',
+  'yellow',
+  'orange',
+  'cyan',
+  'green',
+  'blue',
+  'purple',
+  'geekblue',
+  'magenta',
+  'volcano',
+  'gold',
+  'lime',
+];
+
+export const tagDefaultColorArray = [
+  'pink',
+  'magenta',
+  'red',
+  'volcano',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'geekblue',
+  'purple',
+  'success',
+  'processing',
+  'error',
+  'warning',
+];
+
+export const sysDictItemAttributesKeys = [
+  'languages',
+  'tagColor',
+  'textColor',
+  'badgeColor',
+  'badgeStatus',
+];
 
 export type SysDictItemAttributes = {
   languages?: Record<string, string>;
   tagColor?: string;
   textColor?: string;
+  badgeColor?: string;
+  badgeStatus?: BadgeStatus;
 };
 
 export type SysDictItem = {
