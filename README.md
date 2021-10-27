@@ -24,7 +24,9 @@ BallCat 中的所有 JAR 包都已推送至中央仓库，尝鲜使用快照版�
 
 ## 地址链接
 
-**管理后台预览**：http://preview.ballcat.cn
+**管理后台预览-Vue**：http://preview.ballcat.cn
+
+**管理后台预览-React**：http://react.ballcat.cn/
 
 > admin / a123456
 
