@@ -5,14 +5,18 @@ import type {
   SysDictItemVo,
   SysDictVo,
 } from '@/services/ballcat/system';
+import { badgeStatusArray } from '@/services/ballcat/system';
+import { badgeDefaultColorArray } from '@/services/ballcat/system';
+import { tagDefaultColorArray } from '@/services/ballcat/system';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
 import { dictItem } from '@/services/ballcat/system';
-import { Alert, Form, InputNumber, Modal, Popover, Tag } from 'antd';
+import { Alert, Badge, Form, InputNumber, Modal, Popover, Tag, Select } from 'antd';
 import Color from '@/components/Color';
 import { sysDictItemAttributesKeys } from '@/services/ballcat/system';
 import ItemLanguages from './ItemLanguages';
+import FormGroup from '@/components/Form/FormGroup';
 
 const dataColumns: ProColumns<SysDictItemVo>[] = [
   {
@@ -52,25 +56,6 @@ const dataColumns: ProColumns<SysDictItemVo>[] = [
     dataIndex: 'createTime',
     width: 150,
   },
-];
-
-const tag_color_array = [
-  'pink',
-  'magenta',
-  'red',
-  'volcano',
-  'orange',
-  'gold',
-  'lime',
-  'green',
-  'cyan',
-  'blue',
-  'geekblue',
-  'purple',
-  'success',
-  'processing',
-  'error',
-  'warning',
 ];
 
 export type ItemForm = {
@@ -150,42 +135,84 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
             {(form) => {
               return (
                 <>
-                  <Form.Item label="文本颜色" name="textColor">
-                    <Color>
-                      <span style={{ color: form.getFieldValue('textColor') }}>颜色预览</span>
-                    </Color>
-                  </Form.Item>
-                  <Form.Item label="标签颜色" name="tagColor">
-                    <Color>
-                      <Popover
-                        trigger="click"
-                        content={() =>
-                          tag_color_array.map((tc) => (
-                            <Tag
-                              key={tc}
-                              color={tc}
-                              onClick={() => form.setFieldsValue({ tagColor: tc })}
-                            >
-                              {tc}
-                            </Tag>
-                          ))
-                        }
-                      >
-                        <Tag color={form.getFieldValue('tagColor')}>切换预设</Tag>
-                      </Popover>
-                    </Color>
-                  </Form.Item>
+                  <FormGroup>
+                    <Form.Item label="文本颜色" name="textColor">
+                      <Color>
+                        <span style={{ color: form.getFieldValue('textColor') }}>颜色预览</span>
+                      </Color>
+                    </Form.Item>
+                    <Form.Item label="标签颜色" name="tagColor">
+                      <Color>
+                        <Popover
+                          trigger="click"
+                          content={() =>
+                            tagDefaultColorArray.map((tc) => (
+                              <Tag
+                                key={tc}
+                                color={tc}
+                                onClick={() => form.setFieldsValue({ tagColor: tc })}
+                              >
+                                {tc}
+                              </Tag>
+                            ))
+                          }
+                        >
+                          <Tag color={form.getFieldValue('tagColor')}>切换预设</Tag>
+                        </Popover>
+                      </Color>
+                    </Form.Item>
+                  </FormGroup>
 
-                  <Form.Item label="国际化" name="languages">
-                    <ItemLanguages />
-                  </Form.Item>
+                  <FormGroup>
+                    <Form.Item label="徽标颜色" name="badgeColor">
+                      <Color>
+                        <Popover
+                          trigger="click"
+                          content={() =>
+                            badgeDefaultColorArray.map((tc) => (
+                              <a
+                                style={{ marginRight: '5px' }}
+                                onClick={() => form.setFieldsValue({ badgeColor: tc })}
+                              >
+                                <Badge color={tc} text={tc} />
+                              </a>
+                            ))
+                          }
+                        >
+                          <Badge
+                            text="切换预设"
+                            color={form.getFieldValue('badgeColor')}
+                            status={form.getFieldValue('badgeStatus')}
+                          />
+                        </Popover>
+                      </Color>
+                    </Form.Item>
 
-                  <Form.Item label="排序" name="sort">
-                    <InputNumber style={{ width: '100%' }} />
-                  </Form.Item>
+                    <Form.Item label="徽标状态" name="badgeStatus" initialValue="default">
+                      <Select>
+                        {badgeStatusArray.map((bs) => (
+                          <Select.Option key={bs} value={bs}>
+                            <Badge
+                              text={bs}
+                              // @ts-ignore
+                              status={bs}
+                            />
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </FormGroup>
                 </>
               );
             }}
+          </Form.Item>
+
+          <Form.Item label="国际化" name="languages">
+            <ItemLanguages />
+          </Form.Item>
+
+          <Form.Item label="排序" name="sort">
+            <InputNumber style={{ width: '100%' }} />
           </Form.Item>
 
           <ProFormTextArea label="备注" name="remarks" />

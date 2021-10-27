@@ -8,9 +8,7 @@ import {
   Col,
   Row,
   Card,
-  Select,
   Avatar,
-  Badge,
   TreeSelect,
   Form,
   Dropdown,
@@ -22,10 +20,10 @@ import { useState, useEffect, useRef } from 'react';
 import type { Key } from 'rc-tree/lib/interface';
 import { user } from '@/services/ballcat/system';
 import Page from '@/components/Page';
-import { ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import { ProFormText } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import UrlUtils from '@/utils/UrlUtils';
-import { DictTag } from '@/components/Dict';
+import { DictBadge, DictSelect, DictTag } from '@/components/Dict';
 import type { FormStatus, ModalFormRef } from '@/components/Form';
 import { FormDictRadio } from '@/components/Form';
 import { pwd } from '@/utils/Encrypt';
@@ -178,22 +176,8 @@ export default () => {
       align: 'center',
       width: '80px',
       order: 1,
-      render: (dom, record) => {
-        return (
-          <Badge
-            text={record.status === 0 ? '关闭' : '正常'}
-            status={record.status === 0 ? 'default' : 'processing'}
-          />
-        );
-      },
-      renderFormItem: () => {
-        return (
-          <Select allowClear placeholder="请选择">
-            <Select.Option value="1">正常</Select.Option>
-            <Select.Option value="0">关闭</Select.Option>
-          </Select>
-        );
-      },
+      render: (dom, record) => <DictBadge code="user_status" value={record.status} />,
+      renderFormItem: () => <DictSelect allowClear code="user_status" />,
     },
     {
       title: '创建时间',
@@ -434,15 +418,12 @@ export default () => {
                   <TreeSelect treeData={treeData} />
                 </Form.Item>
 
-                <ProFormRadio.Group
+                <FormDictRadio
                   name="status"
                   label="状态"
-                  radioType="button"
+                  code="user_status"
                   initialValue={1}
-                  options={[
-                    { value: 1, label: '正常' },
-                    { value: 0, label: '关闭' },
-                  ]}
+                  dictProps={{ radioType: 'button' }}
                 />
               </Col>
 
