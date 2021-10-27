@@ -171,6 +171,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
                           content={() =>
                             badgeDefaultColorArray.map((tc) => (
                               <a
+                                key={tc}
                                 style={{ marginRight: '5px' }}
                                 onClick={() => form.setFieldsValue({ badgeColor: tc })}
                               >
