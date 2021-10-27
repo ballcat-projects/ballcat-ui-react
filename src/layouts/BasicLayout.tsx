@@ -227,7 +227,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         if (menuItemProps.isUrl) {
           return (
             <a target={menuItemProps.target} href={menuItemProps.path}>
-              {menuItemProps.name}
+              {renderMenuItem(collapsed, title, false, icon)}
             </a>
           );
         }
