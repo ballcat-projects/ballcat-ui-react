@@ -7,7 +7,7 @@ import Form, { FormNumber } from '@/components/Form';
 import { FormDictRadio } from '@/components/Form';
 import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
-import { message, Button, Form as AntdForm, Modal, TreeSelect } from 'antd';
+import { message, Button, Form as AntdForm, Modal, TreeSelect, Typography } from 'antd';
 import { menu, i18n } from '@/services/ballcat/system';
 import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
@@ -15,6 +15,7 @@ import I18n from '@/utils/I18nUtils';
 import Auth from '@/components/Auth';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';
+import { settings } from '@/utils/ConfigUtils';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -73,18 +74,28 @@ export default () => {
     {
       title: '菜单名称',
       dataIndex: 'i18nTitle',
-      width: 200,
+      width: 250,
       hideInSearch: true,
       render: (dom, record) => {
+        const title = settings.i18n ? record.i18nTitle || record.title : record.title;
         return (
-          <>
-            {record.icon && <Icon type={record.icon} style={{ marginRight: '5px' }} />}
-            {record.i18nTitle}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography.Text ellipsis={{ tooltip: title }}>
+              {record.icon && <Icon type={record.icon} style={{ marginRight: '5px' }} />}
+              {title}
+            </Typography.Text>
             {/* 菜单和目录都有对应的文本要展示 */}
             {!isBtn(record) && (
               <EditTwoTone style={{ marginLeft: '5px' }} onClick={() => editI18n(record.title)} />
             )}
-          </>
+          </div>
         );
       },
     },
