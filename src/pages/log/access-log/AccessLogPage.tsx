@@ -9,6 +9,7 @@ const dataColumns: ProColumns<AccessLogVo>[] = [
     title: '追踪ID',
     dataIndex: 'traceId',
     width: 205,
+    ellipsis: true,
   },
   {
     title: '用户名',

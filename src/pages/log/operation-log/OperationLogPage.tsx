@@ -10,6 +10,7 @@ const dataColumns: ProColumns<OperationLogVo>[] = [
     title: '追踪ID',
     dataIndex: 'traceId',
     width: 205,
+    ellipsis: true,
   },
   {
     title: '日志消息',

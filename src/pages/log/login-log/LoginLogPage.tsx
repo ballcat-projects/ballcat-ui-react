@@ -8,12 +8,13 @@ const dataColumns: ProColumns<LoginLogVo>[] = [
   {
     title: '追踪ID',
     dataIndex: 'traceId',
-    width: 195,
+    width: 205,
+    ellipsis: true,
   },
   {
     title: '用户名',
     dataIndex: 'username',
-    width: 80,
+    width: 100,
     copyable: true,
     ellipsis: true,
   },
