@@ -8,8 +8,8 @@ export type SysOrganization = {
   hierarchy: string;
   // 当前节点深度
   depth: number;
-  // 描述信息
-  description: string;
+  // 备注
+  remarks: string;
   // 排序字段，由小到大
   sort: number;
   // 创建者
@@ -36,8 +36,8 @@ export type SysOrganizationVo = {
   hierarchy: string;
   // 当前节点深度
   depth: number;
-  // 描述信息
-  description: string;
+  // 备注
+  remarks: string;
   // 排序字段，由小到大
   sort: number;
   // 创建者
@@ -58,8 +58,8 @@ export type SysOrganizationDto = {
   name: string;
   // 父级ID
   parentId: number;
-  // 描述信息
-  description: string;
+  // 备注
+  remarks: string;
   // 排序字段，由小到大
   sort: number;
 };

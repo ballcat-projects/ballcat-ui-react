@@ -6,7 +6,7 @@ export type SysRole = {
   // 角色标识
   code: string;
   // 角色备注
-  note: string;
+  remarks: string;
   // 角色类型，1：系统角色 2：业务角色
   type: 1 | 2;
   // 逻辑删除标识，已删除:0，未删除：删除时间戳
@@ -38,7 +38,7 @@ export type SysRoleVo = {
   // 角色标识
   code: string;
   // 角色备注
-  note: string;
+  remarks: string;
   // 角色类型，1：系统角色 2：业务角色
   type: 1 | 2;
   // 数据权限：1全部，2本人，3本人及子部门，4本部门

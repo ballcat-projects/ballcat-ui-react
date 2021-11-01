@@ -3,7 +3,7 @@ export type SysI18nListVo = {
   code: string;
   languageTag: string;
   message: string;
-  remark: string;
+  remarks: string;
   updateTime: string;
   createTime: string;
 };
@@ -13,7 +13,7 @@ export type SysI18nDto = {
   code: string;
   languageTag: string;
   message: string;
-  remark: string;
+  remarks: string;
   updateTime: string;
   createTime: string;
   // 语言文本
@@ -42,7 +42,7 @@ export type SysI18nVo = {
   // 文本值，可以使用 { } 加角标，作为占位符
   message: string;
   // 备注
-  remark: string;
+  remarks: string;
   // 创建时间
   createTime: string;
   // 修改时间

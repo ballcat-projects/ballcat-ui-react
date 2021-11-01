@@ -29,8 +29,8 @@ const dataColumns: ProColumns<SysOrganizationVo>[] = [
     hideInSearch: true,
   },
   {
-    title: '描述信息',
-    dataIndex: 'description',
+    title: '备注',
+    dataIndex: 'remarks',
     ellipsis: true,
     hideInSearch: true,
   },
@@ -121,9 +121,9 @@ export default () => {
       />
 
       <ProFormTextArea
-        name="description"
-        label="描述信息"
-        rules={[{ max: 512, message: '描述信息最多可以填写512个字符!' }]}
+        name="remarks"
+        label="备注"
+        rules={[{ max: 512, message: '备注最多可以填写512个字符!' }]}
       />
     </Page.Modal>
   );

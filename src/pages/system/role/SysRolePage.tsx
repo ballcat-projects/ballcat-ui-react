@@ -47,7 +47,7 @@ const dataColumns: ProColumns<SysRoleVo>[] = [
   },
   {
     title: '备注',
-    dataIndex: 'note',
+    dataIndex: 'remarks',
     ellipsis: true,
     hideInSearch: true,
   },
@@ -258,7 +258,7 @@ export default () => {
           initialValue={1}
         />
 
-        <ProFormTextArea name="note" label="备注" />
+        <ProFormTextArea name="remarks" label="备注" />
       </Page.Modal>
 
       <Drawer

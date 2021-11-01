@@ -9,8 +9,8 @@ export type SysConfig = {
   confValue: string;
   // 分类
   category: string;
-  // 描述
-  description: string;
+  // 备注
+  remarks: string;
   // 逻辑删除标识
   deleted: string;
   // 创建时间
@@ -39,8 +39,8 @@ export type SysConfigVo = {
   confValue: string;
   // 分类
   category: string;
-  // 描述
-  description: string;
+  // 备注
+  remarks: string;
   // 创建时间
   createTime: string;
   // 修改时间

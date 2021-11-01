@@ -422,7 +422,7 @@ export default () => {
           }}
         </AntdForm.Item>
 
-        <ProFormTextArea name="remarks" label="备注信息" placeholder="最多输入 50 个字符!" />
+        <ProFormTextArea name="remarks" label="备注" placeholder="最多输入 200 个字符!" />
       </Page.Modal>
 
       <Modal

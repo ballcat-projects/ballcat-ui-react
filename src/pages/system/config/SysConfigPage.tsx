@@ -33,8 +33,8 @@ const dataColumns: ProColumns<SysConfigVo>[] = [
     width: 100,
   },
   {
-    title: '备注信息',
-    dataIndex: 'description',
+    title: '备注',
+    dataIndex: 'remarks',
     ellipsis: true,
     hideInSearch: true,
   },
@@ -90,7 +90,7 @@ export default () => {
         rules={[{ required: true, message: '请输入 Value!' }]}
       />
       <ProFormText name="category" label="分类" />
-      <ProFormTextArea name="description" label="备注" />
+      <ProFormTextArea name="remarks" label="备注" />
     </Page.Modal>
   );
 };

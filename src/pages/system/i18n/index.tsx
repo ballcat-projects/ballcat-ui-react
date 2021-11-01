@@ -42,7 +42,7 @@ const dataColumns: ProColumns<SysI18nVo>[] = [
   },
   {
     title: '备注',
-    dataIndex: 'remark',
+    dataIndex: 'remarks',
     ellipsis: true,
     hideInSearch: true,
   },
