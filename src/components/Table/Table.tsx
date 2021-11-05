@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
 import ProTable from '@ant-design/pro-table';
 import type { TableProps } from '@/components/Table/typings';
+import { useState, useEffect } from 'react';
 
 export const SortOrderTransfer: Record<string, string> = {
   descend: 'desc',
@@ -53,6 +54,8 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
 ) => {
   const { search, request, rowKey, options, rowSelection } = props;
   const { pagination = {} } = props;
+  const [tableSearch, setTableSearch] = useState<any>();
+
   let { onRow, scroll } = props;
   if (!onRow) {
     onRow = () => {
@@ -84,6 +87,10 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
     pagination.pageSize = 10;
   }
 
+  useEffect(() => {
+    setTableSearch(getSearch(search));
+  }, [search]);
+
   return (
     <ProTable<T, U, ValueType>
       {...props}
@@ -102,7 +109,7 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
             }
           : false
       }
-      search={getSearch(search)}
+      search={tableSearch}
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       request={async (p, sort, filter) => {
         const retData: { data: T[]; success: boolean; total: number } = {
