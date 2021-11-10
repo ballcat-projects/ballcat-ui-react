@@ -32,7 +32,13 @@ export type BasicLayoutProps = {
 // @ts-ignore
 const breadcrumbRender = (
   path: string,
-  routes: { locale: boolean | undefined; path: string; name: string; routes: any[] }[],
+  routes: {
+    locale: boolean | undefined;
+    path: string;
+    name: string;
+    routes: any[];
+    exact: boolean;
+  }[],
 ) => {
   const list: any[] = [];
   if (!routes) {
@@ -40,9 +46,15 @@ const breadcrumbRender = (
   }
   for (let i = 0; i < routes.length; i += 1) {
     const route = routes[i];
-    const { path: rp, name: rn, locale } = route;
+    const { path: rp, name: rn, locale, exact } = route;
+
     if (rp && rp !== '/') {
-      if (path.startsWith(rp)) {
+      if (
+        // 全匹配
+        (exact && path === rp) ||
+        // 模糊匹配
+        (!exact && path.startsWith(rp))
+      ) {
         let name = rn;
         if (locale === undefined || locale === null || locale) {
           // 国际化失败, 则用key展示
@@ -54,6 +66,9 @@ const breadcrumbRender = (
           // @ts-ignore
           list.push(...breadcrumbRender(path, route.routes));
         }
+
+        // 找到匹配的就结束
+        break;
       }
     }
   }
