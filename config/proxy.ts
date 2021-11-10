@@ -9,6 +9,8 @@ export default {
   dev: {
     '/api/': {
       target: 'http://admin.ballcat.cn/',
+      // 支付 websocket转发
+      ws: true,
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },

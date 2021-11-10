@@ -13,6 +13,7 @@ const putAsync = (data: SysDictData) => {
 };
 
 export default () => {
+  const { instance } = useModel('websocket');
   const { initialState } = useModel('@@initialState');
 
   const [cache, setCache] = useState<Record<string, SysDictData>>({});
@@ -46,10 +47,13 @@ export default () => {
     [cache, toLocal],
   );
 
-  const init = useCallback(async () => {
-    if (Object.keys(asyncCache).length > 0) {
+  const init = useCallback(async (forcibly = false) => {
+    // 非强制更新. 更新条件判断
+    if (!forcibly && Object.keys(asyncCache).length > 0) {
       return;
     }
+    // @ts-ignore
+    asyncCache = { loading: {} };
     setInitializing(true);
     // 无效字典删除
     const localHashs = Dict.getHashs();
@@ -75,7 +79,7 @@ export default () => {
     setCache(newCache);
     asyncCache = newCache;
     setInitializing(false);
-  }, [initializing]);
+  }, []);
 
   const load = useMemo(
     () =>
@@ -111,7 +115,21 @@ export default () => {
     if (initialState?.user?.access_token) {
       init();
     }
-  }, [initialState]);
+  }, [init, initialState]);
+
+  // 添加字典更新事件
+  useEffect(() => {
+    const callback = () => {
+      // 强制初始化
+      init(true);
+    };
+    // 添加订阅
+    instance?.addEventListen('dict-change', callback);
+    return () => {
+      // 移除
+      instance?.removeEventListen('dict-change', callback);
+    };
+  }, [init, instance]);
 
   return { initializing, init, load, get };
 };

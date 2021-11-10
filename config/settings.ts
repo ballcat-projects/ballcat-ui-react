@@ -6,6 +6,8 @@ export type ProjectSetting = LayoutSettings & {
   historyType: 'browser' | 'hash' | 'memory';
   // 是否开启国际化
   i18n: boolean;
+  // 是否开始websocket连接
+  websocket: boolean;
   // 默认语言
   defaultLocal: 'zh-CN' | 'en-US';
   // 是否展示水印
@@ -32,6 +34,7 @@ const Settings: ProjectSetting = {
   logo: './logo.svg',
   historyType: 'hash',
   i18n: true,
+  websocket: true,
   defaultLocal: 'zh-CN',
   waterMark: true,
   multiTab: true,
