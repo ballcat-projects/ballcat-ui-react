@@ -1,5 +1,4 @@
 import type { MenuDataItem } from '@ant-design/pro-layout';
-import type { SysDictData, SysDictDataHash } from './services/ballcat/system';
 import type { ProjectSetting } from 'config/settings';
 
 declare module 'slash2';
@@ -76,10 +75,6 @@ declare namespace GLOBAL {
     menuFirst: string;
     routerLoad?: boolean;
     user?: GLOBAL.UserInfo;
-    dict?: {
-      cache?: Record<string, SysDictData>;
-      hashs?: SysDictDataHash;
-    };
   };
 
   type Router = {

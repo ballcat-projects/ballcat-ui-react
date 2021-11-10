@@ -1,0 +1,117 @@
+import type { SysDictData } from '@/services/ballcat/system';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { dict } from '@/services/ballcat/system';
+import { Dict } from '@/utils/Ballcat';
+import I18n from '@/utils/I18nUtils';
+import { useModel } from 'umi';
+import { debounce } from 'lodash';
+
+let asyncCache: Record<string, SysDictData> = {};
+
+const putAsync = (data: SysDictData) => {
+  asyncCache[data.dictCode] = data;
+};
+
+export default () => {
+  const { initialState } = useModel('@@initialState');
+
+  const [cache, setCache] = useState<Record<string, SysDictData>>({});
+  const [initializing, setInitializing] = useState(true);
+
+  const toLocal = useMemo(
+    () =>
+      debounce(() => {
+        const newHashs = {};
+        Object.keys(cache).forEach((code) => {
+          newHashs[code] = cache[code].hashCode;
+          Dict.set(cache[code]);
+        });
+        Dict.setHashs(newHashs);
+      }, 1000),
+    [cache],
+  );
+
+  const sync = useCallback(
+    (data: SysDictData) => {
+      if (data.loading) {
+        return;
+      }
+      const dictData = Dict.toInitialStateData(data);
+      const newCache = { ...cache };
+      newCache[data.dictCode] = dictData;
+      setCache(newCache);
+      asyncCache[data.dictCode] = dictData;
+      toLocal();
+    },
+    [cache, toLocal],
+  );
+
+  const init = useCallback(async () => {
+    if (Object.keys(asyncCache).length > 0) {
+      return;
+    }
+    setInitializing(true);
+    // 无效字典删除
+    const localHashs = Dict.getHashs();
+    // 校验hash是否过期
+    const expireHashs = (await dict.validHash(localHashs)).data;
+    expireHashs.forEach((code) => {
+      // 删除过期hash
+      delete localHashs[code];
+      Dict.del(code);
+    });
+    // 更新hash缓存
+    Dict.setHashs(localHashs);
+    const newCache = {};
+    asyncCache = {};
+    // 缓存数据加载
+    Object.keys(localHashs).forEach((code) => {
+      const data = Dict.get(code);
+      if (data && !data.loading) {
+        newCache[code] = Dict.toInitialStateData(data);
+      }
+    });
+
+    setCache(newCache);
+    asyncCache = newCache;
+    setInitializing(false);
+  }, [initializing]);
+
+  const load = useMemo(
+    () =>
+      debounce(
+        (code: string) =>
+          dict.dictData([code]).then((res) => {
+            if (res.data.length > 0) {
+              sync(res.data[0]);
+            } else {
+              I18n.error({ key: 'dict.load.fail', params: { code } });
+            }
+          }),
+        500,
+      ),
+    [sync],
+  );
+
+  const get = useCallback(
+    (code: string) => {
+      if (cache[code] || asyncCache[code]) {
+        return cache[code] || asyncCache[code];
+      }
+      // 加载中
+      // @ts-ignore
+      putAsync({ dictCode: code, loading: true });
+      load(code);
+      return asyncCache[code];
+    },
+    [cache],
+  );
+
+  useEffect(() => {
+    if (initialState?.user?.access_token) {
+      init();
+    }
+  }, [initialState]);
+
+  return { initializing, init, load, get };
+};

@@ -69,9 +69,6 @@ export const Dict = {
   },
   set: (data: SysDictData) => {
     set(Dict.getKey(data.dictCode), JSON.stringify(data));
-    const hashs = Dict.getHashs();
-    hashs[data.dictCode] = data.hashCode;
-    Dict.setHashs(hashs);
   },
   del: (code: string) => {
     remove(Dict.getKey(code));

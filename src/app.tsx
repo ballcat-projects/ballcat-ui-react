@@ -6,9 +6,7 @@ import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi
 import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import { User, Token, Dict, LayoutSetting } from '@/utils/Ballcat';
-import type { SysDictData, SysDictDataHash } from '@/services/ballcat/system';
-import { dict } from '@/services/ballcat/system';
+import { User, Token, LayoutSetting } from '@/utils/Ballcat';
 import I18n from './utils/I18nUtils';
 import Notify from './utils/NotifyUtils';
 
@@ -28,8 +26,6 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
     menuFirst: '/',
   };
   const menuArray: any[] = [];
-  let dictHashs: SysDictDataHash = {};
-  const dictCache: Record<string, SysDictData> = {};
 
   is.menuArray = menuArray;
   const cache = User.get();
@@ -38,23 +34,6 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
     // 菜单
     const menus = await getMenu();
     menuArray.push(...menus);
-    // 无效字典删除
-    dictHashs = Dict.getHashs();
-    // 校验hash是否过期
-    const expireHashs = (await dict.validHash(dictHashs)).data;
-    expireHashs.forEach((code) => {
-      // 删除过期hash
-      delete dictHashs[code];
-      Dict.del(code);
-    });
-
-    // 字典数据加载
-    Object.keys(dictHashs).forEach((code) => {
-      const data = Dict.get(code);
-      if (data) {
-        dictCache[code] = Dict.toInitialStateData(data);
-      }
-    });
 
     is.user = cache ? JSON.parse(cache) : {};
 
@@ -66,7 +45,7 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
     });
   }
 
-  return { ...is, dict: { hashs: dictHashs, cache: dictCache } };
+  return { ...is };
 }
 
 /**

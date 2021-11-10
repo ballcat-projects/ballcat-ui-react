@@ -3,10 +3,6 @@ import type { DictProps } from './typings';
 import { useModel, getLocale } from 'umi';
 import type { SysDictData, SysDictDataItem } from '@/services/ballcat/system';
 import { Spin } from 'antd';
-import { dict } from '@/services/ballcat/system';
-import type { GLOBAL } from '@/typings';
-import { Dict as DictCache } from '@/utils/Ballcat';
-import I18n from '@/utils/I18nUtils';
 
 const loading = <Spin />;
 
@@ -23,26 +19,6 @@ const getRealName = (item: SysDictDataItem): string => {
 
   return item.name;
 };
-const updateDict = (
-  initialState: GLOBAL.Is | undefined,
-  setInitialState: (initialState: GLOBAL.Is) => Promise<void>,
-  data: SysDictData,
-) => {
-  const cache = initialState?.dict?.cache || {};
-  const hashs = initialState?.dict?.hashs || {};
-
-  // 更新数据
-  cache[data.dictCode] = DictCache.toInitialStateData(data);
-  hashs[data.dictCode] = data.hashCode;
-
-  // 更新缓存
-  setInitialState({ ...initialState, dict: { cache, hashs } });
-  // 加载流程的数据. 不缓存在浏览器
-  if (data.loading === undefined) {
-    DictCache.set(data);
-    DictCache.setHashs(hashs);
-  }
-};
 
 const Dict = (
   props: DictProps & {
@@ -55,43 +31,15 @@ const Dict = (
   },
 ) => {
   const { value, onChange, code, render } = props;
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initializing, get } = useModel('dict');
   const [dictData, setDictData] = useState<SysDictData | undefined>(undefined);
   const [dom, setDom] = useState<React.ReactNode>(loading);
 
   useEffect(() => {
-    // @ts-ignore
-    let data = initialState?.dict?.cache[code];
-
-    if (data) {
-      // 只解析非加载数据
-      if (!data.loading) {
-        setDictData(data);
-      }
+    if (!initializing) {
+      setDictData(get(code));
     }
-    // 发起请求获取数据
-    else {
-      // @ts-ignore
-      data = { dictCode: code, loading: true };
-      // @ts-ignore
-      updateDict(initialState, setInitialState, data);
-      // @ts-ignore
-      dict.dictData([code]).then((res) => {
-        if (res.data.length > 0) {
-          [data] = res.data;
-          updateDict(initialState, setInitialState, data);
-        } else {
-          I18n.error({ key: 'dict.load.fail', params: { code } });
-          // @ts-ignore
-          updateDict(initialState, setInitialState, {
-            dictCode: code,
-            loading: false,
-            dictItems: [],
-          });
-        }
-      });
-    }
-  }, [code, initialState, setInitialState]);
+  }, [get, code, initializing]);
 
   useEffect(() => {
     // 存在且不是在加载
