@@ -52,19 +52,23 @@ BallCat 中的所有 JAR 包都已推送至中央仓库，尝鲜使用快照版�
 |-- public      -- 依赖的静态资源存放
 `-- src
     `-- components  -- 通用组件
-        |-- Auth    -- 权限控制按钮
-        |-- Page    -- 高度封装的页面, 简化CRUD, 具体参考Pages下原有页面实现
-        |-- Dict    -- 数据字典
-        |-- Form    -- 部分组件的Form包装.
-    |-- layouts     -- 布局
+        |-- Auth        -- 权限控制按钮
+        |-- Page        -- 高度封装的页面, 简化CRUD, 具体参考Pages下原有页面实现
+        |-- Dict        -- 数据字典
+        |-- Form        -- 部分组件的Form包装.
+        |-- MultiTab    -- 顶部多页签
+    |-- layouts     -- 基础布局
     |-- locales     -- 国际化
     |-- pages       -- 页面
+    `-- models      -- Model
+        |-- dict        -- 字典数据全局存储, 更新, websocket事件配置
+        |-- websocket   -- websocket连接与消息处理
     `-- services    -- 请求接口配置
         |-- ant-design-pro  -- 登录,退出等
         |-- ballcat         -- ballcat后台接口
         |-- captcha         -- 验证码接口
     |-- utils       -- 工具类
-    |-- app.tsx     -- Vue 模板入口
+    |-- app.tsx     -- 入口, 配置了请求拦截器, 全局处理异常返回值(http 状态码不是200 以及 code 不是200)
     |-- global.less -- 全局样式
 ```
 
