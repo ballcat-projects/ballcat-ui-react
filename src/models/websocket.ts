@@ -41,9 +41,11 @@ class CustomerWebsocket {
   }
 
   start = (forcibly = false) => {
-    const { instance } = this;
+    let { instance } = this;
     if (forcibly && instance !== null) {
+      this.clearTimeoutObj();
       instance.close();
+      instance = null;
     }
 
     if (instance === null) {
@@ -210,6 +212,10 @@ class CustomerWebsocket {
   };
 }
 
+const func = <T extends (...args: any[]) => void>(callback?: T) => {
+  return callback || (() => {});
+};
+
 export default () => {
   const [cw, setCw] = useState<CustomerWebsocket>();
 
@@ -226,5 +232,11 @@ export default () => {
     return () => {};
   }, []);
 
-  return { instance: cw };
+  return {
+    start: func(cw?.start),
+    send: func(cw?.send),
+    addEventListen: func(cw?.addEventListen),
+    removeEventListen: func(cw?.removeEventListen),
+    emitEventListen: func(cw?.emitEventListen),
+  };
 };

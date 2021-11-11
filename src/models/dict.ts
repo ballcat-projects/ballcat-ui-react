@@ -13,7 +13,7 @@ const putAsync = (data: SysDictData) => {
 };
 
 export default () => {
-  const { instance } = useModel('websocket');
+  const { addEventListen, removeEventListen } = useModel('websocket');
   const { initialState } = useModel('@@initialState');
 
   const [cache, setCache] = useState<Record<string, SysDictData>>({});
@@ -124,12 +124,12 @@ export default () => {
       init(true);
     };
     // 添加订阅
-    instance?.addEventListen('dict-change', callback);
+    addEventListen('dict-change', callback);
     return () => {
       // 移除
-      instance?.removeEventListen('dict-change', callback);
+      removeEventListen('dict-change', callback);
     };
-  }, [init, instance]);
+  }, [addEventListen, init, removeEventListen]);
 
   return { initializing, init, load, get };
 };
