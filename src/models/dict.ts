@@ -73,27 +73,23 @@ export default () => {
       const data = Dict.get(code);
       if (data && !data.loading) {
         newCache[code] = Dict.toInitialStateData(data);
+        asyncCache[code] = newCache[code];
       }
     });
 
     setCache(newCache);
-    asyncCache = newCache;
     setInitializing(false);
   }, []);
 
   const load = useMemo(
-    () =>
-      debounce(
-        (code: string) =>
-          dict.dictData([code]).then((res) => {
-            if (res.data.length > 0) {
-              sync(res.data[0]);
-            } else {
-              I18n.error({ key: 'dict.load.fail', params: { code } });
-            }
-          }),
-        500,
-      ),
+    () => (code: string) =>
+      dict.dictData([code]).then((res) => {
+        if (res.data.length > 0) {
+          sync(res.data[0]);
+        } else {
+          I18n.error({ key: 'dict.load.fail', params: { code } });
+        }
+      }),
     [sync],
   );
 
