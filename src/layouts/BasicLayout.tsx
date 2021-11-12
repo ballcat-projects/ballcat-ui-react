@@ -3,14 +3,16 @@ import type {
   MenuDataItem,
   Settings,
 } from '@ant-design/pro-layout';
+import type { Route } from '@ant-design/pro-layout/lib/typings';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import RightContent from '@/components/RightContent';
 import { history, Link, useIntl, useModel } from 'umi';
 import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
 import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
+import type { ExpandRoute } from '@/utils/RouteUtils';
 import RouteUtils, { goto } from '@/utils/RouteUtils';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
@@ -30,16 +32,7 @@ export type BasicLayoutProps = {
 } & ProLayoutProps;
 
 // @ts-ignore
-const breadcrumbRender = (
-  path: string,
-  routes: {
-    locale: boolean | undefined;
-    path: string;
-    name: string;
-    routes: any[];
-    exact: boolean;
-  }[],
-) => {
+const breadcrumbRender = (path: string, routes: Route[]) => {
   const list: any[] = [];
   if (!routes) {
     return list;
@@ -75,15 +68,6 @@ const breadcrumbRender = (
   return list;
 };
 
-const getFirstUrl = (menuArray: MenuDataItem[]): string => {
-  const menu = menuArray[0];
-  if (menu.children && menu.children.length > 0) {
-    return getFirstUrl(menu.children);
-  }
-
-  return `${menu.path}`;
-};
-
 const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon?: string) => {
   return (
     <span className="ant-pro-menu-item" title={title}>
@@ -93,106 +77,96 @@ const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon
   );
 };
 
-const footerRender = () => <Footer />;
-
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
     children,
     location = {
       pathname: '/',
     },
-    route = {
-      children: [],
-      routes: [],
-      unaccessible: true,
-    },
+    route,
   } = props;
 
-  const keepAliveProps = { id: undefined, name: undefined };
-  const [breadcrumbList, setBreadcrumbList] = useState<any[]>([]);
-  const [collapsed, setCollapsed] = useState(false);
-  const [reload, setReload] = useState(false);
-  I18n.setIntl(useIntl());
+  const { routeArray, firstPath, load, setLoad } = useModel('dynamic-route');
+  const { initialState } = useModel('@@initialState');
 
+  I18n.setIntl(useIntl());
   // 国际化关闭, 当前语言与默认语言不符
   if (!settings.i18n && I18n.getLocal() !== settings.defaultLocal) {
     // 切换语言
     I18n.setLocal(settings.defaultLocal);
   }
 
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const [keepAlivePropsState, keepAlivePropsDispatch] = useReducer(
-    (_state: any, newVal: any) => newVal,
-    keepAliveProps,
-  );
+  const [breadcrumbList, setBreadcrumbList] = useState<any[]>([]);
+  const [collapsed, setCollapsed] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [keepAliveProps, setKeepAliveProps] = useState<{ id?: string; name?: string }>({});
 
   useEffect(() => {
     if (location.pathname) {
-      const list = breadcrumbRender(location.pathname, route.routes);
+      const list = breadcrumbRender(location.pathname, route.routes || []);
       setBreadcrumbList(list);
-      if (list.length > 0) {
-        const currenMenu = RouteUtils.getMenuDict()[location.pathname];
-        const newKeepAliveProps = {
-          id: currenMenu?.id,
-          name: currenMenu?.path,
-        };
-        keepAlivePropsDispatch(newKeepAliveProps);
+
+      const currenMenu = RouteUtils.getMenuDict()[location.pathname];
+      const newKeepAliveProps = {
+        id: `${currenMenu?.id}`,
+        name: currenMenu?.path,
+      };
+      // 404页面处理
+      if (!newKeepAliveProps.name) {
+        newKeepAliveProps.id = location.pathname;
+        newKeepAliveProps.name = location.pathname;
       }
+
+      setKeepAliveProps(newKeepAliveProps);
     }
-  }, [keepAlivePropsDispatch, location.pathname, route, route.routes]);
+  }, [location.pathname, route.routes]);
 
   useEffect(() => {
-    if (!route.children) {
-      route.children = [];
+    if (load) {
+      return;
     }
-    if (!route.routes) {
-      route.routes = [];
-    }
+    const newRoute: ExpandRoute = { ...route };
+    newRoute.routes = [];
+    newRoute.children = [];
 
-    if (
-      !initialState?.routerLoad &&
-      initialState?.menuArray &&
-      initialState?.menuArray.length > 0
-    ) {
-      for (let i = 0; i < initialState.menuArray.length; i += 1) {
-        const menu = initialState.menuArray[i];
-        // @ts-ignore
-        route.children.push(menu);
-        // @ts-ignore
-        route.routes.push(menu);
+    if (routeArray && routeArray.length > 0) {
+      for (let i = 0; i < routeArray.length; i += 1) {
+        const menu = routeArray[i];
+        newRoute.children.push(menu);
+        newRoute.routes.push(menu);
       }
 
       // 旧路由长度
-      const ol = route.routes.length - initialState.menuArray.length;
+      const ol = newRoute.routes.length - routeArray.length;
       // 允许多少个旧路由
       const allowMax = 0;
       if (ol > allowMax) {
         // 移出旧路由
-        route.children.splice(allowMax, ol);
-        route.routes.splice(allowMax, ol);
+        newRoute.children.splice(allowMax, ol);
+        newRoute.routes.splice(allowMax, ol);
       }
+      route.routes = newRoute.routes;
+      route.children = newRoute.routes;
+      setLoad(true);
 
-      setInitialState({
-        ...initialState,
-        // @ts-ignore
-        settings: { footerRender, ...settings, ...initialState.settings },
-        routerLoad: true,
-        menuFirst: getFirstUrl(initialState.menuArray),
-      });
+      if (location.pathname !== '/') {
+        goto(location.pathname as string);
+      }
     }
-  }, [initialState, initialState?.menuArray]);
+  }, [routeArray, load]);
 
-  if (location.pathname === '/' && initialState?.menuFirst && initialState.menuFirst !== '/') {
-    goto(initialState.menuFirst);
+  if (location.pathname === '/' && firstPath && firstPath !== '/') {
+    goto(firstPath);
   }
 
   return (
     <ProLayout
-      footerRender={footerRender}
-      {...(initialState?.settings || settings)}
+      footerRender={() => <Footer />}
+      {...initialState?.settings}
       logo={settings.logo}
       formatMessage={I18n.getIntl().formatMessage}
       {...props}
+      loading={!load || keepAliveProps.id === undefined}
       route={route}
       collapsedButtonRender={false}
       collapsed={collapsed}
@@ -228,7 +202,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           Notify.logout();
         }
       }}
-      onMenuHeaderClick={() => history.push(initialState?.menuFirst || '/')}
+      onMenuHeaderClick={() => history.push(firstPath || '/')}
       subMenuItemRender={(item) => {
         const { title, icon } = item.meta;
         return renderMenuItem(collapsed, title, true, icon);
@@ -260,11 +234,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
           style={{ height: '100%' }}
         >
-          {initialState?.routerLoad && keepAlivePropsState.id ? (
-            <ReactKeepAlive id={keepAlivePropsState.id} name={keepAlivePropsState.name}>
-              {children}
-            </ReactKeepAlive>
-          ) : undefined}
+          <ReactKeepAlive id={keepAliveProps.id} name={keepAliveProps.name}>
+            {children}
+          </ReactKeepAlive>
         </WaterMark>
       </AliveScope>
     </ProLayout>

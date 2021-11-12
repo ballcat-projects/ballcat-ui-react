@@ -3,6 +3,8 @@ export default {
 
   'auth.test': 'Auth test',
 
+  'menu.load.failed': 'Menu failed to load!',
+
   'captcha.text': 'Swipe right to complete verification',
   'captcha.success': 'Verified successfully',
   'captcha.fail': 'Verification failed',

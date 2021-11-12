@@ -48,10 +48,10 @@ class CustomerWebsocket {
       instance = null;
     }
 
-    if (instance === null) {
+    const token = Token.get();
+    if (instance === null && token) {
       const { host, protocol: httpProtocol } = window.location;
       const protocol = httpProtocol.indexOf('s') === -1 ? 'ws' : 'wss';
-      const token = Token.get();
       const url = `${protocol}://${host}/api/ws?access_token=${token}`;
 
       const newInstance = new WebSocket(url);

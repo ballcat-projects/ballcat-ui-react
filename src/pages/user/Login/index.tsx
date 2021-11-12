@@ -20,6 +20,7 @@ import I18n from '@/utils/I18nUtils';
 
 // @ts-ignore
 import styles from './index.less';
+import { useAliveController } from 'react-activation';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -44,6 +45,7 @@ const Login: React.FC = () => {
   const [vs, setVs] = useState<VerifySlide>();
   const [loginParams, setLoginParams] = useState<API.LoginParams>({});
   const { initialState, setInitialState, refresh } = useModel('@@initialState');
+  const { clear } = useAliveController();
 
   I18n.setIntl(useIntl());
 
@@ -61,7 +63,8 @@ const Login: React.FC = () => {
           roles: res.attributes.roleCodes,
           permissions: res.attributes.permissions,
         };
-
+        // 清空现有的tab缓存
+        clear();
         I18n.success('pages.login.success');
         // 缓存用户信息
         User.set(JSON.stringify(remoteUser));

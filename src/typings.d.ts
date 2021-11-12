@@ -1,4 +1,3 @@
-import type { MenuDataItem } from '@ant-design/pro-layout';
 import type { ProjectSetting } from 'config/settings';
 
 declare module 'slash2';
@@ -71,8 +70,6 @@ export type TreeNode<T> = {
 declare namespace GLOBAL {
   type Is = {
     settings?: Partial<ProjectSetting>;
-    menuArray?: MenuDataItem[];
-    menuFirst: string;
     routerLoad?: boolean;
     user?: GLOBAL.UserInfo;
   };

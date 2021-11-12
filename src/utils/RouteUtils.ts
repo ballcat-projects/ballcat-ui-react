@@ -1,58 +1,59 @@
-import type { MenuDataItem } from '@ant-design/pro-layout';
 import { router } from '@/services/ant-design-pro/api';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';
+import type { Route } from '@ant-design/pro-layout/lib/typings';
 
-export type BallcatMenuItem = {
-  id: number;
-  children: MenuDataItem[];
-  routes: MenuDataItem[];
-  component: any;
-  path: string;
+export type ExpandRoute = {
+  id?: number;
   redirect?: string;
   meta?: Record<string, any>;
   exact?: boolean;
-  name: string;
-} & MenuDataItem;
+  children?: ExpandRoute[];
+  routes?: ExpandRoute[];
+} & Route;
 
-let menuDict: Record<string, BallcatMenuItem> = {};
+let menuDict: Record<string, ExpandRoute> = {};
 
-export async function getMenu() {
+export async function getRoute() {
   const { data: remoteList } = await router();
   menuDict = {};
   return serializationRemoteList(remoteList, 0, '');
 }
 
-function getRedirectPath(menu: BallcatMenuItem): string {
+function getRedirectPath(menu: ExpandRoute): string {
   let redirectPath = menu.path;
 
   if (menu.children && menu.children.length > 0) {
     const cm = menu.children[0];
     // 非菜单页. 寻找下级
     if (!cm.exact) {
-      return getRedirectPath(cm as BallcatMenuItem);
+      return getRedirectPath(cm as ExpandRoute);
     }
 
     redirectPath = cm.path || redirectPath;
   }
 
-  return redirectPath;
+  return redirectPath || '/';
 }
 
-export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path: string) {
-  const menus: MenuDataItem[] = [];
+export function serializationRemoteList(
+  list: GLOBAL.Router[],
+  pId: number,
+  parentPath: string,
+): ExpandRoute[] {
+  const routes: ExpandRoute[] = [];
 
   list.forEach((val) => {
     if (val.parentId === pId) {
-      const menuPath = val.path.startsWith('/') ? val.path : `/${val.path}`;
+      const path = val.path.startsWith('/') ? val.path : `/${val.path}`;
       // @ts-ignore
-      const menu: BallcatMenuItem = {
+      const route: BallcatMenuItem = {
         id: val.id,
         hideInMenu: Boolean(val.hidden),
         icon: val.icon,
         locale: false,
-        path: `${path}${menuPath}`,
+        path: `${parentPath}${path}`,
         name: val.title,
         // 只有菜单页要求全匹配
         exact: val.type === 1,
@@ -61,7 +62,7 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
 
       // 目录处理
       if (val.type === 0) {
-        const childrenArray = serializationRemoteList(list, val.id, menu.path);
+        const childrenArray = serializationRemoteList(list, val.id, route.path);
         // 需要添加一个404的路由, 否则 二级,三级的不存在路由 会在右边展示空白
         childrenArray.push({
           component: dynamic({
@@ -70,11 +71,9 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
           }),
         });
 
-        menu.routes = childrenArray;
-        menu.children = childrenArray;
-        menu.meta = { ...menu.meta, redirectPath: getRedirectPath(menu) };
-        // menu.redirect = getRedirectPath(menu)
-        // menu.path = ''
+        route.routes = childrenArray;
+        route.children = childrenArray;
+        route.meta = { ...route.meta, redirectPath: getRedirectPath(route) };
       }
       // 菜单处理
       else if (val.type === 1) {
@@ -107,17 +106,17 @@ export function serializationRemoteList(list: GLOBAL.Router[], pId: number, path
         }
         // 外链
         else {
-          menu.target = '_blank';
-          menu.path = val.uri;
+          route.target = '_blank';
+          route.path = val.uri;
         }
-        menuDict[menu.path] = menu;
-        menu.component = component;
+        menuDict[route.path] = route;
+        route.component = component;
       }
-      menus.push(menu);
+      routes.push(route);
     }
   });
 
-  return menus;
+  return routes;
 }
 
 //  重定向，并且将当前的 url 保存
@@ -135,11 +134,13 @@ export function goto(path: string) {
 }
 
 const RouteUtils = {
-  getMenu,
+  getRoute,
   getRedirectPath,
   redirect,
   goto,
-  getMenuDict: () => menuDict,
+  getMenuDict: () => {
+    return menuDict;
+  },
 };
 
 export default RouteUtils;

@@ -157,7 +157,19 @@ const MultiTab = () => {
         >
           {nodes.map((node) => {
             const nodeMenu = RouteUtils.getMenuDict()[node.name as string];
-            return <TabPane key={node.name} tabKey={node.id} tab={nodeMenu.name} />;
+
+            // 移除不是当前展示的 404页面
+            if (!nodeMenu && cacheActiveKey !== node.name && node.name) {
+              dropScope(node.name);
+            }
+
+            return (
+              <TabPane
+                key={node.name}
+                tabKey={node.id}
+                tab={nodeMenu?.name || node.name || '404'}
+              />
+            );
           })}
         </Tabs>
       </div>

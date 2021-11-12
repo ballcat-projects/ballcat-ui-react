@@ -3,6 +3,8 @@ export default {
 
   'auth.test': '权限测试',
 
+  'menu.load.failed': '菜单加载失败!',
+
   'captcha.text': '向右滑动完成验证',
   'captcha.success': '验证成功',
   'captcha.fail': '验证失败',

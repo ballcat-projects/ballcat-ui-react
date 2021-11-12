@@ -1,14 +1,12 @@
 import { PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
-import { dynamic } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
-import { getMenu } from '@/utils/RouteUtils';
 import type { GLOBAL } from '@/typings';
-import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { User, Token, LayoutSetting } from '@/utils/Ballcat';
 import I18n from './utils/I18nUtils';
 import Notify from './utils/NotifyUtils';
+import { settings } from './utils/ConfigUtils';
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -22,27 +20,12 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<GLOBAL.Is> {
   const is: GLOBAL.Is = {
-    settings: LayoutSetting.get(),
-    menuFirst: '/',
+    settings: { ...settings, ...LayoutSetting.get() },
   };
-  const menuArray: any[] = [];
-
-  is.menuArray = menuArray;
   const cache = User.get();
 
   if (cache) {
-    // 菜单
-    const menus = await getMenu();
-    menuArray.push(...menus);
-
     is.user = cache ? JSON.parse(cache) : {};
-
-    menuArray.push({
-      component: dynamic({
-        loader: () => import('@/pages/exception/404'),
-        loading: LoadingComponent,
-      }),
-    });
   }
 
   return { ...is };
