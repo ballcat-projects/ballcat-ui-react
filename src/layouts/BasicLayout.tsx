@@ -102,7 +102,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const [keepAliveProps, setKeepAliveProps] = useState<{ id?: string; name?: string }>({});
 
   useEffect(() => {
-    if (location.pathname) {
+    if (location.pathname && location.pathname !== '/') {
       const list = breadcrumbRender(location.pathname, route.routes || []);
       setBreadcrumbList(list);
 
