@@ -143,40 +143,47 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     return data;
   };
 
-  const selectRow = (row: any) => {
-    const retVal = getRet(row, config);
-    if (config.multiple) {
-      setShowData([...showData, retVal]);
-      setSelectedRowKeys([...selectedRowKeys, row[config.uniqueKey]]);
-      setSelectedRows([...selectedRows, row]);
-    } else {
-      setShowData([retVal]);
-      setSelectedRowKeys([row[config.uniqueKey]]);
-      setSelectedRows([row]);
-    }
+  const selectRow = (...rows: any[]) => {
+    const newShowData: any[] = [...showData];
+    const newSelectedRows: any[] = [...selectedRows];
+    const newSelectedRowKeys: any[] = [...selectedRowKeys];
+
+    rows.forEach((row) => {
+      const retVal = getRet(row, config);
+      if (newShowData.indexOf(retVal) === -1) {
+        newShowData.push(retVal);
+        newSelectedRowKeys.push(row[config.uniqueKey]);
+        newSelectedRows.push(row);
+      }
+    });
+
+    setShowData(newShowData);
+    setSelectedRows(newSelectedRows);
+    setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const unselectRow = (row: any) => {
-    if (config.multiple) {
+  const unselectRow = (...rows: any[]) => {
+    const newShowData: any[] = [...showData];
+    const newSelectedRows: any[] = [...selectedRows];
+    const newSelectedRowKeys: any[] = [...selectedRowKeys];
+
+    rows.forEach((row) => {
       const retVal = getRet(row, config);
-      let index = showData.indexOf(retVal);
+      let index = newShowData.indexOf(retVal);
       if (index > -1) {
-        showData.splice(index, 1);
-        setShowData([...showData]);
+        newShowData.splice(index, 1);
       }
-      index = selectedRowKeys.indexOf(row[config.uniqueKey]);
+      index = newSelectedRowKeys.indexOf(row[config.uniqueKey]);
 
       if (index > -1) {
-        selectedRowKeys.splice(index, 1);
-        selectedRows.splice(index, 1);
-        setSelectedRowKeys([...selectedRowKeys]);
-        setSelectedRows([...selectedRows]);
+        newSelectedRows.splice(index, 1);
+        newSelectedRowKeys.splice(index, 1);
       }
-    } else {
-      setShowData([]);
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-    }
+    });
+
+    setShowData(newShowData);
+    setSelectedRows(newSelectedRows);
+    setSelectedRowKeys(newSelectedRowKeys);
   };
 
   useEffect(() => {
@@ -234,14 +241,11 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
             }
           },
           onSelectAll: (selected, rows, changeRows) => {
-            // 更新选中行
-            changeRows.forEach((item) => {
-              if (selected) {
-                selectRow(item);
-              } else {
-                unselectRow(item);
-              }
-            });
+            if (selected) {
+              selectRow(...changeRows);
+            } else {
+              unselectRow(...changeRows);
+            }
           },
         }}
         postData={postData}
