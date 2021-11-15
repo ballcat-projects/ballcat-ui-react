@@ -1,17 +1,30 @@
 import React, { useCallback } from 'react';
-import { Tabs, Menu, Dropdown } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import './index.less';
 import I18n from '@/utils/I18nUtils';
 import { history, useModel } from 'umi';
 import { useAliveController } from 'react-activation';
 import RouteUtils from '@/utils/RouteUtils';
-
-const { TabPane } = Tabs;
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  CloseCircleOutlined,
+  CompressOutlined,
+  ExpandOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
+import type { RouteContextType } from '@ant-design/pro-layout';
+import { RouteContext } from '@ant-design/pro-layout';
+import Tab from './Tab';
 
 const MultiTab = () => {
-  const { getCachingNodes, dropScope } = useAliveController();
+  const { getCachingNodes, dropScope, refreshScope } = useAliveController();
 
   const { initialState } = useModel('@@initialState');
+
+  const { fixedHeader } = initialState?.settings || {};
+
+  const { isContentFull, contentFull, contentExit } = useModel('full-screen');
 
   const nodes = getCachingNodes();
 
@@ -114,66 +127,48 @@ const MultiTab = () => {
   );
 
   const overlay = (
-    <Menu key="MultiTabDropdown" onContextMenu={(e) => e.preventDefault()}>
-      <Menu.Item key="MultiTabDropdown-close" onClick={() => close(cacheActiveKey)}>
-        {I18n.text('multiTab.close')}
+    <Menu
+      className="none-user-select"
+      key="MultiTabDropdown"
+      onContextMenu={(e) => e.preventDefault()}
+    >
+      <Menu.Item
+        key="MultiTabDropdown-full"
+        onClick={() => (isContentFull ? contentExit() : contentFull())}
+      >
+        {isContentFull ? <CompressOutlined /> : <ExpandOutlined />}{' '}
+        {I18n.text(isContentFull ? 'multiTab.full.exit' : 'multiTab.full')}
+      </Menu.Item>
+      <Menu.Item key="MultiTabDropdown-refresh" onClick={() => refreshScope(cacheActiveKey)}>
+        <ReloadOutlined /> {I18n.text('multiTab.refresh')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-left" onClick={() => closeLeft(cacheActiveKey)}>
-        {I18n.text('multiTab.close.left')}
+        <ArrowLeftOutlined /> {I18n.text('multiTab.close.left')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-right" onClick={() => closeRight(cacheActiveKey)}>
-        {I18n.text('multiTab.close.right')}
+        <ArrowRightOutlined /> {I18n.text('multiTab.close.right')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-other" onClick={() => closeOther(cacheActiveKey)}>
-        {I18n.text('multiTab.close.other')}
+        <CloseCircleOutlined /> {I18n.text('multiTab.close.other')}
       </Menu.Item>
     </Menu>
   );
 
   return (
-    <Dropdown overlay={overlay} trigger={['contextMenu']}>
-      <div
-        className="ballcat-multi-tab"
-        style={{
-          userSelect: 'none',
-          marginLeft: initialState?.settings?.layout === 'mix' ? '208px' : undefined,
-        }}
-      >
-        <Tabs
-          hideAdd
-          type="editable-card"
-          activeKey={cacheActiveKey}
-          onChange={(key) => {
-            // 不是当前激活的tab
-            if (cacheActiveKey !== key) {
-              RouteUtils.goto(key);
-            }
-          }}
-          onEdit={(key, action) => {
-            if (action === 'remove' && typeof key === 'string') {
-              close(key);
-            }
-          }}
-        >
-          {nodes.map((node) => {
-            const nodeMenu = RouteUtils.getMenuDict()[node.name as string];
-
-            // 移除不是当前展示的 404页面
-            if (!nodeMenu && cacheActiveKey !== node.name && node.name) {
-              dropScope(node.name);
-            }
-
-            return (
-              <TabPane
-                key={node.name}
-                tabKey={node.id}
-                tab={nodeMenu?.name || node.name || '404'}
-              />
-            );
-          })}
-        </Tabs>
-      </div>
-    </Dropdown>
+    <RouteContext.Consumer>
+      {({ siderWidth }: RouteContextType) => {
+        return (
+          <Dropdown overlay={overlay} trigger={['contextMenu']}>
+            <div
+              className={`ballcat-multi-tab ballcat-multi-tab-${fixedHeader ? 'fixed' : 'float'}`}
+              style={{ width: `calc(100% - ${siderWidth}px)`, top: isContentFull ? 0 : undefined }}
+            >
+              <Tab overlay={overlay} close={close} />
+            </div>
+          </Dropdown>
+        );
+      }}
+    </RouteContext.Consumer>
   );
 };
 

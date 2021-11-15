@@ -7,15 +7,15 @@ import {
 } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { SelectLang, useModel } from 'umi';
-import Avatar from './AvatarDropdown';
+import Avatar from './RightAvatar';
 // @ts-ignore
-import styles from './index.less';
+import styles from './Right.less';
 import SettingDrawer from '@/components/SettingDrawer';
 import { settings } from '@/utils/ConfigUtils';
 
-const GlobalHeaderRight: React.FC = () => {
+export default () => {
   const { initialState } = useModel('@@initialState');
-  const { isFull, switchFull } = useModel('full-screen');
+  const { isFull, full, exit } = useModel('full-screen');
   const [showSetting, setShowSetting] = useState(false);
 
   if (!initialState || !initialState.settings) {
@@ -29,7 +29,7 @@ const GlobalHeaderRight: React.FC = () => {
     className = `${styles.right}  ${styles.dark}`;
   }
   return (
-    <Space className={className}>
+    <Space className={className} size={5}>
       <span
         className={styles.action}
         onClick={() => {
@@ -39,12 +39,13 @@ const GlobalHeaderRight: React.FC = () => {
         <QuestionCircleOutlined />
       </span>
 
-      <span className={styles.action} onClick={() => switchFull()}>
+      <span className={styles.action} onClick={() => (isFull ? exit() : full())}>
         {isFull ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
       </span>
 
       {/* 如果不需要退出确认. 移除 exitConfirm 即可 */}
       <Avatar exitConfirm />
+
       {settings.i18n && <SelectLang className={styles.action} />}
 
       <span
@@ -61,4 +62,3 @@ const GlobalHeaderRight: React.FC = () => {
     </Space>
   );
 };
-export default GlobalHeaderRight;

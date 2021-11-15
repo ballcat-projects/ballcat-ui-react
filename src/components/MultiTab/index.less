@@ -3,14 +3,26 @@
 @multi-tab-prefix-cls: ballcat-multi-tab;
 
 .@{multi-tab-prefix-cls} {
-  position: relative;
   z-index: 16;
   height: 40px;
+  margin-right: -24px;
+  margin-left: -24px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  transition: 'width 0.3s';
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: 'none';
 
   &-fixed {
+    position: fixed;
     top: 48px;
+  }
+
+  &-float {
+    position: relative;
+    top: -24px;
   }
 }
 
@@ -53,6 +65,15 @@
   padding: 0 0 0 16px;
 }
 
+.@{multi-tab-prefix-cls}
+  .ant-tabs
+  .ant-tabs-nav
+  .ant-tabs-nav-wrap
+  .ant-tabs-tab.ant-tabs-tab-active
+  > div {
+  padding: 0 16px 0 16px;
+}
+
 .@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab-active {
   background: rgba(24, 144, 255, 0.08);
 }
@@ -76,11 +97,13 @@
   margin: -4px 0 0 0;
 }
 
-.@{multi-tab-prefix-cls} .ant-tabs .multi-tab-drop {
+.@{multi-tab-prefix-cls} .ant-tabs .@{multi-tab-prefix-cls}-tool {
+  display: inline-block;
   width: 40px;
   height: 40px;
   line-height: 40px;
   text-align: center;
+  border-left: 0.8px solid #efebeb;
   cursor: pointer;
 
   .anticon {

@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Modal, Spin } from 'antd';
+import { Avatar, Dropdown, Menu, Modal, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
-import HeaderDropdown from '../HeaderDropdown';
 // @ts-ignore
-import styles from './index.less';
+import styles from './Right.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
@@ -81,9 +80,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
     return loading;
   }
 
-  const { user } = initialState;
+  const { nickname, avatar } = initialState?.user?.info || {};
 
-  if (!user?.info?.nickname) {
+  if (!nickname) {
     return loading;
   }
 
@@ -97,18 +96,18 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
     </Menu>
   );
   return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
+    <Dropdown overlay={menuHeaderDropdown} overlayClassName={styles.container}>
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar
           size="small"
           icon={<UserOutlined />}
           className={styles.avatar}
-          src={user?.info?.avatar ? UrlUtils.resolveImage(user.info.avatar) : undefined}
+          src={avatar ? UrlUtils.resolveImage(avatar) : undefined}
           alt="avatar"
         />
-        <span className={`${styles.name} anticon`}>{user?.info?.nickname}</span>
+        <span className={`${styles.name} anticon`}>{nickname}</span>
       </span>
-    </HeaderDropdown>
+    </Dropdown>
   );
 };
 

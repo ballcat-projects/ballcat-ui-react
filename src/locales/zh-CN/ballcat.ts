@@ -33,10 +33,14 @@ export default {
   'logout.confirm.content': '确定要退出登录吗?',
 
   hint: '提示',
-  'multiTab.close': '关闭标签',
-  'multiTab.close.left': '关闭左侧标签',
-  'multiTab.close.right': '关闭右侧标签',
-  'multiTab.close.other': '关闭其他标签',
+
+  'multiTab.full': '内容全屏',
+  'multiTab.full.exit': '退出全屏',
+  'multiTab.refresh': '刷新当前',
+  'multiTab.close': '关闭当前',
+  'multiTab.close.left': '关闭左侧',
+  'multiTab.close.right': '关闭右侧',
+  'multiTab.close.other': '关闭其他',
   'multiTab.close.no': '没有可以被关闭的标签页!',
   'multiTab.close.disable': '禁止关闭最后一个标签页!',
 

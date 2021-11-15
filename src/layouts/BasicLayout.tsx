@@ -3,14 +3,10 @@ import type {
   MenuDataItem,
   Settings,
 } from '@ant-design/pro-layout';
-import type { Route } from '@ant-design/pro-layout/lib/typings';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
-import RightContent from '@/components/RightContent';
 import { history, Link, useIntl, useModel } from 'umi';
-import HeaderContent from '@/components/HeaderContent';
 import { settings } from '@/utils/ConfigUtils';
-import { Breadcrumb } from 'antd';
 import Footer from '@/components/Footer';
 import type { ExpandRoute } from '@/utils/RouteUtils';
 import RouteUtils, { goto } from '@/utils/RouteUtils';
@@ -21,6 +17,7 @@ import { AliveScope } from 'react-activation';
 import MultiTab from '@/components/MultiTab';
 import { KeepAlive as ReactKeepAlive } from 'react-activation';
 import Notify from '@/utils/NotifyUtils';
+import Header from '@/components/Header';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -31,44 +28,7 @@ export type BasicLayoutProps = {
   settings: Settings;
 } & ProLayoutProps;
 
-// @ts-ignore
-const breadcrumbRender = (path: string, routes: Route[]) => {
-  const list: any[] = [];
-  if (!routes) {
-    return list;
-  }
-  for (let i = 0; i < routes.length; i += 1) {
-    const route = routes[i];
-    const { path: rp, name: rn, locale, exact } = route;
-
-    if (rp && rp !== '/') {
-      if (
-        // 全匹配
-        (exact && path === rp) ||
-        // 模糊匹配
-        (!exact && path.startsWith(rp))
-      ) {
-        let name = rn;
-        if (locale === undefined || locale === null || locale) {
-          // 国际化失败, 则用key展示
-          name = I18n.text(`menu.${rn}`);
-        }
-
-        list.push(<Breadcrumb.Item key={rp}>{name}</Breadcrumb.Item>);
-        if (rp !== path && route?.routes) {
-          // @ts-ignore
-          list.push(...breadcrumbRender(path, route.routes));
-        }
-
-        // 找到匹配的就结束
-        break;
-      }
-    }
-  }
-  return list;
-};
-
-const renderMenuItem = (collapsed: boolean, title: string, hasSub: boolean, icon?: string) => {
+const renderMenuItem = (title: string, hasSub: boolean, icon?: string) => {
   return (
     <span className="ant-pro-menu-item" title={title}>
       {!icon ? undefined : <Icon type={icon} />}
@@ -88,6 +48,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   const { routeArray, firstPath, load, setLoad } = useModel('dynamic-route');
   const { initialState } = useModel('@@initialState');
+  const { isContentFull } = useModel('full-screen');
+
+  const { multiTab } = initialState?.settings || {};
 
   I18n.setIntl(useIntl());
   // 国际化关闭, 当前语言与默认语言不符
@@ -96,16 +59,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     I18n.setLocal(settings.defaultLocal);
   }
 
-  const [breadcrumbList, setBreadcrumbList] = useState<any[]>([]);
   const [collapsed, setCollapsed] = useState(false);
-  const [reload, setReload] = useState(false);
   const [keepAliveProps, setKeepAliveProps] = useState<{ id?: string; name?: string }>({});
 
   useEffect(() => {
     if (location.pathname && location.pathname !== '/') {
-      const list = breadcrumbRender(location.pathname, route.routes || []);
-      setBreadcrumbList(list);
-
       const currenMenu = RouteUtils.getMenuDict()[location.pathname];
       const newKeepAliveProps = {
         id: `${currenMenu?.id}`,
@@ -159,6 +117,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     goto(firstPath);
   }
 
+  let contentMarginTop = 56;
+  if (!initialState?.settings?.fixedHeader) {
+    contentMarginTop = 24;
+  }
+
   return (
     <ProLayout
       footerRender={() => <Footer />}
@@ -171,29 +134,16 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       collapsedButtonRender={false}
       collapsed={collapsed}
       onCollapse={setCollapsed}
-      contentStyle={{ marginTop: initialState?.settings?.multiTab ? '56px' : undefined }}
-      headerRender={(headerProps, defaultDom) => {
-        if (initialState?.settings?.multiTab) {
-          return (
-            <>
-              {defaultDom}
-              <MultiTab />
-            </>
-          );
-        }
-        return defaultDom;
+      contentStyle={{
+        marginTop: multiTab || isContentFull ? `${contentMarginTop}px` : undefined,
       }}
-      headerContentRender={() => {
-        return (
-          <HeaderContent
-            // @ts-ignore
-            breadcrumbData={breadcrumbList}
-            collapsed={collapsed}
-            onCollapse={setCollapsed}
-            onReload={setReload}
-          />
-        );
-      }}
+      siderWidth={isContentFull ? 0 : undefined}
+      headerHeight={isContentFull ? 0 : undefined}
+      headerRender={(headerProps, defaultDom) => (isContentFull ? undefined : defaultDom)}
+      headerContentRender={() => (
+        <Header.Left route={route} collapsed={collapsed} onCollapse={setCollapsed} />
+      )}
+      rightContentRender={() => <Header.Right />}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
         if (!initialState?.user?.info) {
@@ -205,33 +155,31 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       onMenuHeaderClick={() => history.push(firstPath || '/')}
       subMenuItemRender={(item) => {
         const { title, icon } = item.meta;
-        return renderMenuItem(collapsed, title, true, icon);
+        return renderMenuItem(title, true, icon);
       }}
       menuItemRender={(menuItemProps) => {
         const { redirectPath, title, icon } = menuItemProps.meta;
         if (!menuItemProps.path || location.pathname === menuItemProps.path) {
-          return renderMenuItem(collapsed, title, false, icon);
+          return renderMenuItem(title, false, icon);
         }
 
         if (menuItemProps.isUrl) {
           return (
             <a target={menuItemProps.target} href={menuItemProps.path}>
-              {renderMenuItem(collapsed, title, false, icon)}
+              {renderMenuItem(title, false, icon)}
             </a>
           );
         }
 
         return (
-          <Link to={redirectPath || menuItemProps.path}>
-            {renderMenuItem(collapsed, title, false, icon)}
-          </Link>
+          <Link to={redirectPath || menuItemProps.path}>{renderMenuItem(title, false, icon)}</Link>
         );
       }}
-      rightContentRender={() => <RightContent />}
     >
+      {initialState?.settings?.multiTab && <MultiTab />}
       <AliveScope>
         <WaterMark
-          content={settings.waterMark && !reload ? initialState?.user?.info?.nickname : undefined}
+          content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
           style={{ height: '100%' }}
         >
           <ReactKeepAlive id={keepAliveProps.id} name={keepAliveProps.name}>

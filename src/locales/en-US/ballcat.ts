@@ -35,10 +35,13 @@ export default {
 
   hint: 'hint',
 
-  'multiTab.close': 'Close tab',
-  'multiTab.close.left': 'Close left tab',
-  'multiTab.close.right': 'Close right tab',
-  'multiTab.close.other': 'Close other tab',
+  'multiTab.full': 'Content full screen',
+  'multiTab.full.exit': 'Exit Full Screen',
+  'multiTab.refresh': 'Refresh current',
+  'multiTab.close': 'Close current',
+  'multiTab.close.left': 'Close left',
+  'multiTab.close.right': 'Close right',
+  'multiTab.close.other': 'Close other',
   'multiTab.close.no': 'There are no tabs that can be closed!',
   'multiTab.close.disable': 'Prohibit closing the last tab!',
 

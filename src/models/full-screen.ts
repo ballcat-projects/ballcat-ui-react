@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react';
 
 export default () => {
   const [isFull, setFull] = useState(false);
+  const [isContentFull, setIsContentFull] = useState(false);
 
   const full = (dom?: HTMLElement) => {
     if (!document.fullscreenElement) {
       (dom || document.getElementsByTagName('body')[0]).requestFullscreen();
     }
-  };
-
-  const contentFull = () => {
-    full(document.getElementsByTagName('main')[0]);
   };
 
   const exit = () => {
@@ -19,12 +16,11 @@ export default () => {
     }
   };
 
-  const switchFull = () => {
-    if (isFull) {
-      exit();
-    } else {
-      full();
-    }
+  const contentFull = () => {
+    setIsContentFull(true);
+  };
+  const contentExit = () => {
+    setIsContentFull(false);
   };
 
   useEffect(() => {
@@ -37,5 +33,5 @@ export default () => {
     };
   }, []);
 
-  return { isFull, full, contentFull, exit, switchFull };
+  return { isFull, full, exit, isContentFull, contentFull, contentExit };
 };
