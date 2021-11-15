@@ -1,18 +1,22 @@
 import { Space } from 'antd';
-import { MoreOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import {
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  MoreOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 import React, { useState } from 'react';
 import { SelectLang, useModel } from 'umi';
 import Avatar from './AvatarDropdown';
 // @ts-ignore
 import styles from './index.less';
 import SettingDrawer from '@/components/SettingDrawer';
-import FullScreen from '../FullScreen';
 import { settings } from '@/utils/ConfigUtils';
 
 const GlobalHeaderRight: React.FC = () => {
   const { initialState } = useModel('@@initialState');
+  const { isFull, switchFull } = useModel('full-screen');
   const [showSetting, setShowSetting] = useState(false);
-  const [full, setFull] = useState(false);
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -35,8 +39,8 @@ const GlobalHeaderRight: React.FC = () => {
         <QuestionCircleOutlined />
       </span>
 
-      <span className={styles.action} onClick={() => setFull(!full)}>
-        <FullScreen full={full} onFullChange={setFull} />
+      <span className={styles.action} onClick={() => switchFull()}>
+        {isFull ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
       </span>
 
       {/* 如果不需要退出确认. 移除 exitConfirm 即可 */}
