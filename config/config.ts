@@ -6,6 +6,7 @@ import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV } = process.env;
+const isDev = REACT_APP_ENV === 'dev';
 
 export default defineConfig({
   hash: true,
@@ -48,26 +49,30 @@ export default defineConfig({
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },
-  chunks: ['vendors', 'umi'],
-  chainWebpack: function (config, { webpack }) {
-    config.merge({
-      optimization: {
-        splitChunks: {
-          chunks: 'all',
-          minSize: 30000,
-          minChunks: 3,
-          automaticNameDelimiter: '.',
-          cacheGroups: {
-            vendor: {
-              name: 'vendors',
-              test({ resource }: any): boolean {
-                return /[\\/]node_modules[\\/]/.test(resource);
+  chunks: isDev ? undefined : ['vendors', 'umi'],
+  chainWebpack: isDev
+    ? undefined
+    : function (config, { webpack }) {
+        if (REACT_APP_ENV !== 'dev') {
+          config.merge({
+            optimization: {
+              splitChunks: {
+                chunks: 'all',
+                minSize: 30000,
+                minChunks: 3,
+                automaticNameDelimiter: '.',
+                cacheGroups: {
+                  vendor: {
+                    name: 'vendors',
+                    test({ resource }: any): boolean {
+                      return /[\\/]node_modules[\\/]/.test(resource);
+                    },
+                    priority: 10,
+                  },
+                },
               },
-              priority: 10,
             },
-          },
-        },
+          });
+        }
       },
-    });
-  },
 });
