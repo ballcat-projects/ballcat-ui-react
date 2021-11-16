@@ -14,6 +14,8 @@ export type ProjectSetting = LayoutSettings & {
   waterMark: boolean;
   // 是否展示顶部多页签
   multiTab: boolean;
+  // 顶部多页签风格
+  multiTabStyle?: 'default' | 'card';
   storageOptions: {
     // 缓存key 前缀
     namespace: string;

@@ -23,7 +23,7 @@ const MultiTab = () => {
 
   const { initialState } = useModel('@@initialState');
 
-  const { fixedHeader } = initialState?.settings || {};
+  const { fixedHeader, multiTabStyle } = initialState?.settings || {};
 
   const { isContentFull, contentFull, contentExit } = useModel('full-screen');
 
@@ -158,14 +158,24 @@ const MultiTab = () => {
     </Menu>
   );
 
+  const classNames = ['ballcat-multi-tab'];
+  if (multiTabStyle === 'card') {
+    classNames.push('ballcat-multi-tab-card');
+  }
+
+  classNames.push(`ballcat-multi-tab-${fixedHeader ? 'fixed' : 'float'}`);
+
   return (
     <RouteContext.Consumer>
       {({ siderWidth }: RouteContextType) => {
         return (
           <Dropdown overlay={overlay} trigger={['contextMenu']}>
             <div
-              className={`ballcat-multi-tab ballcat-multi-tab-${fixedHeader ? 'fixed' : 'float'}`}
-              style={{ width: `calc(100% - ${siderWidth}px)`, top: isContentFull ? 0 : undefined }}
+              className={classNames.join(' ')}
+              style={{
+                width: `calc(100% - ${(siderWidth || 0) + (multiTabStyle === 'card' ? 48 : 0)}px)`,
+                top: isContentFull ? 0 : undefined,
+              }}
             >
               <Tab overlay={overlay} close={close} />
             </div>

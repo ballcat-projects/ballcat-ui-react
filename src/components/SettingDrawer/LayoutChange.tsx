@@ -22,7 +22,7 @@ const LayoutSetting: React.FC<{
   changeSetting: (key: string, value: any, hideLoading?: boolean) => void;
 }> = ({ settings = {}, changeSetting }) => {
   const formatMessage = getFormatMessage();
-  const { contentWidth, splitMenus, fixedHeader, layout, fixSiderbar, multiTab } =
+  const { contentWidth, splitMenus, fixedHeader, layout, fixSiderbar, multiTab, multiTabStyle } =
     settings || defaultSettings;
 
   return (
@@ -122,6 +122,27 @@ const LayoutSetting: React.FC<{
                 changeSetting('splitMenus', checked);
               }}
             />
+          ),
+        },
+        {
+          title: formatMessage({ id: 'app.setting.multiTabStyle' }),
+          action: (
+            <Select
+              value={multiTabStyle || 'default'}
+              size="small"
+              className="multi-tab-style"
+              onSelect={(value) => {
+                changeSetting('multiTabStyle', value);
+              }}
+              style={{ width: 80 }}
+            >
+              <Select.Option value="default">
+                {formatMessage({ id: 'app.setting.multiTabStyle.default' })}
+              </Select.Option>
+              <Select.Option value="card">
+                {formatMessage({ id: 'app.setting.multiTabStyle.card' })}
+              </Select.Option>
+            </Select>
           ),
         },
       ]}

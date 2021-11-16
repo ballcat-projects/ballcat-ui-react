@@ -9,7 +9,7 @@
   margin-left: -24px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  transition: 'width 0.3s';
+  transition: width 0.3s;
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -66,7 +66,7 @@
 }
 
 .@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab-active {
-  background: rgba(24, 144, 255, 0.08);
+  background-color: @primary-1;
 }
 
 .@{multi-tab-prefix-cls}
@@ -104,4 +104,29 @@
 
 .@{multi-tab-prefix-cls} .ant-tabs-nav-operations .ant-tabs-nav-more {
   cursor: pointer;
+}
+
+// 卡片标签处理
+.@{multi-tab-prefix-cls}-card {
+  height: 32px;
+  margin-top: 8px;
+  margin-right: 0;
+  margin-left: 0;
+  line-height: 32px;
+  box-shadow: none;
+
+  .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap {
+    background-color: @layout-body-background;
+
+    .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 8px;
+    }
+
+    .ant-tabs-tab {
+      height: 32px;
+      line-height: 32px;
+      background-color: @body-background;
+      border-radius: 4px;
+    }
+  }
 }
