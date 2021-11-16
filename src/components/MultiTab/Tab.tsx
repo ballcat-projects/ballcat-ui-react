@@ -22,7 +22,7 @@ const Tab = ({ overlay, close }: TabProps) => {
   return (
     <Tabs
       hideAdd
-      type={nodes.length > 1 ? 'editable-card' : 'card'}
+      type="editable-card"
       activeKey={cacheActiveKey}
       tabBarExtraContent={
         <>
@@ -56,12 +56,7 @@ const Tab = ({ overlay, close }: TabProps) => {
         }
 
         return (
-          <TabPane
-            closable={cacheActiveKey !== node.name}
-            key={node.name}
-            tabKey={node.id}
-            tab={nodeMenu?.name || node.name || '404'}
-          />
+          <TabPane key={node.name} tabKey={node.id} tab={nodeMenu?.name || node.name || '404'} />
         );
       })}
     </Tabs>

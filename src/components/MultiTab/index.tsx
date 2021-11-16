@@ -9,6 +9,7 @@ import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
   CloseCircleOutlined,
+  CloseOutlined,
   CompressOutlined,
   ExpandOutlined,
   ReloadOutlined,
@@ -141,6 +142,9 @@ const MultiTab = () => {
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-refresh" onClick={() => refreshScope(cacheActiveKey)}>
         <ReloadOutlined /> {I18n.text('multiTab.refresh')}
+      </Menu.Item>
+      <Menu.Item key="MultiTabDropdown-close" onClick={() => close(cacheActiveKey)}>
+        <CloseOutlined /> {I18n.text('multiTab.close')}
       </Menu.Item>
       <Menu.Item key="MultiTabDropdown-close-left" onClick={() => closeLeft(cacheActiveKey)}>
         <ArrowLeftOutlined /> {I18n.text('multiTab.close.left')}
