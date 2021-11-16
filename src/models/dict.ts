@@ -23,13 +23,16 @@ export default () => {
     () =>
       debounce(() => {
         const newHashs = {};
-        Object.keys(cache).forEach((code) => {
-          newHashs[code] = cache[code].hashCode;
-          Dict.set(cache[code]);
+        Object.keys(asyncCache).forEach((code) => {
+          const data = asyncCache[code];
+          if (!data.loading) {
+            newHashs[code] = data.hashCode;
+            Dict.set(data);
+          }
         });
         Dict.setHashs(newHashs);
-      }, 1000),
-    [cache],
+      }, 500),
+    [],
   );
 
   const sync = useCallback(
