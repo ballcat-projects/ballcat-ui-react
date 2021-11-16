@@ -148,14 +148,28 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     const newSelectedRows: any[] = [...selectedRows];
     const newSelectedRowKeys: any[] = [...selectedRowKeys];
 
-    rows.forEach((row) => {
-      const retVal = getRet(row, config);
-      if (newShowData.indexOf(retVal) === -1) {
-        newShowData.push(retVal);
-        newSelectedRowKeys.push(row[config.uniqueKey]);
-        newSelectedRows.push(row);
-      }
-    });
+    if (config.multiple) {
+      rows.forEach((row) => {
+        const retVal = getRet(row, config);
+        if (newShowData.indexOf(retVal) === -1) {
+          newShowData.push(retVal);
+          newSelectedRows.push(row);
+          newSelectedRowKeys.push(row[config.uniqueKey]);
+        }
+      });
+    } else {
+      // 单选. 默认为选中第一个
+      const row = rows[0];
+      // 单选处理
+      newShowData.splice(0, newShowData.length);
+      newShowData.push(getRet(row, config));
+
+      newSelectedRows.splice(0, newSelectedRows.length);
+      newSelectedRows.push(row);
+
+      newSelectedRowKeys.splice(0, newSelectedRowKeys.length);
+      newSelectedRowKeys.push(row[config.uniqueKey]);
+    }
 
     setShowData(newShowData);
     setSelectedRows(newSelectedRows);
@@ -167,19 +181,27 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     const newSelectedRows: any[] = [...selectedRows];
     const newSelectedRowKeys: any[] = [...selectedRowKeys];
 
-    rows.forEach((row) => {
-      const retVal = getRet(row, config);
-      let index = newShowData.indexOf(retVal);
-      if (index > -1) {
-        newShowData.splice(index, 1);
-      }
-      index = newSelectedRowKeys.indexOf(row[config.uniqueKey]);
+    if (config.multiple) {
+      rows.forEach((row) => {
+        const retVal = getRet(row, config);
+        let index = newShowData.indexOf(retVal);
+        if (index > -1) {
+          newShowData.splice(index, 1);
+        }
+        index = newSelectedRowKeys.indexOf(row[config.uniqueKey]);
 
-      if (index > -1) {
-        newSelectedRows.splice(index, 1);
-        newSelectedRowKeys.splice(index, 1);
-      }
-    });
+        if (index > -1) {
+          newSelectedRows.splice(index, 1);
+          newSelectedRowKeys.splice(index, 1);
+        }
+      });
+    }
+    // 单选处理
+    else {
+      newShowData.splice(0, newShowData.length);
+      newSelectedRows.splice(0, newSelectedRows.length);
+      newSelectedRowKeys.splice(0, newSelectedRowKeys.length);
+    }
 
     setShowData(newShowData);
     setSelectedRows(newSelectedRows);
