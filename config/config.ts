@@ -49,7 +49,7 @@ export default defineConfig({
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },
-  chunks: isDev ? undefined : ['vendors', 'umi'],
+  chunks: isDev ? undefined : ['umi', 'vendors'],
   chainWebpack: isDev
     ? undefined
     : function (config, { webpack }) {

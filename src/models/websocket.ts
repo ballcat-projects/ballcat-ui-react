@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Token } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
+import { useModel } from 'umi';
 
 // 心跳配置
 type Heartbeat = {
@@ -218,6 +219,7 @@ const func = <T extends (...args: any[]) => void>(callback?: T) => {
 
 export default () => {
   const [cw, setCw] = useState<CustomerWebsocket>();
+  const { initialState } = useModel('@@initialState');
 
   useEffect(() => {
     if (settings.websocket) {
@@ -230,7 +232,8 @@ export default () => {
       };
     }
     return () => {};
-  }, []);
+    // 保证重新登录后.刷新连接
+  }, [initialState]);
 
   return {
     start: func(cw?.start),

@@ -94,15 +94,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         newRoute.routes.push(menu);
       }
 
-      // 旧路由长度
-      const ol = newRoute.routes.length - routeArray.length;
-      // 允许多少个旧路由
-      const allowMax = 0;
-      if (ol > allowMax) {
-        // 移出旧路由
-        newRoute.children.splice(allowMax, ol);
-        newRoute.routes.splice(allowMax, ol);
-      }
       route.routes = newRoute.routes;
       route.children = newRoute.routes;
       setLoad(true);

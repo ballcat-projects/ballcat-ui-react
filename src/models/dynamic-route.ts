@@ -21,10 +21,9 @@ export default () => {
   const [load, setLoad] = useState<boolean>(false);
 
   const refresh = useCallback(async () => {
-    setLoad(false);
-    const newMenuArray: ExpandRoute[] = [];
-    await getRoute()
+    return getRoute()
       .then((resMenuArray) => {
+        const newMenuArray: ExpandRoute[] = [];
         newMenuArray.push(...resMenuArray);
         newMenuArray.push({
           component: dynamic({
@@ -34,6 +33,7 @@ export default () => {
         });
         setMenuArray(newMenuArray);
         setMenuFirst(getFirstUrl(newMenuArray));
+        setLoad(false);
       })
       .catch(() => {
         I18n.error('menu.load.failed');

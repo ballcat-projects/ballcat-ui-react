@@ -40,7 +40,7 @@ export default () => {
       if (data.loading) {
         return;
       }
-      const dictData = Dict.toInitialStateData(data);
+      const dictData = Dict.toData(data);
       const newCache = { ...cache };
       newCache[data.dictCode] = dictData;
       setCache(newCache);
@@ -75,7 +75,7 @@ export default () => {
     Object.keys(localHashs).forEach((code) => {
       const data = Dict.get(code);
       if (data && !data.loading) {
-        newCache[code] = Dict.toInitialStateData(data);
+        newCache[code] = Dict.toData(data);
         asyncCache[code] = newCache[code];
       }
     });
@@ -112,7 +112,7 @@ export default () => {
 
   useEffect(() => {
     if (initialState?.user?.access_token) {
-      init();
+      init(true);
     }
   }, [init, initialState]);
 

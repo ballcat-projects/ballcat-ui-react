@@ -44,7 +44,7 @@ const Login: React.FC = () => {
   const [captchaSow, setCaptchaSow] = useState<boolean>(false);
   const [vs, setVs] = useState<VerifySlide>();
   const [loginParams, setLoginParams] = useState<API.LoginParams>({});
-  const { initialState, setInitialState, refresh } = useModel('@@initialState');
+  const { refresh } = useModel('@@initialState');
   const { clear } = useAliveController();
 
   I18n.setIntl(useIntl());
@@ -65,30 +65,16 @@ const Login: React.FC = () => {
         };
         // 清空现有的tab缓存
         clear();
-        I18n.success('pages.login.success');
         // 缓存用户信息
         User.set(JSON.stringify(remoteUser));
         // 缓存token
         Token.set(remoteUser.access_token);
-        // @ts-ignore
-        setInitialState({ ...initialState, user: remoteUser });
 
-        if (!history) return;
-
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        let url: string;
-        /** 跳转到 redirect 参数所在的位置 */
-        if (settings.historyType === 'hash') {
-          // 如果是hash 则刷新数据
-          await refresh();
-          url = redirect ? `/#${redirect}` : '/';
-        } else {
-          url = redirect || '/';
-        }
-        setTimeout(() => {
-          window.location.href = url;
-        }, 500);
+        const { redirect } = history.location.query as { redirect: string };
+        // 则刷新数据
+        await refresh();
+        history?.push(redirect || '/');
+        I18n.success('pages.login.success');
       })
       .catch(() => {
         I18n.error('pages.login.failure');

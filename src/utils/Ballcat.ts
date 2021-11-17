@@ -73,7 +73,7 @@ export const Dict = {
   del: (code: string) => {
     remove(Dict.getKey(code));
   },
-  toInitialStateData: (data: SysDictData) => {
+  toData: (data: SysDictData) => {
     const items: SysDictDataItem[] = [];
 
     (data.dictItems || []).forEach((item) => {
