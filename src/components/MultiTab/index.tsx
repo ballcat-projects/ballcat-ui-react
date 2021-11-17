@@ -173,8 +173,10 @@ const MultiTab = () => {
             <div
               className={classNames.join(' ')}
               style={{
-                width: `calc(100% - ${(siderWidth || 0) + (multiTabStyle === 'card' ? 48 : 0)}px)`,
-                top: isContentFull ? 0 : undefined,
+                width: !fixedHeader
+                  ? undefined
+                  : `calc(100% - ${(siderWidth || 0) + (multiTabStyle === 'card' ? 48 : 0)}px)`,
+                top: isContentFull ? `${fixedHeader ? 0 : -24}px` : undefined,
               }}
             >
               <Tab overlay={overlay} close={close} />
