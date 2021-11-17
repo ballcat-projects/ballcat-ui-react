@@ -1,10 +1,12 @@
 @import '~antd/es/style/themes/default.less';
 
 @multi-tab-prefix-cls: ballcat-multi-tab;
+@multi-tabs-height: 40px;
+@multi-tabs-tab-height: 32px;
 
 .@{multi-tab-prefix-cls} {
   z-index: 16;
-  height: 40px;
+  height: @multi-tabs-height;
   margin-right: -24px;
   margin-left: -24px;
   background: #fff;
@@ -26,39 +28,16 @@
   }
 }
 
-.@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav {
-  margin: 0;
-  border-bottom: none;
-}
-
 .@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab {
-  height: 40px;
+  height: @multi-tabs-height;
   margin: 0;
   padding: 0;
-  line-height: 40px;
+  line-height: @multi-tabs-height;
   background: none;
   border: none;
   border-radius: 0;
   transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
     color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab-next,
-.@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab-prev {
-  width: 40px;
-  line-height: 1;
-  opacity: 1;
-  transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
-    opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  pointer-events: auto;
-
-  .anticon {
-    font-size: 14px;
-  }
-}
-
-.@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap {
-  height: auto;
 }
 
 .@{multi-tab-prefix-cls} .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-tab > div {
@@ -74,25 +53,16 @@
   .ant-tabs-nav
   .ant-tabs-nav-wrap
   .ant-tabs-tab
-  > div.ant-tabs-tab-unclosable {
-  padding-right: 16px;
-}
-
-.@{multi-tab-prefix-cls}
-  .ant-tabs
-  .ant-tabs-nav
-  .ant-tabs-nav-wrap
-  .ant-tabs-tab
   .ant-tabs-tab-remove {
-  height: 40px;
+  height: @multi-tabs-height;
   margin: -4px 0 0 0;
 }
 
 .@{multi-tab-prefix-cls} .ant-tabs .@{multi-tab-prefix-cls}-tool {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: @multi-tabs-height;
+  height: @multi-tabs-height;
+  line-height: @multi-tabs-height;
   text-align: center;
   border-left: 0.8px solid #efebeb;
   cursor: pointer;
@@ -108,25 +78,36 @@
 
 // 卡片标签处理
 .@{multi-tab-prefix-cls}-card {
-  height: 32px;
-  margin-top: 8px;
+  height: @multi-tabs-height;
   margin-right: 0;
   margin-left: 0;
-  line-height: 32px;
+  padding-top: 8px;
+  line-height: @multi-tabs-height;
+  background-color: @layout-body-background;
   box-shadow: none;
 
-  .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap {
-    background-color: @layout-body-background;
+  .ant-tabs .ant-tabs-nav {
+    height: @multi-tabs-tab-height;
 
-    .ant-tabs-tab + .ant-tabs-tab {
-      margin-left: 8px;
+    .ant-tabs-extra-content {
+      background-color: @white;
+
+      .ballcat-multi-tab-tool {
+        height: @multi-tabs-tab-height;
+      }
     }
 
-    .ant-tabs-tab {
-      height: 32px;
-      line-height: 32px;
-      background-color: @body-background;
-      border-radius: 4px;
+    .ant-tabs-nav-wrap {
+      .ant-tabs-tab + .ant-tabs-tab {
+        margin-left: 8px;
+      }
+
+      .ant-tabs-tab {
+        height: 32px;
+        line-height: 32px;
+        background-color: @body-background;
+        border-radius: 4px;
+      }
     }
   }
 }
