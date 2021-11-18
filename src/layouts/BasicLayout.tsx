@@ -10,7 +10,6 @@ import { settings } from '@/utils/ConfigUtils';
 import Footer from '@/components/Footer';
 import type { ExpandRoute } from '@/utils/RouteUtils';
 import RouteUtils, { goto } from '@/utils/RouteUtils';
-import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
 import { AliveScope } from 'react-activation';
@@ -138,8 +137,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
         if (!initialState?.user?.info) {
-          User.clean();
-          Token.clean();
           Notify.logout();
         }
       }}

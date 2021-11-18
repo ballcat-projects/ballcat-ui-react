@@ -4,12 +4,14 @@ import { NotificationOutlined } from '@ant-design/icons';
 import RouteUtils from './RouteUtils';
 import I18n from './I18nUtils';
 import { history } from 'umi';
-import { Token } from './Ballcat';
+import { Token, User } from './Ballcat';
 
 export type NotifyProps = { id: string; content: string; title: string };
 
 const logoutHandler = () => {
   Modal.destroyAll();
+  User.clean();
+  Token.clean();
   RouteUtils.redirect('/user/login');
 };
 
@@ -45,10 +47,9 @@ const Notify = {
     if (history.location.pathname === '/user/login') {
       return;
     }
-    const token = Token.get();
 
     // 如果没有缓存过token - 未登录过.
-    if (token == null) {
+    if (!Token.get()) {
       // 直接跳转到登录页
       logoutHandler();
       return;

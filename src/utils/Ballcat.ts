@@ -32,7 +32,7 @@ export const Token = {
     set(token_key, val);
   },
   clean: () => {
-    set(token_key, '');
+    remove(token_key);
   },
 };
 

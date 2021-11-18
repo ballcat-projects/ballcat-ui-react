@@ -86,8 +86,6 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
 
           if (response.status === 401) {
             // token 鉴权异常
-            Token.clean();
-            User.clean();
             Notify.logout();
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw {
