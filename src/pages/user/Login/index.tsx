@@ -81,6 +81,7 @@ const Login: React.FC = () => {
         I18n.error('pages.login.failure');
         // 如果失败去设置用户错误信息
         setUserLoginState({ status: 'error', type });
+        setSubmitting(false);
       });
   };
 
