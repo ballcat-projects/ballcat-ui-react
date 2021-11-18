@@ -39,11 +39,11 @@ const I18n = {
   open: (
     ip: I18nParams,
     type: 'info' | 'success' | 'error' | 'warning' | 'loading',
-    mp?: MessageParams,
+    { duration, onClose }: MessageParams = {},
   ) => {
     const text =
       typeof ip === 'string' ? I18n.text(ip) : I18n.text(ip.key, ip.params, ip.defaultMessage);
-    return message[type](text, mp && mp.duration, mp && mp.onClose);
+    return message[type](text, duration, onClose);
   },
   info: (ip: I18nParams, mp?: MessageParams) => {
     return I18n.open(ip, 'info', mp);

@@ -36,18 +36,19 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
+  const { refresh } = useModel('@@initialState');
+  I18n.setIntl(useIntl());
+
+  const { clear } = useAliveController();
+
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   // 是否使用登录验证码
   const [captcha] = useState<boolean>(true);
   const [captchaSow, setCaptchaSow] = useState<boolean>(false);
-  const [vs, setVs] = useState<VerifySlide>();
   const [loginParams, setLoginParams] = useState<API.LoginParams>({});
-  const { refresh } = useModel('@@initialState');
-  const { clear } = useAliveController();
-
-  I18n.setIntl(useIntl());
+  const [vs, setVs] = useState<VerifySlide | null>(null);
 
   /**
    * 登录请求处理
@@ -73,16 +74,13 @@ const Login: React.FC = () => {
         const { redirect } = history.location.query as { redirect: string };
         // 则刷新数据
         await refresh();
-        history?.push(redirect || '/');
         I18n.success('pages.login.success');
+        history?.push(redirect || '/');
       })
       .catch(() => {
         I18n.error('pages.login.failure');
         // 如果失败去设置用户错误信息
         setUserLoginState({ status: 'error', type });
-      })
-      .finally(() => {
-        setSubmitting(false);
       });
   };
 
@@ -110,17 +108,20 @@ const Login: React.FC = () => {
       <div hidden={!settings.i18n} className={styles.lang} data-lang>
         {SelectLang && <SelectLang />}
       </div>
-      <VerifySlide
-        // @ts-ignore
-        ref={setVs}
-        isSlideShow={captchaSow}
-        close={() => {
-          setCaptchaSow(false);
-        }}
-        success={async (captchaVerification) => {
-          await loginHandler({ ...loginParams, captchaVerification });
-        }}
-      />
+      {captcha && (
+        <VerifySlide
+          ref={(ref) => {
+            setVs(ref);
+          }}
+          isSlideShow={captchaSow}
+          close={() => {
+            setCaptchaSow(false);
+          }}
+          success={async (captchaVerification) => {
+            loginHandler({ ...loginParams, captchaVerification });
+          }}
+        />
+      )}
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
