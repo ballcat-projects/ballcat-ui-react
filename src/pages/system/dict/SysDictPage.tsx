@@ -57,6 +57,7 @@ export default (): React.ReactNode => {
       <Page.Modal<SysDictVo, SysDictVo, SysDict>
         {...dict}
         rowKey="id"
+        title="数据字典"
         columns={dataColumns}
         onStatusChange={setStatus}
         toolBarActions={[{ type: 'create', permission: 'system:dict:add' }]}
