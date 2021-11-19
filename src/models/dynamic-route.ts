@@ -5,13 +5,27 @@ import { getRoute } from '@/utils/RouteUtils';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import I18n from '@/utils/I18nUtils';
 
-const getFirstUrl = (menuArray: ExpandRoute[]): string => {
-  const menu = menuArray[0];
-  if (menu.children && menu.children.length > 0) {
-    return getFirstUrl(menu.children);
+const getFirstUrl = (menuArray: ExpandRoute[]): string | undefined => {
+  for (let index = 0; index < menuArray.length; index += 1) {
+    const menu = menuArray[index];
+    // 菜单未隐藏
+    if (!menu.hideInMenu) {
+      // 如果存在子级 且子级的第一个菜单存在路径
+      if (menu.children && menu.children.length > 0 && menu.children[0].path) {
+        const url = getFirstUrl(menu.children);
+        // 存在首页
+        if (url) {
+          return url;
+        }
+      }
+      // 不存在, 且当前菜单是页面
+      else if (menu.exact) {
+        return menu.path;
+      }
+    }
   }
 
-  return `${menu.path}`;
+  return undefined;
 };
 
 export default () => {
