@@ -1,4 +1,4 @@
-import { router } from '@/services/ant-design-pro/api';
+import { router } from '@/services/ballcat/login';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
 import { dynamic, history } from 'umi';
 import type { GLOBAL } from '@/typings';

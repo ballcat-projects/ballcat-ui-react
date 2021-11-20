@@ -10,8 +10,8 @@ import { Alert, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { history, Link, SelectLang, useIntl, useModel } from 'umi';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import type { LoginParams } from '@/services/ballcat/login';
+import { login } from '@/services/ballcat/login';
 import { pwd } from '@/utils/Encrypt';
 import VerifySlide from '@/components/Captcha';
 import { User, Token } from '@/utils/Ballcat';
@@ -42,18 +42,18 @@ const Login: React.FC = () => {
   const { clear } = useAliveController();
 
   const [submitting, setSubmitting] = useState(false);
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState<{ status?: string; type?: string }>({});
   const [type, setType] = useState<string>('account');
   // 是否使用登录验证码
   const [captcha] = useState<boolean>(true);
   const [captchaSow, setCaptchaSow] = useState<boolean>(false);
-  const [loginParams, setLoginParams] = useState<API.LoginParams>({});
+  const [loginParams, setLoginParams] = useState<LoginParams>({});
   const [vs, setVs] = useState<VerifySlide | null>(null);
 
   /**
    * 登录请求处理
    */
-  const loginHandler = async (values: API.LoginParams) => {
+  const loginHandler = async (values: LoginParams) => {
     setSubmitting(true);
     // 登录
     return login({ ...values, type, password: pwd.encrypt(`${values.password}`) })
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
   /**
    * 登录处理
    */
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: LoginParams) => {
     if (captcha) {
       if (!vs) {
         I18n.error('pages.login.module.failure');
@@ -154,7 +154,7 @@ const Login: React.FC = () => {
             }}
             onFinish={async (values) => {
               setLoginParams(values);
-              await handleSubmit(values as API.LoginParams);
+              await handleSubmit(values as LoginParams);
             }}
           >
             <Tabs activeKey={type} onChange={setType}>
@@ -242,13 +242,15 @@ const Login: React.FC = () => {
                     },
                   ]}
                   onGetCaptcha={async (phone) => {
-                    const result = await getFakeCaptcha({
-                      phone,
-                    });
-                    if (result === false) {
+                    const result = await setTimeout(() => {
+                      message.warn(`get captcha by ${phone}`);
+                      return '2233';
+                    }, 500);
+
+                    if (!result) {
                       return;
                     }
-                    message.success('获取验证码成功！验证码为：1234');
+                    message.success(`获取验证码成功！验证码为：${result}`);
                   }}
                 />
               </>

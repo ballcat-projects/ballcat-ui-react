@@ -5,7 +5,7 @@ import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 // @ts-ignore
 import styles from './Right.less';
-import { outLogin } from '@/services/ant-design-pro/api';
+import { logout } from '@/services/ballcat/login';
 import { User, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import UrlUtils from '@/utils/UrlUtils';
@@ -18,7 +18,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const exitHandler = useCallback(() => {
-    return outLogin().then(() => {
+    return logout().then(() => {
       // @ts-ignore
       setInitialState({ ...initialState, user: undefined });
       User.clean();
