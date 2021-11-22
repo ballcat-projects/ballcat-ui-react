@@ -286,7 +286,13 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
             <Select
               value={showData}
               mode={'tags'}
-              style={{ width: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+              style={{
+                width: '100%',
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                marginTop:
+                  !config.searchArray || config.searchArray.length === 0 ? '15px' : undefined,
+              }}
               open={false}
               onDeselect={(val: any) => {
                 if (showData === undefined || showData === null) {
