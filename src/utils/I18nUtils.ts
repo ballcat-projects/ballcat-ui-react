@@ -34,7 +34,7 @@ const I18n = {
     setLocale(local);
   },
   text: (key: string, params?: Record<string, string>, defaultMessage = key) => {
-    return I18n.getIntl().formatMessage({ id: key, defaultMessage }, params);
+    return I18n.getIntl()?.formatMessage({ id: key, defaultMessage }, params);
   },
   open: (
     ip: I18nParams,
