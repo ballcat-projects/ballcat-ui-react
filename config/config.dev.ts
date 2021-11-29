@@ -1,19 +1,8 @@
-// https://umijs.org/config/
 import { defineConfig } from 'umi';
 
 export default defineConfig({
-  plugins: [
-    // https://github.com/zthxxx/react-dev-inspector
-    'react-dev-inspector/plugins/umi/react-inspector',
-  ],
-  // https://github.com/zthxxx/react-dev-inspector#inspector-loader-props
-  inspectorConfig: {
-    exclude: [],
-    babelPlugins: [],
-    babelOptions: {},
+  define: {
+    // 示例: console.log(process.env.msg)
+    'process.env.msg': '现在是 dev 环境!',
   },
-  // mfsu: {},
-  // webpack5: {
-  //   // lazyCompilation: {},
-  // },
 });
