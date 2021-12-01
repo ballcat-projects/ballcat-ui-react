@@ -17,6 +17,7 @@ export type AuthDomProps = {
   // 自定义样式, type 如果自定义则无效
   style?: CSSProperties;
   disabled?: boolean;
+  containerType?: 'menu-item';
 };
 
 export type AuthNoneProps = {

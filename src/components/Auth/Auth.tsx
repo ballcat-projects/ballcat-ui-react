@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider, Popconfirm, Space } from 'antd';
+import { Button, Divider, Popconfirm, Space, Menu } from 'antd';
 import { useModel } from 'umi';
 import type {
   AuthProps,
@@ -17,7 +17,17 @@ const getAuthDom = (
   props: AuthNoneProps,
   renderDom: (props: AuthDomProps) => React.ReactNode,
 ): React.ReactNode => {
-  const { permission, text, localeKey, onClick, confirmTitle, confirm, style, disabled } = props;
+  const {
+    permission,
+    text,
+    localeKey,
+    onClick,
+    confirmTitle,
+    confirm,
+    style,
+    disabled,
+    containerType,
+  } = props;
   let { domKey } = props;
   //  是否使用确认框
   const isConfirm = confirm || confirmTitle;
@@ -69,6 +79,10 @@ const getAuthDom = (
     );
   }
 
+  if (containerType === 'menu-item') {
+    return <Menu.Item key={`auth-menu-item-${permission}`}>{dom}</Menu.Item>;
+  }
+
   return <>{dom}</>;
 };
 
@@ -81,8 +95,7 @@ const hasPermission = (initialState: GLOBAL.Is | undefined, permission: string) 
   return permissions.indexOf(permission) !== -1;
 };
 
-const Auth = (props: AuthProps): JSX.Element => {
-  const { permission, render } = props;
+const Auth = ({ permission, render }: AuthProps): JSX.Element => {
   const { initialState } = useModel('@@initialState');
 
   // 有权限
