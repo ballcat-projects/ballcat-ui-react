@@ -1,13 +1,9 @@
 import type { SysUserDto, SysUserQo, SysUserVo } from '@/services/ballcat/system';
 import { organization } from '@/services/ballcat/system';
-import TreeUtils from '@/utils/TreeUtils';
 import {
   message,
-  Tree,
-  Input,
   Col,
   Row,
-  Card,
   Avatar,
   TreeSelect,
   Form,
@@ -16,7 +12,7 @@ import {
   Popconfirm,
   Button,
 } from 'antd';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Key } from 'rc-tree/lib/interface';
 import { user } from '@/services/ballcat/system';
 import Page from '@/components/Page';
@@ -37,61 +33,17 @@ import {
   DownOutlined,
   InfoOutlined,
   LockOutlined,
-  RedoOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import OrganizationTree from './OrganizationTree';
+import TreeUtils from '@/utils/TreeUtils';
 
 export default () => {
   const tableRef = useRef<ActionType>();
   const formRef = useRef<ModalFormRef<SysUserDto>>();
 
   const [treeData, setTreeData] = useState<any[]>([]);
-  const [treeHighData, setTreeHighData] = useState<any[]>([]);
-  const [treeExpandKeys, setTreeExpandKeys] = useState<Key[]>([]);
-  const [treeSeachValue, setTreeSeachValue] = useState<string>();
-  const [treeSelect, setTreeSelect] = useState<Key[]>([]);
-
-  const loadTreeData = () => {
-    setTreeData([]);
-    organization.query().then((res) => {
-      const tree = TreeUtils.toTreeData(res.data as unknown as any[], (item) => {
-        return { ...item, label: item.name, value: item.id };
-      });
-      setTreeData(tree || []);
-    });
-  };
-
-  const highTreeData = (filterData: any[]): any[] => {
-    const highData = filterData.map((item) => {
-      let { title } = item;
-
-      const index =
-        treeSeachValue === undefined || treeSeachValue === null || treeSeachValue.length === 0
-          ? -1
-          : title.indexOf(treeSeachValue);
-      if (index !== -1 && treeSeachValue !== undefined) {
-        const befor = title.substr(0, index);
-        const after = title.substr(index + treeSeachValue.length);
-        title = (
-          <span>
-            {befor} <span style={{ color: '#f50' }}>{treeSeachValue}</span> {after}
-          </span>
-        );
-        treeExpandKeys.push(item.key);
-      } else {
-        title = <span>{title}</span>;
-      }
-
-      return {
-        ...item,
-        title,
-        children: item.children ? highTreeData(item.children) : undefined,
-      };
-    });
-
-    setTreeExpandKeys([...treeExpandKeys]);
-    return highData;
-  };
+  const [oIds, setOIds] = useState<number[]>([]);
 
   const [status, setStatus] = useState<FormStatus>(undefined);
   const [grateVisible, setgrateVisible] = useState(false);
@@ -103,14 +55,6 @@ export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
 
   const [avatarData, setAvatarData] = useState<SysUserVo>();
-
-  useEffect(() => {
-    loadTreeData();
-  }, []);
-
-  useEffect(() => {
-    setTreeHighData(highTreeData(treeData));
-  }, [treeData, treeSeachValue]);
 
   const dataColumns: ProColumns<SysUserVo>[] = [
     {
@@ -189,41 +133,30 @@ export default () => {
     },
   ];
 
+  const loadTreeData = useCallback(() => {
+    setTreeData([]);
+    organization.query().then((res) => {
+      const tree = TreeUtils.toTreeData(res.data as unknown as any[], (item) => {
+        return { ...item, label: item.name, value: item.id };
+      });
+      setTreeData(tree || []);
+    });
+  }, []);
+
+  useEffect(() => {
+    loadTreeData();
+  }, [loadTreeData]);
+
   return (
     <>
       <Row gutter={14}>
         <Col md={5}>
-          <Card loading={treeData.length === 0}>
-            <Input
-              allowClear
-              placeholder="输入内容以搜索组织"
-              style={{ marginBottom: 5 }}
-              addonAfter={
-                <RedoOutlined
-                  title="刷新数据"
-                  style={{ fontSize: 18 }}
-                  onClick={() => loadTreeData()}
-                />
-              }
-              onChange={(e) => {
-                setTreeSeachValue(e.target.value);
-              }}
-            />
-            <Tree
-              multiple
-              blockNode
-              autoExpandParent
-              treeData={treeHighData}
-              selectedKeys={treeSelect}
-              expandedKeys={treeExpandKeys}
-              onExpand={(e) => {
-                setTreeExpandKeys(e);
-              }}
-              onSelect={(keys) => {
-                setTreeSelect(keys);
-              }}
-            />
-          </Card>
+          <OrganizationTree
+            treeData={treeData}
+            reload={() => loadTreeData()}
+            value={oIds}
+            onChange={setOIds}
+          />
         </Col>
         <Col md={19}>
           <Page.Modal<SysUserVo, SysUserQo, SysUserDto>
@@ -361,8 +294,7 @@ export default () => {
             tableProps={{
               params: {
                 // @ts-ignore
-                organizationId:
-                  treeSelect && treeSelect.length > 0 ? treeSelect.join(',') : undefined,
+                organizationId: oIds && oIds.length > 0 ? oIds.join(',') : undefined,
               },
               rowSelection: {
                 fixed: true,
