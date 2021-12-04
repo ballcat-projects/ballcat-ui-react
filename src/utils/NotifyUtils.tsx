@@ -7,11 +7,12 @@ import { history } from 'umi';
 import { Token, User } from './Ballcat';
 
 export type NotifyProps = { id: string; content: string; title: string };
+let logoutModal: any;
 
 const logoutHandler = () => {
   Modal.destroyAll();
   User.clean();
-  Token.clean();
+  logoutModal = undefined;
   RouteUtils.redirect('/user/login');
 };
 
@@ -49,13 +50,13 @@ const Notify = {
     }
 
     // 如果没有缓存过token - 未登录过.
-    if (!Token.get()) {
+    if (!Token.get() && logoutModal === undefined) {
       // 直接跳转到登录页
       logoutHandler();
       return;
     }
-
-    Modal.info({
+    Token.clean();
+    logoutModal = Modal.info({
       title: I18n.text('notify.logout.title'),
       content: I18n.text('notify.logout.content'),
       closable: false,
