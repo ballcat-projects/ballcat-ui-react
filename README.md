@@ -64,7 +64,6 @@ BallCat 中的所有 JAR 包都已推送至中央仓库，尝鲜使用快照版�
         |-- dict        -- 字典数据全局存储, 更新, websocket事件配置
         |-- websocket   -- websocket连接与消息处理
     `-- services    -- 请求接口配置
-        |-- ant-design-pro  -- 登录,退出等
         |-- ballcat         -- ballcat后台接口
         |-- captcha         -- 验证码接口
     |-- utils       -- 工具类
@@ -74,9 +73,9 @@ BallCat 中的所有 JAR 包都已推送至中央仓库，尝鲜使用快照版�
 
 ## 核心依赖
 
-| 依赖     | 版本     | 官网                          |
-| -------- | -------- | ----------------------------- |
-| React    | ^17.0.0  | https://zh-hans.reactjs.org/  |
-| Antd     | ^4.16.13 | https://ant.design/           |
-| Antd Pro | v5       | https://pro.ant.design/zh-CN/ |
-| Umi      | ^v3.4.0  | https://umijs.org/zh-CN       |
+| 依赖     | 版本    | 官网                          |
+| -------- | ------- | ----------------------------- |
+| React    | ^17.0.0 | https://zh-hans.reactjs.org/  |
+| Antd     | ^4.17.1 | https://ant.design/           |
+| Antd Pro | v5      | https://pro.ant.design/zh-CN/ |
+| Umi      | ^v3.4.0 | https://umijs.org/zh-CN       |
