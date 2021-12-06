@@ -12,7 +12,6 @@ import type { ExpandRoute } from '@/utils/RouteUtils';
 import RouteUtils, { goto } from '@/utils/RouteUtils';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
-import { AliveScope } from 'react-activation';
 import MultiTab from '@/components/MultiTab';
 import { KeepAlive as ReactKeepAlive } from 'react-activation';
 import Notify from '@/utils/NotifyUtils';
@@ -165,16 +164,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
     >
       {initialState?.settings?.multiTab && <MultiTab />}
-      <AliveScope>
-        <WaterMark
-          content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
-          style={{ height: '100%' }}
-        >
-          <ReactKeepAlive id={keepAliveProps.id} name={keepAliveProps.name}>
-            {children}
-          </ReactKeepAlive>
-        </WaterMark>
-      </AliveScope>
+      <WaterMark
+        content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
+        style={{ height: '100%' }}
+      >
+        <ReactKeepAlive id={keepAliveProps.id} name={keepAliveProps.name}>
+          {children}
+        </ReactKeepAlive>
+      </WaterMark>
     </ProLayout>
   );
 };

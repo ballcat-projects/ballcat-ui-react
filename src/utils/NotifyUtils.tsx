@@ -1,7 +1,6 @@
 import { Modal } from 'antd';
 import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
-import RouteUtils from './RouteUtils';
 import I18n from './I18nUtils';
 import { history } from 'umi';
 import { Token, User } from './Ballcat';
@@ -13,7 +12,8 @@ const logoutHandler = () => {
   Modal.destroyAll();
   User.clean();
   logoutModal = undefined;
-  RouteUtils.redirect('/user/login');
+  const { pathname } = history.location;
+  window.location.replace(`/user/login?redirect=${pathname}`);
 };
 
 const readNotice = (id: string) => {

@@ -4,6 +4,14 @@ import type { ConfigOnClose } from 'antd/lib/message';
 import { settings } from './ConfigUtils';
 import { setLocale } from 'umi';
 
+import zhCN from '@/locales/zh-CN';
+import enUS from '@/locales/en-US';
+
+const locales = {
+  zhCN,
+  enUS,
+};
+
 export type I18nParams =
   | string
   | {
@@ -34,6 +42,13 @@ const I18n = {
     setLocale(local);
   },
   text: (key: string, params?: Record<string, string>, defaultMessage = key) => {
+    const lang = I18n.getLocal();
+    const locale = locales[lang.replace('-', '')];
+
+    if (locale && locale[key]) {
+      return locale[key];
+    }
+
     if (I18n.getIntl()) {
       return I18n.getIntl().formatMessage({ id: key, defaultMessage }, params);
     }

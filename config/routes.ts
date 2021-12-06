@@ -12,6 +12,7 @@
   },
   {
     path: '/',
+    layout: false,
     component: '../layouts',
     routes: [
       // {

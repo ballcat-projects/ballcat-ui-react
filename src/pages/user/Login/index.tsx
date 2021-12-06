@@ -75,7 +75,8 @@ const Login: React.FC = () => {
         // 则刷新数据
         await refresh();
         I18n.success('pages.login.success');
-        history?.push(redirect || '/');
+        // history?.push(redirect || '/');
+        window.location.replace(redirect || '/');
       })
       .catch(() => {
         I18n.error('pages.login.failure');
