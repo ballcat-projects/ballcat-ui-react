@@ -124,20 +124,14 @@ export function redirect(arg: string) {
   const path = arg.startsWith('/') ? arg : `/${arg}`;
   const { pathname } = history.location;
   if (path !== pathname) {
-    goto(`${path}?redirect=${history.location.pathname}`);
+    history.push(`${path}?redirect=${history.location.pathname}`);
   }
-}
-
-// 网站内部跳转
-export function goto(path: string) {
-  history.push(path);
 }
 
 const RouteUtils = {
   getRoute,
   getRedirectPath,
   redirect,
-  goto,
   getMenuDict: () => {
     return menuDict;
   },

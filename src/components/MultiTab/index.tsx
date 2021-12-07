@@ -4,7 +4,6 @@ import './index.less';
 import I18n from '@/utils/I18nUtils';
 import { history, useModel } from 'umi';
 import { useAliveController } from 'react-activation';
-import RouteUtils from '@/utils/RouteUtils';
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -64,7 +63,7 @@ const MultiTab = () => {
       // 需要跳转且存活节点数量大于0
       if (isRedirect) {
         // 跳转到存活节点的第一个
-        RouteUtils.goto(surviveNode.length > 0 ? surviveNode[0] : '/');
+        history.push(surviveNode.length > 0 ? surviveNode[0] : '/');
       }
 
       // 依次销毁

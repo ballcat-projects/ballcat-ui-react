@@ -9,7 +9,7 @@ import { history, Link, useIntl, useModel } from 'umi';
 import { settings } from '@/utils/ConfigUtils';
 import Footer from '@/components/Footer';
 import type { ExpandRoute } from '@/utils/RouteUtils';
-import RouteUtils, { goto } from '@/utils/RouteUtils';
+import RouteUtils from '@/utils/RouteUtils';
 import I18n from '@/utils/I18nUtils';
 import Icon from '@/components/Icon';
 import MultiTab from '@/components/MultiTab';
@@ -96,14 +96,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       route.children = newRoute.routes;
       setLoad(true);
 
-      if (location.pathname !== '/') {
-        goto(location.pathname as string);
+      if (location.pathname && location.pathname !== '/') {
+        history.replace(location.pathname);
       }
     }
   }, [routeArray, load]);
 
   if (location.pathname === '/' && firstPath && firstPath !== '/') {
-    goto(firstPath);
+    history.push(firstPath);
   }
 
   let contentMarginTop = 56;

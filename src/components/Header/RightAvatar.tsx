@@ -24,10 +24,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
       User.clean();
       Token.clean();
       //  退出登录，并且将当前的 url 保存
-      const { query = {}, pathname } = history.location;
-      const { redirect } = query;
-      // Note: There may be security issues, please note
-      if (window.location.pathname !== '/user/login' && !redirect) {
+      const { pathname } = history.location;
+      if (pathname !== '/user/login') {
         history.replace({
           pathname: '/user/login',
           search: stringify({

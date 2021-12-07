@@ -38,7 +38,7 @@ const Tab = ({ overlay, close }: TabProps) => {
       onChange={(key) => {
         // 不是当前激活的tab
         if (cacheActiveKey !== key) {
-          RouteUtils.goto(key);
+          history.push(key);
         }
       }}
       onEdit={(key, action) => {

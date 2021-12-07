@@ -13,7 +13,7 @@ const logoutHandler = () => {
   User.clean();
   logoutModal = undefined;
   const { pathname } = history.location;
-  window.location.replace(`/user/login?redirect=${pathname}`);
+  history.replace(`/user/login?redirect=${pathname}`);
 };
 
 const readNotice = (id: string) => {
