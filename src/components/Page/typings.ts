@@ -6,11 +6,11 @@ import type { AuthNoneOptionalProps } from '../Auth';
 import type { TableProps } from '../Table/typings';
 import type { ModalFormProps } from '@/components/Form';
 
-export type PageToolBarActions = { type: 'create'; permission: string } | JSX.Element;
+export type PageToolBarActions = { type: 'create'; permission: false | string } | JSX.Element;
 
 export type PageOperateBarPreset<T> = {
   type: 'edit' | 'del' | 'read';
-  permission: string;
+  permission: false | string;
   // 对 onClick  和 permission 的传递无效
   props?: AuthNoneOptionalProps | ((data: T) => AuthNoneOptionalProps);
 };

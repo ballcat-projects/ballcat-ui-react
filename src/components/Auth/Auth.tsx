@@ -99,7 +99,7 @@ const Auth = ({ permission, render }: AuthProps): JSX.Element => {
   const { initialState } = useModel('@@initialState');
 
   // 有权限
-  if (hasPermission(initialState, permission)) {
+  if (permission === false || hasPermission(initialState, permission)) {
     return <>{render()}</>;
   }
 

@@ -2,9 +2,12 @@ import type { MouseEvent, CSSProperties } from 'react';
 import type { PopconfirmProps } from 'antd';
 import type { ButtonType } from 'antd/lib/button';
 
+// 值为false表示不鉴权
+type Permission = false | string;
+
 export type AuthProps = {
   // 权限key
-  permission: string;
+  permission: Permission;
   // dom
   render: () => React.ReactNode;
 };
@@ -22,7 +25,7 @@ export type AuthDomProps = {
 
 export type AuthNoneProps = {
   // 权限key
-  permission: string;
+  permission: Permission;
   // 国际化key, 如果 text 值存在, 则以text为准
   localeKey?: string;
   // 确认框的标题, 如果此值不为空, 则单击事件会在点击确认后触发
@@ -31,7 +34,7 @@ export type AuthNoneProps = {
   confirm?: PopconfirmProps;
 } & AuthDomProps;
 
-export type AuthNoneOptionalProps = { permission?: string } & Omit<AuthNoneProps, 'permission'>;
+export type AuthNoneOptionalProps = { permission?: Permission } & Omit<AuthNoneProps, 'permission'>;
 
 export type AuthAProps = AuthNoneProps;
 
