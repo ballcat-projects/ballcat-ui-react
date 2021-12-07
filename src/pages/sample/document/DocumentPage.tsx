@@ -52,8 +52,8 @@ export default () => {
       rowKey="id"
       title="文档表，用于演示数据权限，可切换不同用户并授予不同角色体验效果(需退出重新登录)"
       columns={dataColumns}
-      toolBarActions={[{ type: 'create', permission: 'sample:document:add' }]}
-      operateBar={[{ type: 'del', permission: 'sample:document:del' }]}
+      toolBarActions={[{ type: 'create', permission: false }]}
+      operateBar={[{ type: 'del', permission: false }]}
     >
       <ProFormText hidden name="id" />
 
