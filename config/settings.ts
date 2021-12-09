@@ -22,6 +22,11 @@ export type ProjectSetting = LayoutSettings & {
     // 缓存类型, 目前仅支持 localStorage
     storage: 'local';
   };
+  key?: {
+    google?: {
+      map?: string;
+    };
+  };
 };
 
 const Settings: ProjectSetting = {
@@ -43,6 +48,13 @@ const Settings: ProjectSetting = {
   storageOptions: {
     namespace: 'ballcat/',
     storage: 'local',
+  },
+  key: {
+    google: {
+      // 如果要使用. 需要自己申请 google cloud api
+      // https://console.cloud.google.com/google/maps-apis/overview
+      map: 'AIzaSyDpi5kQbJ19Pb3Y6u75ALDSTejWJEVgGVE',
+    },
   },
 };
 
