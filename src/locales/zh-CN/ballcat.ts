@@ -47,4 +47,7 @@ export default {
   'notify.logout.title': '系统提示',
   'notify.logout.content': '登录状态已过期, 请退出重新登录!',
   'notify.logout.okText': '重新登录',
+
+  'copy.success': '复制成功!',
+  'copy.fail': '复制失败!',
 };

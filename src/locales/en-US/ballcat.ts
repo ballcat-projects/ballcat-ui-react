@@ -48,4 +48,7 @@ export default {
   'notify.logout.title': 'System hint',
   'notify.logout.content': 'The login status has expired, please log out and log in again!',
   'notify.logout.okText': 'Login again',
+
+  'copy.success': 'Copy successfully!',
+  'copy.failed': 'Copy failed!',
 };
