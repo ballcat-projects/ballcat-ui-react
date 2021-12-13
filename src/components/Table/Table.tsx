@@ -82,9 +82,15 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
     scroll = { x: '100%' };
   }
 
-  // 设置默认的分页大小
-  if (pagination !== false && !pagination.pageSize) {
-    pagination.pageSize = 10;
+  if (pagination !== false) {
+    // 设置默认的分页大小
+    if (!pagination.pageSize) {
+      pagination.pageSize = 10;
+    }
+    // 默认开启快速跳转
+    if (pagination.showQuickJumper === undefined || pagination.showQuickJumper === null) {
+      pagination.showQuickJumper = true;
+    }
   }
 
   useEffect(() => {
