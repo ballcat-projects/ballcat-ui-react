@@ -8,55 +8,16 @@ import type {
 import { badgeStatusArray } from '@/services/ballcat/system';
 import { badgeDefaultColorArray } from '@/services/ballcat/system';
 import { tagDefaultColorArray } from '@/services/ballcat/system';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
 import { dictItem } from '@/services/ballcat/system';
-import { Alert, Badge, Form, InputNumber, Modal, Popover, Tag, Select } from 'antd';
+import { Alert, Badge, Form, InputNumber, Modal, Popover, Tag, Select, Switch } from 'antd';
 import Color from '@/components/Color';
 import { sysDictItemAttributesKeys } from '@/services/ballcat/system';
 import ItemLanguages from './ItemLanguages';
 import FormGroup from '@/components/Form/FormGroup';
-
-const dataColumns: ProColumns<SysDictItemVo>[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 45,
-  },
-  {
-    title: '字典标识',
-    dataIndex: 'dictCode',
-    copyable: true,
-    ellipsis: true,
-  },
-  {
-    title: '文本值',
-    dataIndex: 'name',
-  },
-  {
-    title: '数据值',
-    dataIndex: 'value',
-    copyable: true,
-  },
-  {
-    title: '排序',
-    dataIndex: 'sort',
-    align: 'center',
-    width: 45,
-  },
-  {
-    title: '备注',
-    dataIndex: 'remarks',
-    ellipsis: true,
-    width: 150,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 150,
-  },
-];
+import { useRef } from 'react';
 
 export type ItemForm = {
   id: number;
@@ -83,6 +44,66 @@ export type ItemProps = {
 };
 
 export default ({ visible, setVisible, dictData }: ItemProps) => {
+  const tablerRef = useRef<ActionType>();
+
+  const dataColumns: ProColumns<SysDictItemVo>[] = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      width: 45,
+    },
+    {
+      title: '字典标识',
+      dataIndex: 'dictCode',
+      copyable: true,
+      ellipsis: true,
+    },
+    {
+      title: '文本值',
+      dataIndex: 'name',
+    },
+    {
+      title: '数据值',
+      dataIndex: 'value',
+      copyable: true,
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      align: 'center',
+      width: 45,
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (dom, entity) => {
+        return (
+          <Switch
+            checked={entity.status === 1}
+            checkedChildren="启用"
+            unCheckedChildren="禁用"
+            onChange={(checked) => {
+              dictItem.updateStatus(entity.id, checked ? 1 : 0).finally(() => {
+                tablerRef.current?.reload();
+              });
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: '备注',
+      dataIndex: 'remarks',
+      ellipsis: true,
+      width: 150,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      width: 150,
+    },
+  ];
+
   return (
     <Modal
       title={`字典项: ${dictData?.title}`}
@@ -119,6 +140,7 @@ export default ({ visible, setVisible, dictData }: ItemProps) => {
 
             return data;
           }}
+          tableRef={tablerRef}
         >
           <ProFormText name="id" hidden />
           <ProFormText

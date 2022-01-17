@@ -25,9 +25,9 @@ export type SysDict = {
   remarks: string;
 
   /**
-   * 可编辑的,1：是 0：否
+   * 状态,1：启用 0：禁用
    */
-  editable: number;
+  status: number;
 
   /**
    * 数据类型,1:Number 2:String 3:Boolean
@@ -138,7 +138,12 @@ export type SysDictItemQo = {
 };
 
 // 字典项查询返回
-export type SysDictItemVo = SysDictItem;
+export type SysDictItemVo = {
+  /**
+   * 状态,1：启用 0：禁用
+   */
+  status: number;
+} & SysDictItem;
 
 // 字典项展示数据获取
 export type SysDictDataItem = {

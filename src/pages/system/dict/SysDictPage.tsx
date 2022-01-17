@@ -7,29 +7,22 @@ import type { FormStatus } from '@/components/Form';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
 import SysDictItem from './SysDictItem';
-import { DictRadio, DictTag } from '@/components/Dict';
+import { DictRadio } from '@/components/Dict';
 import { Form } from 'antd';
 
 const dataColumns: ProColumns<SysDictVo>[] = [
   {
-    title: (_, type) => (type === 'table' ? '标识' : '字典标识'),
+    title: '字典标识',
     dataIndex: 'code',
     copyable: true,
     ellipsis: true,
-    width: 150,
+    width: 200,
   },
   {
-    title: (_, type) => (type === 'table' ? '名称' : '字典名称'),
+    title: '字典名称',
     dataIndex: 'title',
     ellipsis: true,
-    width: 180,
-  },
-  {
-    title: '属性',
-    hideInSearch: true,
-    dataIndex: 'editable',
-    width: 60,
-    render: (dom, record) => <DictTag code="dict_property" value={record.editable} />,
+    width: 200,
   },
   {
     title: '备注',
@@ -98,14 +91,6 @@ export default (): React.ReactNode => {
           name="title"
           placeholder="字典名称"
         />
-
-        <Form.Item
-          rules={[{ required: true, message: '请选择字典属性' }]}
-          label="字典属性"
-          name="editable"
-        >
-          <DictRadio code="dict_property" />
-        </Form.Item>
 
         <Form.Item
           rules={[{ required: true, message: '请选择数据类型' }]}

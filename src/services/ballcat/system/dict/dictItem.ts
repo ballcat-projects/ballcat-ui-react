@@ -28,3 +28,9 @@ export async function del(body: SysDictItem) {
     method: 'DELETE',
   });
 }
+
+export async function updateStatus(id: number, status: number) {
+  return request<R<void>>(`/system/dict/item/${id}?status=${status}`, {
+    method: 'patch',
+  });
+}
