@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Table from '@/components/Table';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { BasePageProps } from '.';
+import type { ActionType } from '@ant-design/pro-table';
+import type { BasePageProps, PageTableColumns } from '.';
 import Auth from '../Auth';
 import { defautlTitle } from '../Form';
 import I18n from '@/utils/I18nUtils';
 import { PlusOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 
 const BasePage = <T, U, E, ValueType = 'text'>({
   title,
@@ -30,7 +31,7 @@ const BasePage = <T, U, E, ValueType = 'text'>({
   }
 
   const [toolBarActionsList, setToolBarActionsList] = useState<React.ReactNode[]>([]);
-  const [tableColumns, setTableColumns] = useState<ProColumns<T, ValueType>[]>([]);
+  const [tableColumns, setTableColumns] = useState<PageTableColumns<T, ValueType>[]>([]);
 
   // 表格上方工具栏更新
   useEffect(() => {
@@ -64,7 +65,41 @@ const BasePage = <T, U, E, ValueType = 'text'>({
 
   // 表格列更新
   useEffect(() => {
-    const newColumns = columns ? [...columns] : [];
+    const newColumns: PageTableColumns<T, ValueType>[] = [];
+
+    (columns || []).forEach((col) => {
+      const newCol = { ...col };
+
+      if (col.cssEllipsis) {
+        // ellipsis 处理
+        newCol.ellipsis = false;
+        newCol.render = (defaultDom, entity, index, action, schema) => {
+          let dom = defaultDom;
+
+          if (col.render) {
+            dom = col.render(defaultDom, entity, index, action, schema);
+          }
+
+          // 包裹提示信息
+          dom = (
+            <Tooltip
+              key={`page-column-ellipsis-tooltip-${col.title}-${col.dataIndex}`}
+              title={defaultDom}
+            >
+              {dom}
+            </Tooltip>
+          );
+
+          return (
+            <div key={`page-column-ellipsis-${col.title}-${col.dataIndex}`} className="text-ellips">
+              {dom}
+            </div>
+          );
+        };
+      }
+
+      newColumns.push(newCol);
+    });
 
     if (operateBar && operateBar.length > 0) {
       newColumns.push({

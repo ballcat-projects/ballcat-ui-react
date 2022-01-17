@@ -6,6 +6,10 @@ import type { AuthNoneOptionalProps } from '../Auth';
 import type { TableProps } from '../Table/typings';
 import type { ModalFormProps } from '@/components/Form';
 
+export type PageTableColumns<T = any, ValueType = 'text'> = {
+  cssEllipsis?: boolean;
+} & ProColumns<T, ValueType>;
+
 export type PageToolBarActions = { type: 'create'; permission: false | string } | JSX.Element;
 
 export type PageOperateBarPreset<T> = {
@@ -21,7 +25,7 @@ export type PageOperateBar<T> =
 
 export type BasePageProps<T, U, E, ValueType = 'text'> = {
   rowKey: string;
-  columns: ProColumns<T, ValueType>[];
+  columns: PageTableColumns<T, ValueType>[];
   query: (params: QueryParam<U>) => Promise<R<PageResult<T>>>;
   title?: string;
   // 表格上方工具栏
