@@ -152,3 +152,5 @@ node_modules
 *.sln
 *.sw*
 .history/
+.yalc
+*.lock

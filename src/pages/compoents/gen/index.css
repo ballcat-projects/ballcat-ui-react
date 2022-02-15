@@ -1,0 +1,390 @@
+.lingting-code-generate-prefix-root {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  user-select: none;
+}
+
+.lingting-code-generate-prefix-left {
+  width: 20%;
+  height: 100%;
+  padding: 0 5px;
+  border-right: 1px solid #f1e8e8;
+}
+
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-title {
+  font-size: 16px;
+  color: #222;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-components {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+}
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-components .lingting-code-generate-prefix-left-component {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #e6f7ff;
+  padding: 8px 5px;
+  cursor: move;
+  border-radius: 3px;
+  border: 1px dashed #e6f7ff;
+  width: 100px;
+  max-width: 100px;
+  height: 40px;
+  max-height: 40px;
+}
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-components .lingting-code-generate-prefix-left-component .lingting-code-generate-prefix-left-component-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-components .lingting-code-generate-prefix-left-component:hover {
+  border: 1px dashed rgb(24, 144, 255);
+  color: rgb(24, 144, 255);
+}
+
+.lingting-code-generate-prefix-left .lingting-code-generate-prefix-left-components .lingting-code-generate-prefix-left-component .lingting-code-generate-prefix-left-component-separation {
+  height: 100%;
+  width: 5px;
+}
+
+.lingting-code-generate-prefix-mid {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 100%;
+}
+
+.lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-top {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-top .lingting-code-generate-prefix-mid-top-title {
+  font-size: 16px;
+  color: #222;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-top .lingting-code-generate-prefix-mid-top-btn {
+  margin-right: 10px;
+}
+
+.lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-page {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 0 5px;
+}
+
+.lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-item {
+  padding: 8px;
+}
+
+.lingting-code-generate-prefix-root .lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-item-float:hover {
+  background-color: #d1effd;
+}
+
+.lingting-code-generate-prefix-root .lingting-code-generate-prefix-mid .lingting-code-generate-prefix-mid-item-select {
+  background-color: #d1effd;
+}
+
+.lingting-code-generate-prefix-right {
+  width: 20%;
+  height: 100%;
+  padding: 0 8px;
+  border-left: 1px solid #f1e8e8;
+  display: flex;
+  flex-direction: column;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-empty {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  font-size: 16px;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item:not(:first-child) {
+  border-bottom: 3px solid #DCDFE6;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item .lingting-code-generate-prefix-right-item-title {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item .lingting-code-generate-prefix-right-item-options {
+  color: #606266;
+  display: flex;
+  flex-direction: column;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item .lingting-code-generate-prefix-right-item-options .lingting-code-generate-prefix-right-item-option {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  margin-bottom: 18px;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item .lingting-code-generate-prefix-right-item-options .lingting-code-generate-prefix-right-item-option .lingting-code-generate-prefix-right-item-option-label {
+  width: 90px;
+  height: 32px;
+  padding-right: 12px;
+  font-size: 14px;
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.lingting-code-generate-prefix-right .lingting-code-generate-prefix-right-item .lingting-code-generate-prefix-right-item-options .lingting-code-generate-prefix-right-item-option .lingting-code-generate-prefix-right-item-option-content {
+  width: calc(100% - 90px);
+  font-size: 13px;
+  height: 32px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/*
+ * copy by form generator
+ */
+
+.lingting-code-generate-prefix-input {
+  -webkit-appearance: none;
+  background-color: #FFF;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #DCDFE6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 32px;
+  line-height: 32px;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+}
+
+.lingting-code-generate-prefix-input:hover {
+  border-color: #C0C4CC;
+}
+
+/*
+ * copy by Antd
+ */
+
+.lingting-code-generate-prefix-mid-item-col {
+  position: relative;
+  max-width: 100%;
+  min-height: 1px
+}
+
+.lingting-code-generate-prefix-mid-item-col-24 {
+  display: block;
+  flex: 0 0 100%;
+  max-width: 100%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-23 {
+  display: block;
+  flex: 0 0 95.83333333%;
+  max-width: 95.83333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-22 {
+  display: block;
+  flex: 0 0 91.66666667%;
+  max-width: 91.66666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-21 {
+  display: block;
+  flex: 0 0 87.5%;
+  max-width: 87.5%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-20 {
+  display: block;
+  flex: 0 0 83.33333333%;
+  max-width: 83.33333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-19 {
+  display: block;
+  flex: 0 0 79.16666667%;
+  max-width: 79.16666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-18 {
+  display: block;
+  flex: 0 0 75%;
+  max-width: 75%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-17 {
+  display: block;
+  flex: 0 0 70.83333333%;
+  max-width: 70.83333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-16 {
+  display: block;
+  flex: 0 0 66.66666667%;
+  max-width: 66.66666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-15 {
+  display: block;
+  flex: 0 0 62.5%;
+  max-width: 62.5%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-14 {
+  display: block;
+  flex: 0 0 58.33333333%;
+  max-width: 58.33333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-13 {
+  display: block;
+  flex: 0 0 54.16666667%;
+  max-width: 54.16666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-12 {
+  display: block;
+  flex: 0 0 50%;
+  max-width: 50%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-11 {
+  display: block;
+  flex: 0 0 45.83333333%;
+  max-width: 45.83333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-10 {
+  display: block;
+  flex: 0 0 41.66666667%;
+  max-width: 41.66666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-9 {
+  display: block;
+  flex: 0 0 37.5%;
+  max-width: 37.5%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-8 {
+  display: block;
+  flex: 0 0 33.33333333%;
+  max-width: 33.33333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-7 {
+  display: block;
+  flex: 0 0 29.16666667%;
+  max-width: 29.16666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-6 {
+  display: block;
+  flex: 0 0 25%;
+  max-width: 25%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-5 {
+  display: block;
+  flex: 0 0 20.83333333%;
+  max-width: 20.83333333%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-4 {
+  display: block;
+  flex: 0 0 16.66666667%;
+  max-width: 16.66666667%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-3 {
+  display: block;
+  flex: 0 0 12.5%;
+  max-width: 12.5%
+}
+
+
+.lingting-code-generate-prefix-mid-item-col-2 {
+  display: block;
+  flex: 0 0 8.33333333%;
+  max-width: 8.33333333%
+}
+
+.lingting-code-generate-prefix-mid-item-col-1 {
+  display: block;
+  flex: 0 0 4.16666667%;
+  max-width: 4.16666667%
+}
+
+.lingting-code-generate-prefix-mid-item-col-0 {
+  display: none
+}
