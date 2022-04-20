@@ -46,7 +46,15 @@ const I18n = {
     const locale = locales[lang.replace('-', '')];
 
     if (locale && locale[key]) {
-      return locale[key];
+      let text = locale[key] as string;
+
+      if (params) {
+        Object.keys(params).forEach((k) => {
+          text = text.replace(`{${k}}`, params[k]);
+        });
+      }
+
+      return text;
     }
 
     if (I18n.getIntl()) {
