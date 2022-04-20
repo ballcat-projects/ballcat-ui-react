@@ -222,7 +222,7 @@ export default () => {
   const { initialState } = useModel('@@initialState');
 
   useEffect(() => {
-    if (settings.websocket) {
+    if (settings.websocket && initialState) {
       const newCw = new CustomerWebsocket();
       newCw.start();
       setCw(newCw);
