@@ -7,11 +7,12 @@ import { Token, User } from './Ballcat';
 
 export type NotifyProps = { id: string; content: string; title: string };
 let logoutModal: any;
+let cleanCache: any = () => {};
 
 const logoutHandler = () => {
-  Modal.destroyAll();
   User.clean();
   logoutModal = undefined;
+  cleanCache();
   const { pathname } = history.location;
   history.replace(`/user/login?redirect=${pathname}`);
 };
@@ -24,13 +25,16 @@ const readNotice = (id: string) => {
 };
 
 const Notify = {
+  setCleanCache: (clean: any) => {
+    cleanCache = clean;
+  },
   preview: (props: NotifyProps) => {
     Notify.notice({ ...props, id: '' });
   },
   notice: ({ id, content, title }: NotifyProps) => {
     Modal.info({
       title,
-      content: <div dangerouslySetInnerHTML={{ __html: content }}></div>,
+      content: <div dangerouslySetInnerHTML={{ __html: content }} />,
       width: 800,
       icon: (
         <NotificationOutlined
@@ -56,6 +60,8 @@ const Notify = {
       return;
     }
     Token.clean();
+    Modal.destroyAll();
+
     logoutModal = Modal.info({
       title: I18n.text('notify.logout.title'),
       content: I18n.text('notify.logout.content'),
@@ -64,6 +70,7 @@ const Notify = {
       okText: I18n.text('notify.logout.okText'),
       onOk: () => logoutHandler(),
       onCancel: () => logoutHandler(),
+      zIndex: 99999999,
     });
   },
 };

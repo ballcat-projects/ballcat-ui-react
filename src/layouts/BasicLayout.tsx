@@ -16,6 +16,7 @@ import MultiTab from '@/components/MultiTab';
 import { KeepAlive as ReactKeepAlive } from 'react-activation';
 import Notify from '@/utils/NotifyUtils';
 import Header from '@/components/Header';
+import { useAliveController } from 'react-activation';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -43,6 +44,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     },
     route,
   } = props;
+
+  const { clear } = useAliveController();
+  Notify.setCleanCache(clear);
 
   const { routeArray, firstPath, load, setLoad } = useModel('dynamic-route');
   const { initialState } = useModel('@@initialState');
