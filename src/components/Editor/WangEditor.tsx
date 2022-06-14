@@ -92,7 +92,7 @@ export default ({
 
   return (
     <>
-      <div id="wang-editor-dom"></div>
+      <div id="wang-editor-dom" />
     </>
   );
 };

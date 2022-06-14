@@ -144,7 +144,7 @@ const Cropper = ({
             boxShadow: '0 0 4px #ccc',
             WebkitBoxShadow: '0 0 4px #ccc',
           }}
-        ></div>
+        />
       </Col>
     </Row>
   );
