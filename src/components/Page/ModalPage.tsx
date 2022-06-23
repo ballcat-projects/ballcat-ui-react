@@ -19,9 +19,9 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   onError = () => {},
   children,
   operateBar,
-  operteBarProps,
+  operateBarProps,
   formData = (data) => {
-    return data as unknown as E;
+    return (data as unknown) as E;
   },
   del,
   handlerData,
@@ -51,7 +51,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
         title={title}
         toolBarActions={toolBarActions}
         operateBar={operateBar}
-        operteBarProps={operteBarProps}
+        operateBarProps={operateBarProps}
         perStatusChange={perStatusChange}
         formData={formData}
         del={del}

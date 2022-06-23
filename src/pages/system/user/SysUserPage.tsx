@@ -136,7 +136,7 @@ export default () => {
   const loadTreeData = useCallback(() => {
     setTreeData([]);
     organization.query().then((res) => {
-      const tree = TreeUtils.toTreeData(res.data as unknown as any[], (item) => {
+      const tree = TreeUtils.toTreeData((res.data as unknown) as any[], (item) => {
         return { ...item, label: item.name, value: item.id };
       });
       setTreeData(tree || []);
@@ -186,7 +186,7 @@ export default () => {
                             <Menu.Item key={`user-edit-item-${record.userId}`}>
                               <a
                                 onClick={() =>
-                                  formRef.current?.edit(record as unknown as SysUserDto)
+                                  formRef.current?.edit((record as unknown) as SysUserDto)
                                 }
                               >
                                 编辑
@@ -255,7 +255,7 @@ export default () => {
                 );
               },
             ]}
-            operteBarProps={{ width: 70 }}
+            operateBarProps={{ width: 70 }}
             toolBarActions={[
               selectedRowKeys && selectedRowKeys.length > 0 ? (
                 <Dropdown

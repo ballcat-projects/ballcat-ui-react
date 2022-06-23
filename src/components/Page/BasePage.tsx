@@ -16,9 +16,9 @@ const BasePage = <T, U, E, ValueType = 'text'>({
   toolBarActions,
   children,
   operateBar,
-  operteBarProps,
+  operateBarProps,
   del,
-  formData = (data) => data as unknown as E,
+  formData = (data) => (data as unknown) as E,
   tableProps,
   tableRef: pTableRef,
   formRef,
@@ -106,7 +106,7 @@ const BasePage = <T, U, E, ValueType = 'text'>({
         title: I18n.text('form.operate'),
         width: 160,
         fixed: 'right',
-        ...operteBarProps,
+        ...operateBarProps,
         hideInSearch: true,
         render: (dom, record) => {
           const nodes: React.ReactNode[] = [];

@@ -33,7 +33,7 @@ export type BasePageProps<T, U, E, ValueType = 'text'> = {
   // 表格右侧操作列
   operateBar?: PageOperateBar<T>[];
   // 表格右侧操作列参数
-  operteBarProps?: { title?: string; width?: number; fixed?: 'left' | 'right' | boolean };
+  operateBarProps?: { title?: string; width?: number; fixed?: 'left' | 'right' | boolean };
   /**
    *  状态变更前执行, 用于处理一些外部数据变更, 并且如果返回 false 则会中止状态变更行为.
    *  变更为新增时, record 为 undefined

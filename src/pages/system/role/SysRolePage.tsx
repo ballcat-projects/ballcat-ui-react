@@ -85,7 +85,7 @@ export default () => {
     // 获取可授权菜单
     menu.listRoleGrant().then((menuRes) => {
       const treeData = TreeUtils.ofList(
-        menuRes.data as unknown as TreeNode<SysMenuRoleGrateVo>[],
+        (menuRes.data as unknown) as TreeNode<SysMenuRoleGrateVo>[],
         0,
         (item) => {
           return {
@@ -182,7 +182,7 @@ export default () => {
   const bindOpen = (data: SysRoleVo) => {
     setBindData(data);
     organization.query().then((res) => {
-      const tree = TreeUtils.toTreeSelectData(res.data as unknown as any[]);
+      const tree = TreeUtils.toTreeSelectData((res.data as unknown) as any[]);
       setBindTreeData(tree || []);
     });
   };
@@ -200,7 +200,7 @@ export default () => {
         columns={dataColumns}
         onStatusChange={setStatus}
         toolBarActions={[{ type: 'create', permission: 'system:role:add' }]}
-        operteBarProps={{ width: 200 }}
+        operateBarProps={{ width: 200 }}
         operateBar={[
           { type: 'edit', permission: 'system:role:edit' },
           (dom, record) => (

@@ -202,7 +202,7 @@ export default () => {
           ),
           { type: 'del', permission: 'notify:announcement:del' },
         ]}
-        operteBarProps={{ width: 180 }}
+        operateBarProps={{ width: 180 }}
         formData={(data) => {
           const nd = { ...data };
           nd[recipientFilterConditionNames[data.recipientFilterType]] =
