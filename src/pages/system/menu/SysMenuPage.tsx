@@ -1,14 +1,13 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { SysI18nListVo, SysMenuDto, SysMenuQo, SysMenuVo } from '@/services/ballcat/system';
+import { i18n, menu } from '@/services/ballcat/system';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
 import type { FormStatus, ModalFormRef } from '@/components/Form';
-import Form, { FormNumber } from '@/components/Form';
-import { FormDictRadio } from '@/components/Form';
+import Form, { FormDictRadio, FormNumber } from '@/components/Form';
 import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
-import { message, Button, Form as AntdForm, Modal, TreeSelect, Typography } from 'antd';
-import { menu, i18n } from '@/services/ballcat/system';
+import { Button, Form as AntdForm, message, Modal, TreeSelect, Typography } from 'antd';
 import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
 import I18n from '@/utils/I18nUtils';
@@ -16,6 +15,7 @@ import Auth from '@/components/Auth';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';
 import { settings } from '@/utils/ConfigUtils';
+import { FormInstance } from 'antd/es';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -29,6 +29,7 @@ const isDir = (data: SysMenuVo | any) => {
 };
 
 export default () => {
+  const searchFormRef = useRef<FormInstance>();
   const formRef = useRef<ModalFormRef<SysMenuDto>>();
   const tableRef = useRef<ActionType>();
   const [status, setStatus] = useState<FormStatus>(undefined);
@@ -144,6 +145,14 @@ export default () => {
     <>
       <Page.Modal<SysMenuVo, SysMenuQo, SysMenuDto>
         {...menu}
+        query={(params) => {
+          return menu.query({
+            size: params.size,
+            current: params.current,
+            sortFields: params.sortFields,
+            sortOrders: params.sortOrders,
+          });
+        }}
         title="菜单权限"
         rowKey="id"
         columns={dataColumns}
@@ -186,6 +195,7 @@ export default () => {
         }}
         tableProps={{
           pagination: false,
+          formRef: searchFormRef,
           expandable: { expandIconColumnIndex: 1 },
           postData: (data) => {
             const treeData = TreeUtils.ofList(data, 0, (item) => {
@@ -202,7 +212,30 @@ export default () => {
             });
             treeSelectData[0].children = treeData;
             setTreeSelectData(treeSelectData);
-            return treeData;
+            return TreeUtils.treeFilter(
+              treeData,
+              (item) => {
+                const queryParams = searchFormRef.current?.getFieldsValue();
+                let show = true;
+                if (show && queryParams.id) {
+                  show = String(item.id) === queryParams.id;
+                }
+
+                if (show && queryParams.path && queryParams.path.length > 0) {
+                  show = item.path === queryParams.path;
+                }
+
+                if (show && queryParams.title) {
+                  show =
+                    (item.i18nTitle && item.i18nTitle.indexOf(queryParams.title) > -1) ||
+                    (item.title && item.title.indexOf(queryParams.title) > -1);
+                }
+                return show;
+              },
+              (_, children) => {
+                return isBtn(children[0]);
+              },
+            );
           },
         }}
         formProps={{ titleSuffix: '菜单' }}

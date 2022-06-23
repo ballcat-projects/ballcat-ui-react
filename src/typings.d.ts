@@ -36,7 +36,7 @@ export type QueryParam<T> = {
   size: number;
   sortFields: string[];
   sortOrders: ('desc' | 'asc')[];
-} & T;
+} & Partial<T>;
 
 export type PageResult<T> = {
   total: number;

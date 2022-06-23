@@ -116,4 +116,48 @@ export function toTreeData<T>(
   return treeData.length > 0 ? treeData : undefined;
 }
 
-export default { ofList, toTreeSelectData, toTreeData };
+/**
+ * 树形结构过滤
+ * @param data 树形结构数据
+ * @param filter 过滤函数, 判断当前数据是否展示
+ * @param showParent 判断在当前数据不展示的情况下, 有子级要展示时是否展示自己
+ * @param cField 子级字段名称
+ */
+export function treeFilter<T>(
+  data: T[],
+  filter: (item: T) => boolean = () => true,
+  showParent: (item: T, children: T[]) => boolean = () => true,
+  cField = 'children',
+) {
+  const filterData: T[] = [];
+
+  data.forEach((item) => {
+    // 自己是否展示
+    const showSelf = filter(item);
+    // 获取需要展示的子级
+    let children: any[] | undefined = treeFilter(item[cField] || [], filter, showParent, cField);
+    children = children && children.length > 0 ? children : undefined;
+    const fd = { ...item };
+    // 如果展示自己
+    if (showSelf) {
+      fd[cField] = children;
+      filterData.push(fd);
+    }
+    // 有子级要展示
+    else if (children && children.length > 0) {
+      // @ts-ignore 展示父级
+      if (showParent(item, children)) {
+        fd[cField] = children;
+        filterData.push(fd);
+      }
+      // 不展示父级, 把子级提权到父级
+      else {
+        // @ts-ignore
+        filterData.push(...children);
+      }
+    }
+  });
+  return filterData;
+}
+
+export default { ofList, toTreeSelectData, toTreeData, treeFilter };
