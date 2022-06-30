@@ -32,8 +32,10 @@ const Lov: React.FC<LovProps> = (props) => {
     (val: any) => {
       if (onChange) {
         onChange(val);
-      } else {
+      } else if (val) {
         setLovValue(val instanceof Array ? val : [val]);
+      } else {
+        setLovValue([]);
       }
     },
     [onChange],
