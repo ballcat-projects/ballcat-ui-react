@@ -5,18 +5,16 @@ import { Alert, Button, Divider, Drawer, List, message, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import omit from 'omit.js';
-import type { ProSettings } from '@ant-design/pro-layout';
+import type { ProSettings, Settings as LayoutSettings } from '@ant-design/pro-layout';
 import BlockCheckbox from './BlockCheckbox';
 import ThemeColor from './ThemeColor';
 import getLocales, { getLanguage } from './locales';
 import { genStringToTheme } from './utils';
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange';
-import RegionalSetting from './RegionalChange';
 import { useModel } from 'umi';
 import ConfigUtils from '@/utils/ConfigUtils';
 import type { BodyProps, MergerSettingsType, SettingDrawerProps } from './typings';
 import { LayoutSetting as LayoutSettingUtils } from '@/utils/Ballcat';
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
 export const getFormatMessage = (): ((data: { id: string; defaultMessage?: string }) => string) => {
   const formatMessage = ({ id }: { id: string; defaultMessage?: string }): string => {
@@ -182,6 +180,9 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
       style={{
         zIndex: 999,
       }}
+      bodyStyle={{ paddingBottom: '0' }}
+      drawerStyle={{ height: '100%' }}
+      contentWrapperStyle={{ height: 'auto' }}
     >
       <div className={`${baseClassName}-drawer-content`}>
         <Body titleKey="pagestyle" prefixCls={baseClassName}>
@@ -194,14 +195,17 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
             onChange={(value) => changeSetting('navTheme', value)}
           />
         </Body>
-        <Body titleKey="themecolor" prefixCls={baseClassName}>
-          <ThemeColor
-            value={primaryColor!}
-            colors={hideColors ? [] : colorList}
-            formatMessage={formatMessage}
-            onChange={(color) => changeSetting('primaryColor', color)}
-          />
-        </Body>
+
+        {!hideColors && (
+          <Body titleKey="themecolor" prefixCls={baseClassName}>
+            <ThemeColor
+              value={primaryColor!}
+              colors={colorList}
+              formatMessage={formatMessage}
+              onChange={(color) => changeSetting('primaryColor', color)}
+            />
+          </Body>
+        )}
 
         <Divider />
 
@@ -231,11 +235,11 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
         <LayoutSetting settings={layoutSetting} changeSetting={changeSetting} />
         <Divider />
 
-        <Body titleKey="regionalsettings" prefixCls={baseClassName}>
-          <RegionalSetting settings={layoutSetting} changeSetting={changeSetting} />
-        </Body>
+        {/*<Body titleKey="regionalsettings" prefixCls={baseClassName}>*/}
+        {/*  <RegionalSetting settings={layoutSetting} changeSetting={changeSetting}/>*/}
+        {/*</Body>*/}
 
-        <Divider />
+        {/*<Divider/>*/}
 
         <Body titleKey="othersettings" prefixCls={baseClassName}>
           <List

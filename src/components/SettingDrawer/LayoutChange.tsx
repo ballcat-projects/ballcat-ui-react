@@ -39,7 +39,7 @@ const LayoutSetting: React.FC<{
               value={contentWidth || 'Fixed'}
               size="small"
               className="content-width"
-              onSelect={(value) => {
+              onSelect={(value: any) => {
                 changeSetting('contentWidth', value);
               }}
               style={{ width: 80 }}
@@ -131,7 +131,7 @@ const LayoutSetting: React.FC<{
               value={multiTabStyle || 'default'}
               size="small"
               className="multi-tab-style"
-              onSelect={(value) => {
+              onSelect={(value: any) => {
                 changeSetting('multiTabStyle', value);
               }}
               style={{ width: 80 }}

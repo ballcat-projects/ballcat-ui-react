@@ -58,7 +58,13 @@ export default () => {
         <MoreOutlined style={{ fontSize: '16px', fontWeight: 'bolder' }} />
       </span>
 
-      <SettingDrawer hideHintAlert collapse={showSetting} onCollapseChange={setShowSetting} />
+      <SettingDrawer
+        hideHintAlert
+        hideColors
+        hideCopyButton
+        collapse={showSetting}
+        onCollapseChange={setShowSetting}
+      />
     </Space>
   );
 };

@@ -5,7 +5,12 @@
 .@{ant-pro-setting-drawer} {
   &-content {
     position: relative;
-    min-height: 100%;
+    //min-height: 100%;
+
+    .ant-pro-setting-drawer-content {
+      height: 100% !important;
+    }
+
     .@{ant-prefix}-list-item {
       span {
         flex: 1;
@@ -15,6 +20,7 @@
 
   &-block-checkbox {
     display: flex;
+
     &-item {
       position: relative;
       width: 44px;
@@ -35,6 +41,7 @@
         background-color: #fff;
         content: '';
       }
+
       &::after {
         position: absolute;
         top: 0;
@@ -47,10 +54,12 @@
 
       &-realDark {
         background-color: fade(@menu-dark-bg, 85%);
+
         &::before {
           background-color: fade(@menu-dark-bg, 65%);
           content: '';
         }
+
         &::after {
           background-color: fade(@menu-dark-bg, 85%);
         }
@@ -62,6 +71,7 @@
           background-color: @white;
           content: '';
         }
+
         &::after {
           background-color: @white;
         }
@@ -75,6 +85,7 @@
           background-color: @menu-dark-bg;
           content: '';
         }
+
         &::after {
           background-color: @white;
         }
@@ -86,6 +97,7 @@
           background-color: transparent;
           content: '';
         }
+
         &::after {
           background-color: @menu-dark-bg;
         }
@@ -97,11 +109,13 @@
           background-color: @white;
           content: '';
         }
+
         &::after {
           background-color: @menu-dark-bg;
         }
       }
     }
+
     &-selectIcon {
       position: absolute;
       right: 6px;
@@ -110,6 +124,7 @@
       font-weight: bold;
       font-size: 14px;
       pointer-events: none;
+
       .action {
         color: @primary-color;
       }
