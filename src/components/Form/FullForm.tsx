@@ -1,4 +1,4 @@
-import { useState, useRef, useImperativeHandle } from 'react';
+import { useImperativeHandle, useRef, useState } from 'react';
 import type { FormStatus } from './typings';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import ProForm from '@ant-design/pro-form';
@@ -43,14 +43,16 @@ const FullForm = <E, P = E>(props: FullFormProps<E, P>) => {
       setTitle(undefined);
       return;
     }
-    // 清空数据
-    formRef.current?.resetFields();
-    // 如果需要回填数据
-    if (data !== undefined && data !== null) {
-      formRef.current?.setFieldsValue(data);
-    }
     setTitle(`${defautlTitle[st]}${titleSuffix}`);
     setHidden(false);
+    setTimeout(() => {
+      // 清空数据
+      formRef.current?.resetFields();
+      // 如果需要回填数据
+      if (data !== undefined && data !== null) {
+        formRef.current?.setFieldsValue(data);
+      }
+    });
   };
 
   const submit = async (

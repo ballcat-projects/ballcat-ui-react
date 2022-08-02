@@ -1,5 +1,5 @@
-import { useState, useRef, useImperativeHandle } from 'react';
-import type { ModalFormProps, FormStatus } from './typings';
+import { useImperativeHandle, useRef, useState } from 'react';
+import type { FormStatus, ModalFormProps } from './typings';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import { ModalForm as AntdModalForm } from '@ant-design/pro-form';
 import type { R } from '@/typings';
@@ -58,14 +58,16 @@ const ModalForm = <E, P = E>(props: ModalFormProps<E, P>) => {
       setModalTitle(undefined);
       return;
     }
-    // 清空数据
-    formRef.current?.resetFields();
-    // 如果需要回填数据
-    if (data !== undefined && data !== null) {
-      formRef.current?.setFieldsValue(data);
-    }
     setModalTitle(`${defautlTitle[st]}${titleSuffix}`);
     setVisible(true);
+    setTimeout(() => {
+      // 清空数据
+      formRef.current?.resetFields();
+      // 如果需要回填数据
+      if (data !== undefined && data !== null) {
+        formRef.current?.setFieldsValue(data);
+      }
+    });
   };
 
   useImperativeHandle(currencyRef, () => ({
