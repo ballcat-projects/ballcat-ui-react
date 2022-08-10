@@ -5,8 +5,10 @@ import settings from './settings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
-const isDev = REACT_APP_ENV === 'dev';
+const { REACT_APP_ENV, UMI_ENV } = process.env;
+
+const isStart = REACT_APP_ENV === 'start';
+const isDev = UMI_ENV === 'dev';
 
 export default defineConfig({
   hash: true,
@@ -38,7 +40,7 @@ export default defineConfig({
   // https://umijs.org/plugins/plugin-esbuild
   esbuild: {},
   title: false,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy.dev,
   manifest: {
     basePath: '/',
   },
@@ -49,30 +51,55 @@ export default defineConfig({
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },
-  chunks: isDev ? undefined : ['umi', 'vendors'],
-  chainWebpack: isDev
+  chainWebpack: isStart
     ? undefined
     : function (config, { webpack }) {
-        if (REACT_APP_ENV !== 'dev') {
-          config.merge({
-            optimization: {
-              splitChunks: {
-                chunks: 'all',
-                minSize: 30000,
-                minChunks: 3,
-                automaticNameDelimiter: '.',
-                cacheGroups: {
-                  vendor: {
-                    name: 'vendors',
-                    test({ resource }: any): boolean {
-                      return /[\\/]node_modules[\\/]/.test(resource);
-                    },
-                    priority: 10,
+        config.merge({
+          optimization: {
+            splitChunks: {
+              chunks: 'all',
+              minSize: 30000,
+              // 共享该module的最小 chunk数量
+              minChunks: 2,
+              // 最多异步加载该模块
+              maxAsyncRequests: 10,
+              automaticNameDelimiter: '.',
+              // 根据被提取的 chunk 自动生成
+              name: true,
+              cacheGroups: {
+                antd: {
+                  name: 'antd',
+                  test({ resource }: any): boolean {
+                    return (
+                      /[\\/]node_modules[\\/]@ant-design[\\/]/.test(resource) ||
+                      /[\\/]node_modules[\\/]antd.*[\\/]/.test(resource)
+                    );
                   },
+                  minChunks: 2,
+                  reuseExistingChunk: true,
+                  priority: 30,
+                },
+                antv: {
+                  name: 'antv',
+                  test({ resource }: any): boolean {
+                    return /[\\/]node_modules[\\/]@antv[\\/]/.test(resource);
+                  },
+                  minChunks: 2,
+                  reuseExistingChunk: true,
+                  priority: 20,
+                },
+                vendor: {
+                  name: 'vendors',
+                  test({ resource }: any): boolean {
+                    return /[\\/]node_modules[\\/]/.test(resource);
+                  },
+                  minChunks: 2,
+                  reuseExistingChunk: true,
+                  priority: 10,
                 },
               },
             },
-          });
-        }
+          },
+        });
       },
 });
