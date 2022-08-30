@@ -1,10 +1,10 @@
-import type { PageResult, QueryParam, R } from '@/typings';
+import type { R } from '@/typings';
 import { request } from 'umi';
 import type { SysMenuRoleGrateVo } from '..';
 import type { SysMenuDto, SysMenuQo, SysMenuVo } from './typings';
 
-export async function query(body: QueryParam<SysMenuQo>) {
-  return request<R<PageResult<SysMenuVo>>>('system/menu/list', {
+export async function query(body: Partial<SysMenuQo>) {
+  return request<R<SysMenuVo[]>>('system/menu/list', {
     method: 'GET',
     params: body,
   });

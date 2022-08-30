@@ -1,14 +1,9 @@
-import { Button } from 'antd';
+import type { TableProps } from '@/components/Table/typings';
+import ProTable from '@ant-design/pro-table';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
-import ProTable from '@ant-design/pro-table';
-import type { TableProps } from '@/components/Table/typings';
+import { Button } from 'antd';
 import { useState, useEffect } from 'react';
-
-export const SortOrderTransfer: Record<string, string> = {
-  descend: 'desc',
-  ascend: 'asc',
-};
 
 const getSearch = (search: false | SearchConfig) => {
   let proSearch = search;
@@ -127,31 +122,29 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
           return Promise.resolve(retData);
         }
 
-        const sortFields: string[] = [];
-        const sortOrders: string[] = [];
+        const sortArr: string[] = [];
         const keys = sort ? Object.keys(sort) : [];
+
         // 排序处理
         if (keys.length > 0) {
           keys.forEach((key) => {
-            sortFields.push(key);
-            sortOrders.push(SortOrderTransfer[sort[key] || 'descend']);
+            sortArr.push(`${key},${sort[key] === 'ascend' ? 'asc' : 'desc'}`);
           });
         } else if (typeof rowKey === 'string') {
-          sortFields.push(rowKey);
-          sortOrders.push('order');
+          sortArr.push(`${rowKey},desc`);
         }
 
         const params: any = {
-          ...p,
+          page: p.current,
           size: p.pageSize,
-          sortFields,
-          sortOrders,
+          sort: sortArr,
         };
         delete params.pageSize;
         const res = await request(params);
-        if (pagination) {
+        const { records, total } = res?.data || {};
+
+        if (records) {
           // 分页处理
-          const { records, total } = res.data;
           retData.data = records;
           retData.total = total;
         } else {
@@ -159,6 +152,7 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
           retData.data = res.data as unknown as T[];
           retData.total = retData.data.length;
         }
+
         return retData;
       }}
     />

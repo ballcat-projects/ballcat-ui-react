@@ -32,10 +32,9 @@ export type R<T> = {
 };
 
 export type QueryParam<T> = {
-  current: number;
+  page: number;
   size: number;
-  sortFields: string[];
-  sortOrders: ('desc' | 'asc')[];
+  sort: string[];
 } & Partial<T>;
 
 export type PageResult<T> = {

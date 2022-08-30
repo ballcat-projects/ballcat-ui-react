@@ -1,9 +1,9 @@
-import type { PageResult, QueryParam, R } from '@/typings';
+import type { R } from '@/typings';
 import { request } from 'umi';
 import type { SysOrganizationVo, SysOrganizationQo, SysOrganizationDto } from './typings';
 
-export async function query(body?: QueryParam<SysOrganizationQo>) {
-  return request<R<PageResult<SysOrganizationVo>>>('system/organization/tree', {
+export async function query(body?: Partial<SysOrganizationQo>) {
+  return request<R<SysOrganizationVo[]>>('system/organization/tree', {
     method: 'GET',
     params: body,
   });

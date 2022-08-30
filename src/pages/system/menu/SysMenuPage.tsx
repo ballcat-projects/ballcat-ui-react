@@ -1,21 +1,21 @@
-import { useRef, useState } from 'react';
-import type { SysI18nListVo, SysMenuDto, SysMenuQo, SysMenuVo } from '@/services/ballcat/system';
-import { i18n, menu } from '@/services/ballcat/system';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import { EditableProTable } from '@ant-design/pro-table';
+import Auth from '@/components/Auth';
 import type { FormStatus, ModalFormRef } from '@/components/Form';
 import Form, { FormDictRadio, FormNumber } from '@/components/Form';
-import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import Page from '@/components/Page';
-import { Button, Form as AntdForm, message, Modal, TreeSelect, Typography } from 'antd';
-import TreeUtils from '@/utils/TreeUtils';
 import Icon, { IconSelect } from '@/components/Icon';
-import I18n from '@/utils/I18nUtils';
-import Auth from '@/components/Auth';
+import Page from '@/components/Page';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
-import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';
+import type { SysI18nListVo, SysMenuDto, SysMenuQo, SysMenuVo } from '@/services/ballcat/system';
+import { i18n, menu } from '@/services/ballcat/system';
 import { settings } from '@/utils/ConfigUtils';
+import I18n from '@/utils/I18nUtils';
+import TreeUtils from '@/utils/TreeUtils';
+import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';
+import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import { EditableProTable } from '@ant-design/pro-table';
+import { Button, Form as AntdForm, message, Modal, TreeSelect, Typography } from 'antd';
 import { FormInstance } from 'antd/es';
+import { useRef, useState } from 'react';
 
 const isBtn = (data: SysMenuVo | any) => {
   return data.type === 2 || data === 2;
@@ -145,13 +145,10 @@ export default () => {
     <>
       <Page.Modal<SysMenuVo, SysMenuQo, SysMenuDto>
         {...menu}
-        query={(params) => {
-          return menu.query({
-            size: params.size,
-            current: params.current,
-            sortFields: params.sortFields,
-            sortOrders: params.sortOrders,
-          });
+        query={() => {
+          return menu
+            .query({})
+            .then((res) => ({ ...res, data: { records: res.data, total: res.data?.length || 0 } }));
         }}
         title="菜单权限"
         rowKey="id"
