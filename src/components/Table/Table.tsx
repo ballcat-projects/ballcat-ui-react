@@ -134,12 +134,17 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
           sortArr.push(`${rowKey},desc`);
         }
 
+        const page = p.current;
+        const size = p.pageSize;
+        delete p.current;
+        delete p.pageSize;
+
         const params: any = {
-          page: p.current,
-          size: p.pageSize,
+          ...p,
+          page,
+          size,
           sort: sortArr,
         };
-        delete params.pageSize;
         const res = await request(params);
         const { records, total } = res?.data || {};
 
