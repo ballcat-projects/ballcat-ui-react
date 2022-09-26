@@ -86,6 +86,10 @@ const Table = <T extends Record<string, any>, U extends Record<string, any>, Val
     if (pagination.showQuickJumper === undefined || pagination.showQuickJumper === null) {
       pagination.showQuickJumper = true;
     }
+
+    if (pagination.showSizeChanger === undefined) {
+      pagination.showSizeChanger = true;
+    }
   }
 
   useEffect(() => {
