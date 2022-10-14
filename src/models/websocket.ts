@@ -79,7 +79,7 @@ class CustomerWebsocket {
   onError = (e: any) => {
     // 错误
     // eslint-disable-next-line no-console
-    console.log(`WebSocket connection error：${e.code} ${e.reason} ${e.wasClean}`);
+    console.error(`WebSocket connection error：${e.code} ${e.reason} ${e.wasClean}`);
     // 重连
     this.reconnect();
   };
@@ -87,7 +87,7 @@ class CustomerWebsocket {
   onClose = (e: any) => {
     // 关闭
     // eslint-disable-next-line no-console
-    console.log(`WebSocket connection closed：${e.code} ${e.reason} ${e.wasClean}`);
+    console.error(`WebSocket connection closed：${e.code} ${e.reason} ${e.wasClean}`);
     // 重连
     this.reconnect();
   };
