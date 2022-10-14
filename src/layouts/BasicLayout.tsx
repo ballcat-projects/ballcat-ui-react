@@ -1,3 +1,12 @@
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import Icon from '@/components/Icon';
+import MultiTab from '@/components/MultiTab';
+import { settings } from '@/utils/ConfigUtils';
+import I18n from '@/utils/I18nUtils';
+import Notify from '@/utils/NotifyUtils';
+import type { ExpandRoute } from '@/utils/RouteUtils';
+import RouteUtils from '@/utils/RouteUtils';
 import type {
   BasicLayoutProps as ProLayoutProps,
   MenuDataItem,
@@ -5,18 +14,8 @@ import type {
 } from '@ant-design/pro-layout';
 import ProLayout, { WaterMark } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
+import { KeepAlive as ReactKeepAlive, useAliveController } from 'react-activation';
 import { history, Link, useIntl, useModel } from 'umi';
-import { settings } from '@/utils/ConfigUtils';
-import Footer from '@/components/Footer';
-import type { ExpandRoute } from '@/utils/RouteUtils';
-import RouteUtils from '@/utils/RouteUtils';
-import I18n from '@/utils/I18nUtils';
-import Icon from '@/components/Icon';
-import MultiTab from '@/components/MultiTab';
-import { KeepAlive as ReactKeepAlive } from 'react-activation';
-import Notify from '@/utils/NotifyUtils';
-import Header from '@/components/Header';
-import { useAliveController } from 'react-activation';
 
 export type BasicLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -113,6 +112,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   let contentMarginTop = 56;
   if (!initialState?.settings?.fixedHeader) {
     contentMarginTop = 24;
+  }
+
+  if (initialState?.settings?.layout === 'mix' && collapsed) {
+    setCollapsed(false);
   }
 
   return (

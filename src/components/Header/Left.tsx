@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { Breadcrumb } from 'antd';
 import I18n from '@/utils/I18nUtils';
 import {
   HomeOutlined,
@@ -7,15 +5,19 @@ import {
   MenuUnfoldOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
+import { HeaderViewProps } from '@ant-design/pro-layout/es/Header';
 import type { Route } from '@ant-design/pro-layout/lib/typings';
-import { history } from 'umi';
-import { useAliveController } from 'react-activation';
 import type { CSSProperties } from '@umijs/renderer-react/node_modules/@types/react';
+import { Breadcrumb } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { useAliveController } from 'react-activation';
+import { history } from 'umi';
 
 interface HeaderContentProps {
   collapsed: boolean;
   onCollapse: (collapsed: boolean) => void;
   route: Route;
+  headerViewProps: HeaderViewProps;
 }
 
 const breadcrumbRender = (path: string, routes: Route[]) => {
@@ -60,8 +62,9 @@ const iconStyle: CSSProperties = {
 };
 
 export default (props: HeaderContentProps) => {
-  const { collapsed, onCollapse, route } = props;
+  const { collapsed, onCollapse, route, headerViewProps } = props;
   const { location } = history;
+  const { layout } = headerViewProps || {};
 
   const { refreshScope } = useAliveController();
 
@@ -88,11 +91,13 @@ export default (props: HeaderContentProps) => {
         height: '100%',
       }}
     >
-      <CollapsedIcon
-        title={I18n.text('component.global.header.content.fold')}
-        style={iconStyle}
-        onClick={() => onCollapse(!collapsed)}
-      />
+      {layout !== 'mix' && (
+        <CollapsedIcon
+          title={I18n.text('component.global.header.content.fold')}
+          style={iconStyle}
+          onClick={() => onCollapse(!collapsed)}
+        />
+      )}
 
       <ReloadOutlined
         title={I18n.text('multiTab.refresh')}
