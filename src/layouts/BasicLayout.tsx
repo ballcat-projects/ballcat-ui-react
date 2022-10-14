@@ -133,9 +133,20 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       siderWidth={isContentFull ? 0 : undefined}
       headerHeight={isContentFull ? 0 : undefined}
       headerRender={(headerProps, defaultDom) => (isContentFull ? undefined : defaultDom)}
-      headerContentRender={() => (
-        <Header.Left route={route} collapsed={collapsed} onCollapse={setCollapsed} />
-      )}
+      headerContentRender={(headerViewProps, defaultDom) => {
+        if (initialState?.settings?.splitMenus) {
+          return defaultDom;
+        }
+
+        return (
+          <Header.Left
+            headerViewProps={headerViewProps}
+            route={route}
+            collapsed={collapsed}
+            onCollapse={setCollapsed}
+          />
+        );
+      }}
       rightContentRender={() => <Header.Right />}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
