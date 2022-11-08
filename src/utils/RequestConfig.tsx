@@ -53,7 +53,7 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
 
           if (option.url) {
             // 部分接口特殊处理
-            if (option.url === 'captcha/get' || option.url === 'captcha/check') {
+            if (option.url.startsWith('captcha/')) {
               return response;
             }
           }

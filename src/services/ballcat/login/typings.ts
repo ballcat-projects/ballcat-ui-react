@@ -5,4 +5,5 @@ export type LoginParams = {
   type?: string;
   grant_type?: string;
   captchaVerification?: string;
+  captchaId?: string;
 };

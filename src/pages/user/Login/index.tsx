@@ -1,3 +1,10 @@
+import VerifySlide from '@/components/Captcha';
+import type { LoginParams } from '@/services/ballcat/login';
+import { login } from '@/services/ballcat/login';
+import { User, Token } from '@/utils/Ballcat';
+import { settings } from '@/utils/ConfigUtils';
+import { pwd } from '@/utils/Encrypt';
+import I18n from '@/utils/I18nUtils';
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -6,21 +13,14 @@ import {
   UserOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, message, Space, Tabs } from 'antd';
-import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import { Alert, message, Space, Tabs, Modal } from 'antd';
+import React, { useState } from 'react';
+import { useAliveController } from 'react-activation';
 import { history, Link, SelectLang, useIntl, useModel } from 'umi';
-import type { LoginParams } from '@/services/ballcat/login';
-import { login } from '@/services/ballcat/login';
-import { pwd } from '@/utils/Encrypt';
-import VerifySlide from '@/components/Captcha';
-import { User, Token } from '@/utils/Ballcat';
-import { settings } from '@/utils/ConfigUtils';
-import I18n from '@/utils/I18nUtils';
 
 // @ts-ignore
 import styles from './index.less';
-import { useAliveController } from 'react-activation';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -46,7 +46,7 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   // 是否使用登录验证码
   const [captcha] = useState<boolean>(true);
-  const [captchaSow, setCaptchaSow] = useState<boolean>(false);
+  const [captchaShow, setCaptchaShow] = useState<boolean>(false);
   const [loginParams, setLoginParams] = useState<LoginParams>({});
   const [vs, setVs] = useState<VerifySlide | null>(null);
 
@@ -95,7 +95,7 @@ const Login: React.FC = () => {
         return;
       }
       // 弹出验证码框
-      setCaptchaSow(true);
+      setCaptchaShow(true);
       vs.refresh();
     } else {
       await loginHandler(values);
@@ -109,20 +109,27 @@ const Login: React.FC = () => {
       <div hidden={!settings.i18n} className={styles.lang} data-lang>
         {SelectLang && <SelectLang />}
       </div>
-      {captcha && (
+
+      <Modal
+        closable={false}
+        visible={captcha && captchaShow}
+        forceRender={true}
+        footer={false}
+        onCancel={() => setCaptchaShow(false)}
+        width={278}
+        bodyStyle={{ padding: 0 }}
+      >
         <VerifySlide
-          ref={(ref) => {
-            setVs(ref);
-          }}
-          isSlideShow={captchaSow}
+          ref={setVs}
+          isSlideShow={captchaShow}
           close={() => {
-            setCaptchaSow(false);
+            setCaptchaShow(false);
           }}
-          success={async (captchaVerification) => {
-            loginHandler({ ...loginParams, captchaVerification });
+          success={async (params) => {
+            loginHandler({ ...loginParams, ...params });
           }}
         />
-      )}
+      </Modal>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
