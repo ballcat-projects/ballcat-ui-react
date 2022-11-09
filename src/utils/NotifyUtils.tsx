@@ -1,9 +1,9 @@
-import { Modal } from 'antd';
 import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
-import I18n from './I18nUtils';
+import { Modal } from 'antd';
 import { history } from 'umi';
-import { Token, User } from './Ballcat';
+import { Token, User, login_uri, isLogin } from './Ballcat';
+import I18n from './I18nUtils';
 
 export type NotifyProps = { id: string; content: string; title: string };
 let logoutModal: any;
@@ -14,7 +14,7 @@ const logoutHandler = () => {
   logoutModal = undefined;
   cleanCache();
   const { pathname } = history.location;
-  history.replace(`/user/login?redirect=${pathname}`);
+  history.replace(`${login_uri}?redirect=${pathname}`);
 };
 
 const readNotice = (id: string) => {
@@ -48,13 +48,13 @@ const Notify = {
     });
   },
   logout: () => {
-    // 登录页不提示
-    if (history.location.pathname === '/user/login') {
+    // 未登录页不提示
+    if (!isLogin() || logoutModal !== undefined) {
       return;
     }
 
     // 如果没有缓存过token - 未登录过.
-    if (!Token.get() && logoutModal === undefined) {
+    if (!Token.get()) {
       // 直接跳转到登录页
       logoutHandler();
       return;

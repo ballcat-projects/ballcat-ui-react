@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Token } from '@/utils/Ballcat';
+import { Token, isLogin } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
+import { useState, useEffect } from 'react';
 import { useModel } from 'umi';
 
 // 心跳配置
@@ -222,7 +222,7 @@ export default () => {
   const { initialState } = useModel('@@initialState');
 
   useEffect(() => {
-    if (settings.websocket && initialState) {
+    if (settings.websocket && isLogin(initialState)) {
       const newCw = new CustomerWebsocket();
       newCw.start();
       setCw(newCw);

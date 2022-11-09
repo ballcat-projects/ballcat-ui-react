@@ -1,9 +1,10 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useModel, dynamic } from 'umi';
+import { isLogin } from '@/utils/Ballcat';
+import I18n from '@/utils/I18nUtils';
 import type { ExpandRoute } from '@/utils/RouteUtils';
 import { getRoute } from '@/utils/RouteUtils';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import I18n from '@/utils/I18nUtils';
+import { useCallback, useState, useEffect } from 'react';
+import { useModel, dynamic } from 'umi';
 
 const getFirstUrl = (menuArray: ExpandRoute[]): string | undefined => {
   for (let index = 0; index < menuArray.length; index += 1) {
@@ -55,7 +56,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    if (initialState?.user?.access_token) {
+    if (isLogin(initialState)) {
       refresh();
     }
   }, [initialState, refresh]);

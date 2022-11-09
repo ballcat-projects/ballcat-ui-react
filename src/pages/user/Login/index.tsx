@@ -70,12 +70,11 @@ const Login: React.FC = () => {
         User.set(JSON.stringify(remoteUser));
         // 缓存token
         Token.set(remoteUser.access_token);
-
         const { redirect } = history.location.query as { redirect: string };
-        // 则刷新数据
-        await refresh();
         I18n.success('pages.login.success');
         history.replace(redirect || '/');
+        // 则刷新数据
+        await refresh();
       })
       .catch(() => {
         I18n.error('pages.login.failure');

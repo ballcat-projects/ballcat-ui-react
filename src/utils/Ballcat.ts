@@ -1,5 +1,7 @@
 import type { SysDictData, SysDictDataHash, SysDictDataItem } from '@/services/ballcat/system';
+import type { GLOBAL } from '@/typings';
 import type { ProjectSetting } from 'config/settings';
+import { history } from 'umi';
 import { settings } from './ConfigUtils';
 
 export const token_key = 'access-token';
@@ -7,6 +9,7 @@ export const user_key = 'user';
 export const dict_data_key = 'dict_data';
 export const dict_hash_key = 'dict_hash';
 export const layout_setting_key = 'layout_setting';
+export const login_uri = '/user/login';
 
 export function getKey(key: string): string {
   return `${settings.storageOptions?.namespace}${key}`;
@@ -22,6 +25,24 @@ export function set(key: string, val: any): void {
 
 export function remove(key: string): void {
   localStorage.removeItem(getKey(key));
+}
+
+/**
+ * 判断当前是否已登录
+ * @param initialState  全局上下文内容
+ */
+export function isLogin(initialState?: GLOBAL.Is) {
+  // 当前在登录页, 未登录
+  if (history && history.location.pathname === login_uri) {
+    return false;
+  }
+
+  if (!initialState || !initialState.user) {
+    return true;
+  }
+
+  // 存在token 已登录
+  return !!initialState?.user?.access_token;
 }
 
 export const Token = {

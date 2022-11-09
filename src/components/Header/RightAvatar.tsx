@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Dropdown, Menu, Modal, Spin } from 'antd';
-import { history, useModel } from 'umi';
-import { stringify } from 'querystring';
-// @ts-ignore
-import styles from './Right.less';
 import { logout } from '@/services/ballcat/login';
-import { User, Token } from '@/utils/Ballcat';
+import { User, Token, login_uri } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import UrlUtils from '@/utils/UrlUtils';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Dropdown, Menu, Modal, Spin } from 'antd';
+import { stringify } from 'querystring';
+import React, { useCallback } from 'react';
+import { history, useModel } from 'umi';
+// @ts-ignore
+import styles from './Right.less';
 
 export type GlobalHeaderRightProps = {
   exitConfirm?: boolean;
@@ -25,9 +25,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ exitConfirm }) => {
       Token.clean();
       //  退出登录，并且将当前的 url 保存
       const { pathname } = history.location;
-      if (pathname !== '/user/login') {
+      if (pathname !== login_uri) {
         history.replace({
-          pathname: '/user/login',
+          pathname: login_uri,
           search: stringify({
             redirect: pathname,
           }),

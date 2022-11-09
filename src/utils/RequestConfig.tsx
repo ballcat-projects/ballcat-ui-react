@@ -1,9 +1,9 @@
+import { Token, isLogin } from '@/utils/Ballcat';
+import I18n from '@/utils/I18nUtils';
+import Notify from '@/utils/NotifyUtils';
 import { notification } from 'antd';
 import type { RequestConfig } from 'umi';
 import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi-request';
-import { Token } from '@/utils/Ballcat';
-import I18n from '@/utils/I18nUtils';
-import Notify from '@/utils/NotifyUtils';
 
 /**
  * 自定义拦截请求
@@ -15,7 +15,7 @@ const customerRequestInterceptor: RequestInterceptor = (url, options) => {
 
   // 添加token
   const token = Token.get();
-  if (!headers.Authorization && token) {
+  if (!headers.Authorization && token && isLogin()) {
     headers.Authorization = `Bearer ${token}`;
   }
 

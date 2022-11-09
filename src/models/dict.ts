@@ -1,10 +1,10 @@
 import type { SysDictData } from '@/services/ballcat/system';
-import { useState, useCallback, useEffect, useMemo } from 'react';
 import { dict } from '@/services/ballcat/system';
-import { Dict } from '@/utils/Ballcat';
+import { Dict, isLogin } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
-import { useModel } from 'umi';
 import { debounce } from 'lodash';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useModel } from 'umi';
 
 let asyncCache: Record<string, SysDictData> = {};
 
@@ -111,7 +111,7 @@ export default () => {
   );
 
   useEffect(() => {
-    if (initialState?.user?.access_token) {
+    if (isLogin(initialState)) {
       init(true);
     }
   }, [init, initialState]);

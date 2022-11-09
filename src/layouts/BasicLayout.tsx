@@ -2,6 +2,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import MultiTab from '@/components/MultiTab';
+import { isLogin } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
 import I18n from '@/utils/I18nUtils';
 import Notify from '@/utils/NotifyUtils';
@@ -86,17 +87,17 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
     const newRoute: ExpandRoute = { ...route };
     newRoute.routes = [];
-    newRoute.children = [];
+    newRoute.items = [];
 
     if (routeArray && routeArray.length > 0) {
       for (let i = 0; i < routeArray.length; i += 1) {
         const menu = routeArray[i];
-        newRoute.children.push(menu);
+        newRoute.items.push(menu);
         newRoute.routes.push(menu);
       }
 
       route.routes = newRoute.routes;
-      route.children = newRoute.routes;
+      route.items = newRoute.routes;
       setLoad(true);
 
       if (location.pathname && location.pathname !== '/') {
@@ -117,7 +118,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   if (initialState?.settings?.layout === 'mix' && collapsed) {
     setCollapsed(false);
   }
-
   return (
     <ProLayout
       footerRender={() => <Footer />}
@@ -125,7 +125,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       logo={settings.logo}
       formatMessage={I18n.getIntl().formatMessage}
       {...props}
-      loading={!load || keepAliveProps.id === undefined}
+      loading={!load || keepAliveProps.id === undefined || !initialState?.user?.access_token}
       route={route}
       collapsedButtonRender={false}
       collapsed={collapsed}
@@ -153,7 +153,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       rightContentRender={() => <Header.Right />}
       onPageChange={async () => {
         // 如果没有登录，重定向到 login
-        if (!initialState?.user?.info) {
+        if (!isLogin(initialState)) {
           Notify.logout();
         }
       }}
