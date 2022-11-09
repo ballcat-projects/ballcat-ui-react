@@ -13,6 +13,8 @@ const logoutHandler = () => {
   cleanCache();
   const { pathname } = history.location;
   history.replace(`${login_uri}?redirect=${pathname}`);
+  Token.clean();
+  User.clean();
   logoutModal = undefined;
   Modal.destroyAll();
 };
@@ -53,8 +55,12 @@ const Notify = {
       return;
     }
 
-    Token.clean();
-    User.clean();
+    // 如果没有缓存过token - 未登录过.
+    if (!Token.get()) {
+      // 直接跳转到登录页
+      logoutHandler();
+      return;
+    }
 
     if (!logoutModal) {
       Modal.destroyAll();
