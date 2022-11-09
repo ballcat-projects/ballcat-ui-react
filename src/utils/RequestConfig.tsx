@@ -89,6 +89,11 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
 
 const errorHandler = (error: ResponseError) => {
   const { response, message: msg } = error;
+  // 401 不弹通知
+  if (response.status === 401) {
+    return;
+  }
+
   if (!response) {
     notification.error({
       description: I18n.text('app.error.network.description'),
