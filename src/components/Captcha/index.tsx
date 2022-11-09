@@ -97,7 +97,6 @@ const getCurrentCoordinate = (e: any) => {
     startX = Math.round(startX);
     startY = Math.round(startY);
   }
-  console.log('getCurrentCoordinate', startX, startY);
   return [startX, startY];
 };
 
@@ -168,7 +167,6 @@ export default class extends AbstractVerify<State> {
   move(e: MouseEvent | TouchEvent | Touch) {
     const { startX, startY, startTime, trackArr, end, bgImgRef, moveBtnStyles } = this.state;
     const [pageX, pageY] = getCurrentCoordinate(e);
-    console.log('move', pageX, pageY, this.state);
     let moveX = pageX - startX;
 
     trackArr.push({
