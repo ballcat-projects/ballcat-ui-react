@@ -2,7 +2,7 @@ import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { history } from 'umi';
-import { Token, User, login_uri, isLogin } from './Ballcat';
+import { Token, User, login_uri } from './Ballcat';
 import I18n from './I18nUtils';
 
 export type NotifyProps = { id: string; content: string; title: string };
@@ -10,11 +10,11 @@ let logoutModal: any;
 let cleanCache: any = () => {};
 
 const logoutHandler = () => {
-  User.clean();
-  logoutModal = undefined;
   cleanCache();
   const { pathname } = history.location;
   history.replace(`${login_uri}?redirect=${pathname}`);
+  logoutModal = undefined;
+  Modal.destroyAll();
 };
 
 const readNotice = (id: string) => {
@@ -49,29 +49,26 @@ const Notify = {
   },
   logout: () => {
     // 未登录页不提示
-    if (!isLogin() || logoutModal !== undefined) {
+    if (history.location.pathname === login_uri) {
       return;
     }
 
-    // 如果没有缓存过token - 未登录过.
-    if (!Token.get()) {
-      // 直接跳转到登录页
-      logoutHandler();
-      return;
-    }
     Token.clean();
-    Modal.destroyAll();
+    User.clean();
 
-    logoutModal = Modal.info({
-      title: I18n.text('notify.logout.title'),
-      content: I18n.text('notify.logout.content'),
-      closable: false,
-      keyboard: false,
-      okText: I18n.text('notify.logout.okText'),
-      onOk: () => logoutHandler(),
-      onCancel: () => logoutHandler(),
-      zIndex: 99999999,
-    });
+    if (!logoutModal) {
+      Modal.destroyAll();
+      logoutModal = Modal.info({
+        title: I18n.text('notify.logout.title'),
+        content: I18n.text('notify.logout.content'),
+        closable: false,
+        keyboard: false,
+        okText: I18n.text('notify.logout.okText'),
+        onOk: () => logoutHandler(),
+        onCancel: () => logoutHandler(),
+        zIndex: 99999999,
+      });
+    }
   },
 };
 

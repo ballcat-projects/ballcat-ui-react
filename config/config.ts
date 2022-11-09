@@ -1,14 +1,13 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
-
-import settings from './settings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV, UMI_ENV } = process.env;
+import settings from './settings';
+
+const { REACT_APP_ENV } = process.env;
 
 const isStart = REACT_APP_ENV === 'start';
-const isDev = UMI_ENV === 'dev';
 
 export default defineConfig({
   hash: true,

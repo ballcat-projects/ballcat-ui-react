@@ -56,7 +56,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    if (isLogin(initialState)) {
+    if (initialState && isLogin(initialState)) {
       refresh();
     }
   }, [initialState, refresh]);

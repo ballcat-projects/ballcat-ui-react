@@ -61,27 +61,33 @@ export default () => {
     // 无效字典删除
     const localHashs = Dict.getHashs();
     // 校验hash是否过期
-    const expireHashs = (await dict.validHash(localHashs)).data;
-    expireHashs.forEach((code) => {
-      // 删除过期hash
-      delete localHashs[code];
-      Dict.del(code);
-    });
-    // 更新hash缓存
-    Dict.setHashs(localHashs);
-    const newCache = {};
-    asyncCache = {};
-    // 缓存数据加载
-    Object.keys(localHashs).forEach((code) => {
-      const data = Dict.get(code);
-      if (data && !data.loading) {
-        newCache[code] = Dict.toData(data);
-        asyncCache[code] = newCache[code];
-      }
-    });
+    dict
+      .validHash(localHashs)
+      .then((res) => {
+        const expireHashs = res?.data || [];
+        expireHashs.forEach((code) => {
+          // 删除过期hash
+          delete localHashs[code];
+          Dict.del(code);
+        });
+        // 更新hash缓存
+        Dict.setHashs(localHashs);
+        const newCache = {};
+        asyncCache = {};
+        // 缓存数据加载
+        Object.keys(localHashs).forEach((code) => {
+          const data = Dict.get(code);
+          if (data && !data.loading) {
+            newCache[code] = Dict.toData(data);
+            asyncCache[code] = newCache[code];
+          }
+        });
 
-    setCache(newCache);
-    setInitializing(false);
+        setCache(newCache);
+      })
+      .finally(() => {
+        setInitializing(false);
+      });
   }, []);
 
   const load = useMemo(
@@ -111,7 +117,7 @@ export default () => {
   );
 
   useEffect(() => {
-    if (isLogin(initialState)) {
+    if (initialState && isLogin(initialState)) {
       init(true);
     }
   }, [init, initialState]);

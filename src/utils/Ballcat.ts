@@ -27,24 +27,6 @@ export function remove(key: string): void {
   localStorage.removeItem(getKey(key));
 }
 
-/**
- * 判断当前是否已登录
- * @param initialState  全局上下文内容
- */
-export function isLogin(initialState?: GLOBAL.Is) {
-  // 当前在登录页, 未登录
-  if (history && history.location.pathname === login_uri) {
-    return false;
-  }
-
-  if (!initialState || !initialState.user) {
-    return true;
-  }
-
-  // 存在token 已登录
-  return !!initialState?.user?.access_token;
-}
-
 export const Token = {
   get: () => {
     return get(token_key);
@@ -133,3 +115,21 @@ export const LayoutSetting = {
     set(layout_setting_key, JSON.stringify(ps));
   },
 };
+
+/**
+ * 判断当前是否已登录
+ * @param initialState  全局上下文内容
+ */
+export function isLogin(initialState?: GLOBAL.Is) {
+  // 当前在登录页, 未登录
+  if (history && history.location.pathname === login_uri) {
+    return false;
+  }
+
+  if (!initialState || !initialState?.user) {
+    return !!Token.get();
+  }
+
+  // 存在token 已登录
+  return !!initialState?.user?.access_token && !!Token.get();
+}
