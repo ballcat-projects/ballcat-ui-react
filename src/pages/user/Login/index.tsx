@@ -15,7 +15,7 @@ import {
 } from '@ant-design/icons';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { Alert, message, Space, Tabs, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAliveController } from 'react-activation';
 import { history, Link, SelectLang, useIntl, useModel } from 'umi';
 
@@ -36,7 +36,7 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
-  const { refresh } = useModel('@@initialState');
+  const { refresh, initialState } = useModel('@@initialState');
   I18n.setIntl(useIntl());
 
   const { clear } = useAliveController();
@@ -102,6 +102,10 @@ const Login: React.FC = () => {
   };
 
   const { status, type: loginType } = userLoginState;
+
+  useEffect(() => {
+    document.title = initialState?.settings?.title || 'Ball Cat';
+  }, [initialState]);
 
   return (
     <div className={styles.container}>
