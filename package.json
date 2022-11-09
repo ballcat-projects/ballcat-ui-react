@@ -22,9 +22,9 @@
     "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
     "precommit": "lint-staged",
     "prettier": "prettier -c --write \"src/**/*\"",
-    "start": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=dev UMI_ENV=dev umi dev",
-    "start:uat": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=dev UMI_ENV=uat umi dev",
-    "start:prod": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=dev UMI_ENV=prod umi dev",
+    "start": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=dev umi dev",
+    "start:uat": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=uat umi dev",
+    "start:prod": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=prod umi dev",
     "tsc": "tsc --noEmit"
   },
   "lint-staged": {

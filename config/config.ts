@@ -5,9 +5,7 @@ import routes from './routes';
 
 import settings from './settings';
 
-const { REACT_APP_ENV } = process.env;
-
-const isStart = REACT_APP_ENV === 'start';
+const isStart = process.env.REACT_APP_ENV === 'start';
 
 export default defineConfig({
   hash: true,
