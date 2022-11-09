@@ -57,7 +57,7 @@ class CustomerWebsocket {
 
       const newInstance = new WebSocket(url);
       // 连接成功
-      newInstance.onopen = this.onOpne;
+      newInstance.onopen = this.onOpen;
       // 连接错误
       newInstance.onerror = this.onError;
       // 连接关闭
@@ -68,7 +68,7 @@ class CustomerWebsocket {
     }
   };
 
-  onOpne = () => {
+  onOpen = () => {
     // eslint-disable-next-line no-console
     console.log('WebSocket connection success');
     // 开启心跳
