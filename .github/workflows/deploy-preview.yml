@@ -1,0 +1,38 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Deploy to preview server
+
+on:
+  # 手动触发事件
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install npm dependencies
+      run: yarn install
+    - name: Run build task
+      run: yarn build:prod
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.PREVIEW_SERVER_SSH_PRIVATE_KEY }}
+          ARGS: '-avz --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.PREVIEW_SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.PREVIEW_SERVER_USER }}
+          TARGET: ${{ secrets.REACT_TARGET }}
+          EXCLUDE: "/dist/, /node_modules/"
