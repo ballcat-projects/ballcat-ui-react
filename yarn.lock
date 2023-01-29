@@ -164,6 +164,16 @@
     use-media-antd-query "^1.1.0"
     warning "^4.0.3"
 
+"@ant-design/pro-provider@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.npmmirror.com/@ant-design/pro-provider/-/pro-provider-1.10.0.tgz#6f15a5a7600d6ec7dd42755c4727254a9df46dbd"
+  integrity sha512-gbQtq+Qlnob6aEghiWX/kXEzNhe4eOFlv5Ue2/xsal+22qvot/kFoOB652TD76fMI7vlkoema1pTKsvD5Uji6A==
+  dependencies:
+    "@babel/runtime" "^7.18.0"
+    antd "^4.20.0 "
+    rc-util "^5.0.1"
+    swr "^1.2.0"
+
 "@ant-design/pro-provider@1.9.3":
   version "1.9.3"
   resolved "https://registry.npmmirror.com/@ant-design/pro-provider/-/pro-provider-1.9.3.tgz#4df9a1fd581025c760487202957f8b5e84c4a683"
@@ -212,6 +222,21 @@
   dependencies:
     "@ant-design/icons" "^4.3.0"
     "@ant-design/pro-provider" "1.9.3"
+    "@babel/runtime" "^7.18.0"
+    antd "^4.20.0 "
+    classnames "^2.2.6"
+    moment "^2.27.0"
+    rc-util "^5.0.6"
+    react-sortable-hoc "^2.0.0"
+    swr "^1.2.0"
+
+"@ant-design/pro-utils@^1.43.2":
+  version "1.45.3"
+  resolved "https://registry.npmmirror.com/@ant-design/pro-utils/-/pro-utils-1.45.3.tgz#24352ae4086fd3e7fad3f6d81e1d301159d6ef82"
+  integrity sha512-W2qtyckdkHTWGVXfFfqb9s/ahq3o4GlIZC3+WDiGUgqJTsUkwY69yV67E2ZfAro1XRXblUzbvxIv96M7bEAfFg==
+  dependencies:
+    "@ant-design/icons" "^4.3.0"
+    "@ant-design/pro-provider" "1.10.0"
     "@babel/runtime" "^7.18.0"
     antd "^4.20.0 "
     classnames "^2.2.6"
@@ -14424,9 +14449,9 @@ typescript@^4.2.2:
   integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
 
 ua-parser-js@^0.7.30:
-  version "0.7.31"
-  resolved "https://registry.npmmirror.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
-  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
+  integrity sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==
 
 umi-core@1.9.10:
   version "1.9.10"
