@@ -1,4 +1,4 @@
-import type { CSSProperties, MouseEvent } from 'react';
+import type { MouseEvent, CSSProperties } from 'react';
 import type { PopconfirmProps } from 'antd';
 import type { ButtonType } from 'antd/lib/button';
 
@@ -7,7 +7,7 @@ type Permission = false | string;
 
 export type AuthProps = {
   // 权限key
-  permission: Permission;
+  permission?: Permission;
   // dom
   render: () => React.ReactNode;
 };
@@ -25,7 +25,7 @@ export type AuthDomProps = {
 
 export type AuthNoneProps = {
   // 权限key
-  permission: Permission;
+  permission?: Permission;
   // 国际化key, 如果 text 值存在, 则以text为准
   localeKey?: string;
   // 确认框的标题, 如果此值不为空, 则单击事件会在点击确认后触发

@@ -1,6 +1,7 @@
-import React from 'react';
+import Icon from '@/components/Icon';
+import I18n from '@/utils/I18nUtils';
 import { Button, Divider, Menu, Popconfirm, Space } from 'antd';
-import { useModel } from 'umi';
+import React from 'react';
 import type {
   AuthAProps,
   AuthDomProps,
@@ -9,9 +10,8 @@ import type {
   AuthProps,
   AutnButtonProps,
 } from '.';
-import I18n from '@/utils/I18nUtils';
 import type { GLOBAL } from '@/typings';
-import Icon from '@/components/Icon';
+import { useModel } from '@@/plugin-model/useModel';
 
 const getAuthDom = (
   props: AuthNoneProps,
@@ -90,9 +90,9 @@ const getAuthDom = (
  * 是否拥有权限
  * @return true 拥有
  */
-const hasPermission = (initialState: GLOBAL.Is | undefined, permission: string) => {
+const hasPermission = (initialState: GLOBAL.Is | undefined, permission?: string) => {
   const permissions = initialState?.user?.permissions || [];
-  return permissions.indexOf(permission) !== -1;
+  return !permission || permissions.indexOf(permission) !== -1;
 };
 
 const Auth = ({ permission, render }: AuthProps): JSX.Element => {
