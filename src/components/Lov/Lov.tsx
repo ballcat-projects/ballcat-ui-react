@@ -1,25 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import LovModal from '@/components/Lov/LovModal';
-
-import * as lovMap from '../../../config/lov';
-import type { LovConfig, LovProps } from './typing';
-import { Button, Input, Select } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import { Button, Input, Select } from 'antd';
+import { useCallback, useEffect, useState } from 'react';
 
-const cache: Record<string, LovConfig<any>> = {};
-// 使用 Object.keys 用来遍历模块
+import * as lovMap from './options';
+
+import type { LovConfig, LovProps } from './typing';
+
+const caches: Record<string, LovConfig<any, any>> = {};
+
 const keys = Object.keys(lovMap);
 
-for (let i = 0; i < keys.length; i += 1) {
-  const lov: LovConfig<Record<string, any>> = lovMap[keys[i]];
-  cache[lov.keyword] = lov;
+for (const key of keys) {
+  caches[key] = lovMap[key];
 }
 
-const Lov: React.FC<LovProps> = (props) => {
+export const Lov = <V, E = any>(props: LovProps<V, E>) => {
   const { value, onChange, keyword, overwriteConfig } = props;
-  const config = { ...cache[keyword], ...overwriteConfig };
+  const config = { ...caches[keyword], ...overwriteConfig } as LovConfig<V, E>;
+
   const [show, setShow] = useState<boolean>(false);
-  const [lovValue, setLovValue] = useState<any>();
+  const [lovValue, setLovValue] = useState<V[]>();
   const [modalKey, setModalKey] = useState<number>(1);
 
   // 在这里更新value之后. lovModal 内部没有更新数据. 展示会有问题
@@ -29,7 +30,7 @@ const Lov: React.FC<LovProps> = (props) => {
   }, [modalKey]);
 
   const lovValueChange = useCallback(
-    (val: any) => {
+    (val?: V | V[]) => {
       if (onChange) {
         onChange(val);
       } else if (val) {
@@ -43,7 +44,19 @@ const Lov: React.FC<LovProps> = (props) => {
 
   useEffect(() => {
     if (value) {
-      setLovValue(value instanceof Array && config.multiple ? [...value] : [value]);
+      // 值为数组
+      if (value instanceof Array) {
+        // 存在多个值
+        if (value.length > 0) {
+          setLovValue(config.multiple ? [...value] : [value[0]]);
+        } else {
+          setLovValue([]);
+        }
+      }
+      // 值为单个
+      else {
+        setLovValue([value]);
+      }
     } else {
       setLovValue([]);
     }
@@ -77,7 +90,7 @@ const Lov: React.FC<LovProps> = (props) => {
             // 多选, 相等
             if (lovValue === val) {
               // 清空选择内容
-              lovValueChange([]);
+              lovValueChange(undefined);
               keyStep();
               return;
             }
@@ -105,7 +118,7 @@ const Lov: React.FC<LovProps> = (props) => {
           <EllipsisOutlined style={{ fontSize: '16px' }} />
         </Button>
       </Input.Group>
-      <LovModal
+      <LovModal<V, E>
         {...props}
         {...config}
         value={lovValue}

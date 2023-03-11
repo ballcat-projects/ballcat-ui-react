@@ -1,47 +1,44 @@
+import type { PageResult, QueryParam, R } from '@/typings';
+import type { ModalProps } from 'antd';
 import type React from 'react';
+import type * as options from './options';
 
-export type LovProps = {
-  keyword: string;
+export type LovProps<V = any, E = any> = {
+  keyword: keyof typeof options;
   // 覆写配置
-  overwriteConfig?: Partial<LovConfig<any>>;
-} & LovModalProps;
+  overwriteConfig?: Partial<LovConfig<V, E>>;
+} & LovModalProps<V, E>;
 
-export type LovConfig<T> = {
+export type LovConfig<V, E, Q = Record<string, any>> = {
   // 标题
   title: string;
-  // 关键字
-  keyword: string;
   // 唯一字段
-  uniqueKey: string;
-  // 请求路径
-  url: string;
-  // 请求方式
-  method: 'GET' | 'POST' | 'HEAD' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'TRACE';
-  // 参数位置
-  position: 'DATA' | 'PARAMS';
+  uniqueKey: keyof E;
+  // 查询请求
+  request: (params: QueryParam<Q>) => Promise<R<PageResult<E>>>;
   // 固定请求参数, 该参数值会覆盖搜索栏中同名的参数值
-  fixedParams?: Record<string, any>;
+  fixedParams?: Partial<Q>;
   // 是否多选
   multiple: boolean;
   // 是否展示确定和取消按钮
   isRet: boolean;
   // 返回结果 传入字符串则表示返回指定字段,  传入函数则表示自定义返回值
-  ret: string | ((row: T) => any);
+  ret: keyof E | ((row: E) => V);
   // 表格列配置
-  columns: LovColumns<T>[];
+  columns: LovColumns<E>[];
   // 搜索组件配置
-  searchArray?: LovSearch[];
+  searchArray?: LovSearch<E>[];
   // modal 样式
   modalStyle?: React.CSSProperties;
   // modal 属性配置
-  modalProperties?: Record<string, any>;
+  modalProperties?: ModalProps;
 };
 
-export type LovColumns<T> = {
+export type LovColumns<E> = {
   // 列头
   title: string;
   // 字段
-  field: string;
+  dataIndex: keyof E;
   // 是否可以复制
   copy?: boolean;
   // 是否自动缩略
@@ -52,16 +49,16 @@ export type LovColumns<T> = {
    *  函数参数: record 当前列所有数据
    */
   render?:
-    | ((val: any, record: T) => React.ReactNode | React.ReactNode[])
+    | ((val: any, record: E) => React.ReactNode | React.ReactNode[])
     | React.ReactNode
     | React.ReactNode[];
 };
 
-export type LovSearch = {
+export type LovSearch<E> = {
   // 标签内容
   label: string;
   // 字段
-  field: string;
+  field: keyof E;
   /**
    * 输入框样式, 选择 input 则普通的展示一个输入框
    * 函数参数: setVal 一个用来提交搜索值的函数, 当值发生变化时, 请调用该方法提交新值
@@ -69,11 +66,13 @@ export type LovSearch = {
   html: 'input' | 'input-number' | ((setVal: (val: any) => void) => React.ReactNode);
 };
 
-export type LovModalProps = {
+export type LovModalProps<V, E, Q = Record<string, any>> = {
   // 值
-  value?: any;
+  value?: V | V[];
   // 参数为新值
-  onChange?: (val: any) => void;
+  onChange?: (val?: V | V[]) => void;
+  // 选中的值完整数据
+  onSelected?: (values: E[]) => void;
   // 动态参数. 该参数值会覆盖 固定参数以及搜索栏中同名的参数值
-  dynamicParams?: Record<string, any>;
+  dynamicParams?: Partial<Q>;
 };

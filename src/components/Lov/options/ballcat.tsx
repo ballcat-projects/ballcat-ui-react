@@ -1,30 +1,28 @@
-import { LovConfig } from '@/components/Lov';
-import { SysUserVo } from '@/services/ballcat/system';
+import type { LovConfig } from '@/components/Lov';
+import type { SysUserVo } from '@/services/ballcat/system';
+import { query } from '@/services/ballcat/system/user';
 
-export const LovUserMultiple: LovConfig<SysUserVo> = {
-  keyword: 'ballcat_user_multiple',
+export const LovUserMultiple: LovConfig<number, SysUserVo> = {
   title: '用户',
   uniqueKey: 'userId',
   multiple: true,
-  url: 'system/user/page',
-  method: 'GET',
-  position: 'PARAMS',
+  request: query,
   isRet: true,
   ret: 'userId',
   columns: [
     {
       title: '用户名',
-      field: 'username',
+      dataIndex: 'username',
       copy: true,
     },
     {
       title: '昵称',
-      field: 'nickname',
+      dataIndex: 'nickname',
       ellipsis: true,
     },
     {
       title: '组织',
-      field: 'organizationName',
+      dataIndex: 'organizationName',
     },
   ],
   searchArray: [

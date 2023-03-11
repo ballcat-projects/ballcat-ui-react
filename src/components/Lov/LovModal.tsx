@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { request } from 'umi';
-import { Modal, Select } from 'antd';
+import type { LovConfig, LovModalProps } from '@/components/Lov/typing';
+import Table from '@/components/Table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { LovConfig, LovModalProps } from '@/components/Lov/typing';
-import type { PageResult, R } from '@/typings';
-import Table from '@/components/Table';
+import { Modal, Select } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import './lov.less';
 
 type ModalProps = {
   show: boolean;
+  keyword: string;
   setShow: (show: boolean) => void;
   setValue: (val: any) => void;
 };
@@ -18,14 +18,14 @@ const defaultModalStyle: React.CSSProperties = {
   width: '800px',
 };
 
-function handlerColumns(columns: ProColumns<any>[], config: LovConfig<any>) {
+const handlerColumns = <V, E>(columns: ProColumns<E>[], config: LovConfig<V, E>) => {
   const map: Record<string, number> = {};
   // 配置表格列
-  for (let i = 0; i < config.columns.length; i += 1) {
+  for (let i = 0; i < (config?.columns || []).length; i += 1) {
     const column = config.columns[i];
-    const proColumn: ProColumns<any> = {
+    const proColumn: ProColumns<E> = {
       title: column.title,
-      dataIndex: column.field,
+      dataIndex: column.dataIndex as string,
       copyable: column.copy,
       ellipsis: column.ellipsis,
       hideInSearch: true,
@@ -33,25 +33,25 @@ function handlerColumns(columns: ProColumns<any>[], config: LovConfig<any>) {
     };
     if (column.render) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      proColumn.render = (dom, record, index, action) => {
+      proColumn.render = (dom, record) => {
         if (typeof column.render === 'function') {
-          return column.render(record[column.field], record);
+          return column.render(record[column.dataIndex], record);
         }
         return column.render;
       };
     }
     columns.push(proColumn);
-    map[column.field] = i;
+    map[column.dataIndex as string] = i;
   }
 
   return map;
-}
+};
 
-function handlerSearch(
-  columns: ProColumns<any>[],
-  config: LovConfig<any>,
+const handlerSearch = <V, E>(
+  columns: ProColumns<E>[],
+  config: LovConfig<V, E>,
   pMap: Record<string, number>,
-) {
+) => {
   if (!config.searchArray) {
     return pMap;
   }
@@ -59,10 +59,10 @@ function handlerSearch(
 
   for (let i = 0; i < config.searchArray.length; i += 1) {
     const search = config.searchArray[i];
-    const proColumn: ProColumns<any> = map[search.field]
-      ? columns[map[search.field]]
+    const proColumn: ProColumns<E> = map[search.field as string]
+      ? columns[map[search.field as string]]
       : {
-          dataIndex: search.field,
+          dataIndex: search.field as string,
           hideInTable: true,
         };
 
@@ -89,50 +89,60 @@ function handlerSearch(
       proColumn.valueType = search.html === 'input' ? 'text' : 'digit';
     }
 
-    if (!map[search.field]) {
+    if (!map[search.field as string]) {
       columns.push(proColumn);
-      map[search.field] = columns.length - 1;
+      map[search.field as string] = columns.length - 1;
     }
   }
 
   return map;
-}
+};
 
-function getRet(row: any, config: LovConfig<any>) {
-  if (typeof config.ret === 'string') {
-    return row[config.ret];
+const getRet = <V, E>(row: E, config: LovConfig<V, E>): V => {
+  if (typeof config.ret === 'function') {
+    return config.ret(row);
   }
-  return config.ret(row);
-}
+  return row[config.ret] as unknown as V;
+};
 
-const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) => {
-  const config: LovConfig<any> = props;
+const LovModal = <V, E = any>(props: LovModalProps<V, E> & LovConfig<V, E> & ModalProps) => {
+  const config: LovConfig<V, E> = props;
 
-  const { value, setValue, title, show, setShow, modalStyle, modalProperties, dynamicParams } =
-    props;
+  const {
+    value,
+    setValue,
+    keyword,
+    title,
+    show,
+    setShow,
+    modalStyle,
+    modalProperties,
+    dynamicParams,
+    onSelected,
+  } = props;
 
   const tableRef = useRef<ActionType>();
 
-  const [columns, setColumns] = useState<ProColumns<any>[]>([]);
+  const [columns, setColumns] = useState<ProColumns<E>[]>([]);
   const [proSearch, setProSearch] = useState<false | SearchConfig>(false);
 
-  const [showData, setShowData] = useState<any[]>([]);
+  const [showData, setShowData] = useState<V[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [selectedRows, setSelectedRows] = useState<E[]>([]);
 
-  const postData = (data: any[]) => {
+  const postData = (data: E[]) => {
     let rowKeys = [...selectedRowKeys];
     let rows = [...selectedRows];
     data.forEach((item) => {
       if (rowKeys.indexOf(item[config.uniqueKey]) === -1) {
-        const itemVal = getRet(item, config);
+        const itemVal = getRet<V, E>(item, config);
         if (showData.indexOf(itemVal) !== -1) {
           if (config.multiple) {
             rowKeys.push(item[config.uniqueKey]);
             rows.push(item);
           } else {
-            rowKeys = [].concat(item[config.uniqueKey]);
-            rows = [].concat(item);
+            rowKeys = [].concat(item[config.uniqueKey] as any);
+            rows = [item];
           }
         }
       }
@@ -143,7 +153,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     return data;
   };
 
-  const selectRow = (...rows: any[]) => {
+  const selectRow = (...rows: E[]) => {
     const newShowData: any[] = [...showData];
     const newSelectedRows: any[] = [...selectedRows];
     const newSelectedRowKeys: any[] = [...selectedRowKeys];
@@ -176,7 +186,7 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const unselectRow = (...rows: any[]) => {
+  const unselectRow = (...rows: E[]) => {
     const newShowData: any[] = [...showData];
     const newSelectedRows: any[] = [...selectedRows];
     const newSelectedRowKeys: any[] = [...selectedRowKeys];
@@ -217,19 +227,20 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
       handlerSearch(columns, config, map);
     }
     setColumns([...columns]);
-  }, [config.keyword]);
+  }, [keyword]);
 
   useEffect(() => {
-    setShowData(value ? [...value] : []);
+    setShowData(value ? (value instanceof Array ? [...value] : [value]) : []);
   }, [value]);
 
   const style = { ...defaultModalStyle, ...modalStyle };
   return (
     <Modal
+      className={'lov-modal'}
       style={style}
       width={style.width}
       {...modalProperties}
-      bodyStyle={{ padding: '0px', ...modalProperties?.paddingTop }}
+      bodyStyle={{ paddingLeft: '0', paddingBottom: '0', ...modalProperties?.style }}
       title={title}
       visible={show}
       onCancel={() => {
@@ -242,6 +253,9 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
           setValue(showData.length > 0 ? showData[0] : undefined);
         }
         setShow(false);
+        if (onSelected) {
+          onSelected(selectedRows);
+        }
       }}
     >
       <Table
@@ -250,36 +264,32 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
         defaultSize={'small'}
         search={proSearch}
         scroll={{ x: true }}
-        rowKey={config.uniqueKey}
+        rowKey={config.uniqueKey as string}
         rowSelection={{
           fixed: true,
           type: config.multiple ? 'checkbox' : 'radio',
           selectedRowKeys,
           onSelect: (row, selected) => {
             if (selected) {
-              selectRow(row);
+              selectRow(row as E);
             } else {
-              unselectRow(row);
+              unselectRow(row as E);
             }
           },
           onSelectAll: (selected, rows, changeRows) => {
             if (selected) {
-              selectRow(...changeRows);
+              selectRow(...(changeRows as E[]));
             } else {
-              unselectRow(...changeRows);
+              unselectRow(...(changeRows as E[]));
             }
           },
         }}
         postData={postData}
         tableAlertRender={false}
-        columns={columns}
+        columns={columns as any}
         request={(p) => {
-          const option = {
-            method: config.method,
-          };
-          option[config.position.toLowerCase()] = { ...p, ...config.fixedParams, ...dynamicParams };
-
-          return request<R<PageResult<any>>>(config.url, option);
+          const params = { ...p, ...config.fixedParams, ...dynamicParams };
+          return config.request(params) as any;
         }}
         tableExtraRender={() => {
           return (
@@ -289,9 +299,8 @@ const LovModal: React.FC<LovModalProps & LovConfig<any> & ModalProps> = (props) 
               style={{
                 width: '100%',
                 paddingLeft: '24px',
-                paddingRight: '24px',
-                marginTop:
-                  !config.searchArray || config.searchArray.length === 0 ? '15px' : undefined,
+                paddingRight: '0',
+                marginBottom: '15px',
               }}
               open={false}
               onDeselect={(val: any) => {
