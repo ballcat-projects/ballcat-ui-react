@@ -5,6 +5,7 @@ import { LayoutSetting, User } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
 import ProjectRequestConfig from '@/utils/RequestConfig';
 import { AliveScope } from 'react-activation';
+import { StrictMode } from 'react';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -28,7 +29,11 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
 }
 
 export function rootContainer(container: any) {
-  return <AliveScope>{container}</AliveScope>;
+  return (
+    <AliveScope>
+      <StrictMode>{container}</StrictMode>
+    </AliveScope>
+  );
 }
 
 /**
