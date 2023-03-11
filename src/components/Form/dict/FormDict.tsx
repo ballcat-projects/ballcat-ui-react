@@ -1,5 +1,5 @@
 import type { FormDictProps } from '..';
-import FormItem from '../FormItem';
+import FormItem from '../field/FormItem';
 
 function FormDict<DP, V = any>(props: FormDictProps<V, DP> & { Component: any }) {
   const { code, dictProps, Component } = props;

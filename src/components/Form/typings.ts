@@ -1,5 +1,5 @@
 import type { R } from '@/typings';
-import type React, { CSSProperties } from 'react';
+import type { CSSProperties, MutableRefObject, ReactNode } from 'react';
 import type { ColProps, FormItemProps as AntdFormItemProps, InputNumberProps } from 'antd';
 import type {
   ModalFormProps as AntdModalFormProps,
@@ -29,7 +29,7 @@ export type FullFormRef<E> = FormRef<E>;
 // e : 表单字段
 // p : 请求字段
 export type FormProps<E, P = E> = {
-  formRef?: React.MutableRefObject<FormRef<E> | undefined>;
+  formRef?: MutableRefObject<FormRef<E> | undefined>;
   onStatusChange?: (status: FormStatus) => void;
   titleSuffix?: string;
   labelCol?: ColProps;
@@ -44,18 +44,18 @@ export type FormProps<E, P = E> = {
   onFinish?: (status: FormStatus, body: P) => void;
   // 创建, 编辑 请求出错成后执行
   onError?: (e: any) => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type ModalFormProps<E, P = E> = {
-  formRef?: React.MutableRefObject<ModalFormRef<E> | undefined>;
+  formRef?: MutableRefObject<ModalFormRef<E> | undefined>;
   // 扩展
   antProps?: AntdModalFormProps<E>;
   width?: string;
 } & Omit<FormProps<E, P>, 'formRef'>;
 
 export type FullFormProps<E, P = E> = {
-  formRef?: React.MutableRefObject<FullFormRef<E> | undefined>;
+  formRef?: MutableRefObject<FullFormRef<E> | undefined>;
   // 扩展
   antProps?: ProFormProps<E>;
 } & Omit<FormProps<E, P>, 'formRef'>;

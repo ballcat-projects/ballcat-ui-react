@@ -1,7 +1,7 @@
 import I18n from '@/utils/I18nUtils';
 import { InputNumber } from 'antd';
 import FormItem from './FormItem';
-import type { FormNumberProps } from './typings';
+import type { FormNumberProps } from '../typings';
 
 function FormNumber<V = any>(props: FormNumberProps<V>) {
   const {

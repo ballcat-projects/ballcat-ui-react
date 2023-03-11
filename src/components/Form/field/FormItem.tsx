@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import type { FormItemProps } from './typings';
+import type { FormItemProps } from '../typings';
 import Icon from '@/components/Icon';
 import React from 'react';
 
