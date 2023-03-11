@@ -1,6 +1,6 @@
-import { Token, isLogin } from '@/utils/Ballcat';
+import { isLogin, Token } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useModel } from 'umi';
 
 // 心跳配置

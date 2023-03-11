@@ -5,16 +5,18 @@ import type {
   SysDictItemVo,
   SysDictVo,
 } from '@/services/ballcat/system';
-import { badgeStatusArray } from '@/services/ballcat/system';
-import { badgeDefaultColorArray } from '@/services/ballcat/system';
-import { tagDefaultColorArray } from '@/services/ballcat/system';
+import {
+  badgeDefaultColorArray,
+  badgeStatusArray,
+  dictItem,
+  sysDictItemAttributesKeys,
+  tagDefaultColorArray,
+} from '@/services/ballcat/system';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import Page from '@/components/Page';
-import { dictItem } from '@/services/ballcat/system';
-import { Alert, Badge, Form, InputNumber, Modal, Popover, Tag, Select, Switch } from 'antd';
+import { Alert, Badge, Form, InputNumber, Modal, Popover, Select, Switch, Tag } from 'antd';
 import Color from '@/components/Color';
-import { sysDictItemAttributesKeys } from '@/services/ballcat/system';
 import ItemLanguages from './ItemLanguages';
 import FormGroup from '@/components/Form/FormGroup';
 import { useRef } from 'react';

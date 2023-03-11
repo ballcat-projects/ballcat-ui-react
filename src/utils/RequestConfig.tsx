@@ -1,4 +1,4 @@
-import { Token, isLogin } from '@/utils/Ballcat';
+import { isLogin, Token } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import Notify from '@/utils/NotifyUtils';
 import { notification } from 'antd';

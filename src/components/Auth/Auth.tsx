@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Divider, Popconfirm, Space, Menu } from 'antd';
+import { Button, Divider, Menu, Popconfirm, Space } from 'antd';
 import { useModel } from 'umi';
 import type {
-  AuthProps,
-  AuthGroupProps,
   AuthAProps,
-  AuthNoneProps,
   AuthDomProps,
+  AuthGroupProps,
+  AuthNoneProps,
+  AuthProps,
   AutnButtonProps,
 } from '.';
 import I18n from '@/utils/I18nUtils';

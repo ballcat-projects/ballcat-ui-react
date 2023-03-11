@@ -9,7 +9,7 @@ import { HeaderViewProps } from '@ant-design/pro-layout/es/Header';
 import type { Route } from '@ant-design/pro-layout/lib/typings';
 import type { CSSProperties } from '@umijs/renderer-react/node_modules/@types/react';
 import { Breadcrumb } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAliveController } from 'react-activation';
 import { history } from 'umi';
 

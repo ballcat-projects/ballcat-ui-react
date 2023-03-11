@@ -3,8 +3,8 @@ import I18n from '@/utils/I18nUtils';
 import type { ExpandRoute } from '@/utils/RouteUtils';
 import { getRoute } from '@/utils/RouteUtils';
 import LoadingComponent from '@ant-design/pro-layout/es/PageLoading';
-import { useCallback, useState, useEffect } from 'react';
-import { useModel, dynamic } from 'umi';
+import { useCallback, useEffect, useState } from 'react';
+import { dynamic, useModel } from 'umi';
 
 const getFirstUrl = (menuArray: ExpandRoute[]): string | undefined => {
   for (let index = 0; index < menuArray.length; index += 1) {

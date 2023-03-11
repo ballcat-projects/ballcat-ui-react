@@ -1,4 +1,4 @@
-import type { MouseEvent, CSSProperties } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 import type { PopconfirmProps } from 'antd';
 import type { ButtonType } from 'antd/lib/button';
 

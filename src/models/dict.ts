@@ -3,7 +3,7 @@ import { dict } from '@/services/ballcat/system';
 import { Dict, isLogin } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import { debounce } from 'lodash';
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 
 let asyncCache: Record<string, SysDictData> = {};

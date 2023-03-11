@@ -1,6 +1,6 @@
 import type { R } from '@/typings';
 import { request } from 'umi';
-import type { SysOrganizationVo, SysOrganizationQo, SysOrganizationDto } from './typings';
+import type { SysOrganizationDto, SysOrganizationQo, SysOrganizationVo } from './typings';
 
 export async function query(body?: Partial<SysOrganizationQo>) {
   return request<R<SysOrganizationVo[]>>('system/organization/tree', {

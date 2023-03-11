@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import type { ActionType } from '@ant-design/pro-table';
 import type { FormStatus, FullFormRef } from '@/components/Form';
 import I18n from '@/utils/I18nUtils';
@@ -21,7 +21,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   operateBar,
   operateBarProps,
   formData = (data) => {
-    return (data as unknown) as E;
+    return data as unknown as E;
   },
   del,
   handlerData,

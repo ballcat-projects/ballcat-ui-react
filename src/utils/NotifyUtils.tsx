@@ -2,7 +2,7 @@ import { announcement } from '@/services/ballcat/notify';
 import { NotificationOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { history } from 'umi';
-import { Token, User, login_uri } from './Ballcat';
+import { login_uri, Token, User } from './Ballcat';
 import I18n from './I18nUtils';
 
 export type NotifyProps = { id: string; content: string; title: string };

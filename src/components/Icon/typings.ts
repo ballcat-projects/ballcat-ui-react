@@ -7,6 +7,7 @@ export interface IconProps {
 
   [key: string]: any;
 }
+
 export type SvgIconProps = Pick<
   IconComponentProps,
   | 'max'

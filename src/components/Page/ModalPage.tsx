@@ -21,7 +21,7 @@ const ModalPage = <T, U, E, P = E, ValueType = 'text'>({
   operateBar,
   operateBarProps,
   formData = (data) => {
-    return (data as unknown) as E;
+    return data as unknown as E;
   },
   del,
   handlerData,

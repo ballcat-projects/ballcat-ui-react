@@ -1,6 +1,6 @@
 import Page from '@/components/Page';
+import type { Document, DocumentQo, DocumentVo } from '@/services/ballcat/sample';
 import { document } from '@/services/ballcat/sample';
-import type { DocumentQo, DocumentVo, Document } from '@/services/ballcat/sample';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProFormText } from '@ant-design/pro-form';
 import Lov from '@/components/Lov';

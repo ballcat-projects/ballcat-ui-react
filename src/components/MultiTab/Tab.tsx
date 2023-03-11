@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Dropdown } from 'antd';
+import { Dropdown, Tabs } from 'antd';
 import './index.less';
 import { history } from 'umi';
 import { useAliveController } from 'react-activation';

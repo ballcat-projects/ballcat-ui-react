@@ -1,5 +1,5 @@
 import { TreeSelect } from 'antd';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { organization } from '@/services/ballcat/system';
 import TreeUtils from '@/utils/TreeUtils';
 

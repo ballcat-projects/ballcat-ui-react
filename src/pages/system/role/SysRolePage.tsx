@@ -7,16 +7,15 @@ import type {
   SysRoleQo,
   SysRoleVo,
 } from '@/services/ballcat/system';
-import { organization } from '@/services/ballcat/system';
+import { menu, organization, role } from '@/services/ballcat/system';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import { menu, role } from '@/services/ballcat/system';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { DictTag } from '@/components/Dict';
 import Auth from '@/components/Auth';
 import type { FormStatus } from '@/components/Form';
 import { FormDictRadio } from '@/components/Form';
-import { useState, useRef } from 'react';
-import { message, Drawer, Tree, Spin, Button, Modal, TreeSelect, Popconfirm } from 'antd';
+import { useRef, useState } from 'react';
+import { Button, Drawer, message, Modal, Popconfirm, Spin, Tree, TreeSelect } from 'antd';
 import type { TreeNode } from '@/typings';
 import TreeUtils from '@/utils/TreeUtils';
 import type { EventDataNode } from 'rc-tree/lib/interface';
@@ -85,7 +84,7 @@ export default () => {
     // 获取可授权菜单
     menu.listRoleGrant().then((menuRes) => {
       const treeData = TreeUtils.ofList(
-        (menuRes.data as unknown) as TreeNode<SysMenuRoleGrateVo>[],
+        menuRes.data as unknown as TreeNode<SysMenuRoleGrateVo>[],
         0,
         (item) => {
           return {
@@ -182,7 +181,7 @@ export default () => {
   const bindOpen = (data: SysRoleVo) => {
     setBindData(data);
     organization.query().then((res) => {
-      const tree = TreeUtils.toTreeSelectData((res.data as unknown) as any[]);
+      const tree = TreeUtils.toTreeSelectData(res.data as unknown as any[]);
       setBindTreeData(tree || []);
     });
   };

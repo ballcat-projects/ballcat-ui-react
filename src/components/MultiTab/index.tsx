@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import './index.less';
 import I18n from '@/utils/I18nUtils';
 import { history, useModel } from 'umi';

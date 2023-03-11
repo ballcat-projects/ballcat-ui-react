@@ -1,7 +1,7 @@
 import VerifySlide from '@/components/Captcha';
 import type { LoginParams } from '@/services/ballcat/login';
 import { login } from '@/services/ballcat/login';
-import { User, Token } from '@/utils/Ballcat';
+import { Token, User } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
 import { pwd } from '@/utils/Encrypt';
 import I18n from '@/utils/I18nUtils';
@@ -14,8 +14,8 @@ import {
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import { Alert, message, Space, Tabs, Modal } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Alert, message, Modal, Space, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useAliveController } from 'react-activation';
 import { history, Link, SelectLang, useIntl, useModel } from 'umi';
 

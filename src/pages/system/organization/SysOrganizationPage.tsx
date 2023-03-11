@@ -11,8 +11,8 @@ import TreeUtils from '@/utils/TreeUtils';
 import { InteractionOutlined } from '@ant-design/icons';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import { message, Form, TreeSelect } from 'antd';
-import { useState, useRef } from 'react';
+import { Form, message, TreeSelect } from 'antd';
+import { useRef, useState } from 'react';
 
 const dataColumns: ProColumns<SysOrganizationVo>[] = [
   { title: '组织名称', dataIndex: 'name', hideInTable: true },

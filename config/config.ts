@@ -45,6 +45,8 @@ export default defineConfig({
   fastRefresh: {},
   extraBabelPlugins: ['react-activation/babel'],
   ignoreMomentLocale: true,
+  // 不建议开启mfsu
+  // mfsu: {},
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },

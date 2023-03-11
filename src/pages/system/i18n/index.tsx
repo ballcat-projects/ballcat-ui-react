@@ -1,13 +1,12 @@
 import Page from '@/components/Page';
 import type { SysI18nDto, SysI18nLanguage, SysI18nQo, SysI18nVo } from '@/services/ballcat/system';
-import type { ProFormInstance } from '@ant-design/pro-form';
-import { ModalForm } from '@ant-design/pro-form';
-import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { i18n } from '@/services/ballcat/system';
+import type { ProFormInstance } from '@ant-design/pro-form';
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Form, message, Radio, Upload } from 'antd';
 import type { FormStatus } from '@/components/Form';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 import FileUtils from '@/utils/FileUtils';
 import type { UploadFile } from 'antd/lib/upload/interface';

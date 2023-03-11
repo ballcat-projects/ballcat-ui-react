@@ -1,5 +1,5 @@
 import type { R } from '@/typings';
-import type React from 'react';
+import type React, { CSSProperties } from 'react';
 import type { ColProps, FormItemProps as AntdFormItemProps, InputNumberProps } from 'antd';
 import type {
   ModalFormProps as AntdModalFormProps,
@@ -8,7 +8,6 @@ import type {
 } from '@ant-design/pro-form';
 import type { DictCheckboxProps, DictRadioProps, DictSelectProps } from '../Dict';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
-import type { CSSProperties } from 'react';
 
 export type FormStatus = 'read' | 'edit' | 'create' | undefined;
 

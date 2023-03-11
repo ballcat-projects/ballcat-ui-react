@@ -1,11 +1,11 @@
 import { request } from 'umi';
 import type {
-  SysUserQo,
-  SysUserVo,
   SysUserDto,
+  SysUserPassDto,
+  SysUserQo,
   SysUserScopeDto,
   SysUserScopeVo,
-  SysUserPassDto,
+  SysUserVo,
 } from '@/services/ballcat/system/typing';
 import type { PageResult, QueryParam, R } from '@/typings';
 import type { UploadFile } from 'antd/lib/upload/interface';

@@ -1,20 +1,19 @@
 import type { SysUserDto, SysUserQo, SysUserVo } from '@/services/ballcat/system';
-import { organization } from '@/services/ballcat/system';
+import { organization, user } from '@/services/ballcat/system';
 import {
-  message,
-  Col,
-  Row,
   Avatar,
-  TreeSelect,
-  Form,
-  Dropdown,
-  Menu,
-  Popconfirm,
   Button,
+  Col,
+  Dropdown,
+  Form,
+  Menu,
+  message,
+  Popconfirm,
+  Row,
+  TreeSelect,
 } from 'antd';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Key } from 'rc-tree/lib/interface';
-import { user } from '@/services/ballcat/system';
 import Page from '@/components/Page';
 import { ProFormText } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
@@ -136,7 +135,7 @@ export default () => {
   const loadTreeData = useCallback(() => {
     setTreeData([]);
     organization.query().then((res) => {
-      const tree = TreeUtils.toTreeData((res.data as unknown) as any[], (item) => {
+      const tree = TreeUtils.toTreeData(res.data as unknown as any[], (item) => {
         return { ...item, label: item.name, value: item.id };
       });
       setTreeData(tree || []);
@@ -186,7 +185,7 @@ export default () => {
                             <Menu.Item key={`user-edit-item-${record.userId}`}>
                               <a
                                 onClick={() =>
-                                  formRef.current?.edit((record as unknown) as SysUserDto)
+                                  formRef.current?.edit(record as unknown as SysUserDto)
                                 }
                               >
                                 编辑

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { DictProps } from './typings';
-import { useModel, getLocale } from 'umi';
+import { getLocale, useModel } from 'umi';
 import type { SysDictData, SysDictDataItem } from '@/services/ballcat/system';
 import { Spin } from 'antd';
 

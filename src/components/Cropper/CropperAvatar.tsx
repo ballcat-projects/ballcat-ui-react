@@ -1,7 +1,7 @@
 import { Button, Col, Modal, Row, Spin, Upload } from 'antd';
 import type { CropperAvatarProps, CropperRef } from '.';
 import Cropper from '.';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { UploadFile } from 'antd/lib/upload/interface';
 import I18n from '@/utils/I18nUtils';
 import {

@@ -1,5 +1,5 @@
 import { logout } from '@/services/ballcat/login';
-import { User, Token, login_uri } from '@/utils/Ballcat';
+import { login_uri, Token, User } from '@/utils/Ballcat';
 import I18n from '@/utils/I18nUtils';
 import UrlUtils from '@/utils/UrlUtils';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Table from '@/components/Table';
 import type { ActionType } from '@ant-design/pro-table';
 import type { BasePageProps, PageTableColumns } from '.';
@@ -18,7 +18,7 @@ const BasePage = <T, U, E, ValueType = 'text'>({
   operateBar,
   operateBarProps,
   del,
-  formData = (data) => (data as unknown) as E,
+  formData = (data) => data as unknown as E,
   tableProps,
   tableRef: pTableRef,
   formRef,

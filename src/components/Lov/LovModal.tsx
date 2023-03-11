@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { request } from 'umi';
 import { Modal, Select } from 'antd';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { LovConfig, LovModalProps } from '@/components/Lov/typing';
 import type { PageResult, R } from '@/typings';
 import Table from '@/components/Table';

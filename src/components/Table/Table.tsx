@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 // @ts-ignore
 import type { SearchConfig } from '@ant-design/pro-table/components/Form/FormRender';
 import { Button } from 'antd';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const getSearch = (search: false | SearchConfig) => {
   let proSearch = search;

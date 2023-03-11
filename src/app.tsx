@@ -1,7 +1,7 @@
 import { PageLoading } from '@ant-design/pro-layout';
 import type { RequestConfig } from 'umi';
 import type { GLOBAL } from '@/typings';
-import { User, LayoutSetting } from '@/utils/Ballcat';
+import { LayoutSetting, User } from '@/utils/Ballcat';
 import { settings } from '@/utils/ConfigUtils';
 import ProjectRequestConfig from '@/utils/RequestConfig';
 import { AliveScope } from 'react-activation';
