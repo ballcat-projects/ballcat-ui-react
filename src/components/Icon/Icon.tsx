@@ -1,9 +1,9 @@
 import { Spin } from 'antd';
 import React from 'react';
-import { allIcon } from '.';
+import icons from './icons';
 import type { IconProps } from './typings';
 
-const converTypeToIconPath = (type: string) => {
+const convertTypeToIconPath = (type: string) => {
   let path = '';
 
   type.split('-').forEach((t) => {
@@ -21,7 +21,7 @@ const Icon: React.FC<IconProps> = (props: IconProps) => {
     return <></>;
   }
 
-  const IconType = allIcon[converTypeToIconPath(type)];
+  const IconType = icons[type] || icons[convertTypeToIconPath(type)];
 
   return IconType ? (
     <IconType {...props} />

@@ -1,8 +1,8 @@
 import IconSelect from './IconSelect';
 import Icon from './Icon';
 import SvgIcon from './SvgIcon';
-import { allIcon } from './allIcon';
+import icons from './icons';
 
-export { IconSelect, SvgIcon, allIcon };
+export { IconSelect, SvgIcon, icons };
 
 export default Icon;

@@ -1,9 +1,10 @@
 import type { IconComponentProps } from '@ant-design/icons/lib/components/Icon';
+import type icons from '@/components/Icon/icons';
 
 export interface IconProps {
   style?: React.CSSProperties;
   onClick?: (e: any) => void;
-  type: string;
+  type: string | keyof typeof icons;
 
   [key: string]: any;
 }
