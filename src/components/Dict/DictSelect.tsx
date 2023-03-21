@@ -28,8 +28,8 @@ const DictSelect = (props: DictSelectProps) => {
       render={({ value, onChange, getRealName, style }, { hashCode, dictItems }) => {
         const optionArray: React.ReactNode[] = [];
 
-        for (let index = 0; index < dictItems.length; index += 1) {
-          const item = dictItems[index];
+        for (const element of dictItems) {
+          const item = element;
           if (showFilter(item)) {
             optionArray.push(getSingleDom(props, item, getRealName(item)));
           }
