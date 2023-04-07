@@ -312,7 +312,7 @@ export default () => {
                 break;
               // 用户 5
               case 5:
-                recipientFilterConditionDom = <Lov keyword="ballcat_user_multiple" />;
+                recipientFilterConditionDom = <Lov keyword="LovUserMultiple" />;
                 break;
               // 全部 1
               default:

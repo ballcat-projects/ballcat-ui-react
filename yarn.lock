@@ -12252,14 +12252,14 @@ rc@1.2.8, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-activation@^0.9.4:
-  version "0.9.12"
-  resolved "https://registry.npmmirror.com/react-activation/-/react-activation-0.9.12.tgz#75eeee843a5967639ca475c42aca2915fe632270"
-  integrity sha512-xxKfQWuyQ6MSRnsXNaN2gONNr1yyKEbKVrrFMFRFAEhms+7vPCwVnUFXHOXocPZBmKqQ1G4YReVRwVhKnwbNRQ==
+react-activation@^0.12.1:
+  version "0.12.2"
+  resolved "https://registry.npmmirror.com/react-activation/-/react-activation-0.12.2.tgz#3fc28ac416b2a82841cbaa82bd26ae32cc270004"
+  integrity sha512-nNk0FJ0ljWPM3I5q5h9mewp/5mIKnJELOFc8mRq0JrwmVP4ozkZEUN05OolRXdnGPuS5S50ec3mTZA3B6wSYJA==
   dependencies:
     create-react-context "^0.3.0"
     hoist-non-react-statics "^3.3.0"
-    react-node-key "^0.3.1"
+    react-node-key "^0.4.0"
     szfe-tools "^0.0.0-beta.7"
 
 react-color@^2.19.3:
@@ -12377,10 +12377,10 @@ react-native-swipeout@^2.2.2:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-node-key@^0.3.1:
-  version "0.3.2"
-  resolved "https://registry.npmmirror.com/react-node-key/-/react-node-key-0.3.2.tgz#e1a0f7596d4598ec84067ee004def9fdbacfaa39"
-  integrity sha512-RizO8ziMC/xX+x8fwqaMMmpaMo/3mUFv7REcUjwd2gSyY00wKzlxMpthJ8daOTOr1ZmptSqAZO1o+cqLt3PjSA==
+react-node-key@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmmirror.com/react-node-key/-/react-node-key-0.4.0.tgz#acb90f06828f594051c6e37c005ea080be228ee2"
+  integrity sha512-puiuP2QYEuNBVVvcjpUE8d8/jdAhiXHBHMmjZzQT4+fe276RMYea/tY7JoZoYlrhAX8DORLPvjySjXYJZ1m6/A==
   dependencies:
     jsx-ast-utils "^2.2.1"
     szfe-tools "^0.0.0-beta.7"

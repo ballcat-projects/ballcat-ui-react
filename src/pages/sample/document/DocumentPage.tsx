@@ -68,7 +68,7 @@ export default () => {
         name="userId"
         rules={[{ required: true, message: '请选择所属用户!' }]}
       >
-        <Lov keyword="ballcat_user_multiple" overwriteConfig={{ multiple: false }} />
+        <Lov keyword="LovUserMultiple" overwriteConfig={{ multiple: false }} />
       </Form.Item>
     </Page.Modal>
   );
