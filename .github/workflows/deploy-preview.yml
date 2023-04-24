@@ -4,6 +4,8 @@
 name: Deploy to preview server
 
 on:
+  push:
+    branches: [ "main" ]
   # 手动触发事件
   workflow_dispatch:
 
