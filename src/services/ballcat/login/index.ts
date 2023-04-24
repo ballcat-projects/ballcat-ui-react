@@ -1,6 +1,7 @@
 import { request } from 'umi';
 import type { GLOBAL, R } from '@/typings';
 import type { LoginParams } from './typings';
+import { Token } from '@/utils/Ballcat';
 
 export * from './typings';
 
@@ -8,8 +9,13 @@ export * from './typings';
  * 退出登录接口
  */
 export async function logout() {
-  return request<any>('oauth/logout', {
-    method: 'DELETE',
+  const token = Token.get();
+  return request<any>('oauth2/revoke', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Basic dWk6dWk=',
+    },
+    params: { token: token },
   });
 }
 
@@ -17,7 +23,7 @@ export async function logout() {
  * 登录接口
  */
 export async function login(body: LoginParams) {
-  return request<GLOBAL.UserInfo>('oauth/token', {
+  return request<GLOBAL.UserInfo>('oauth2/token', {
     method: 'POST',
     headers: {
       Authorization: 'Basic dWk6dWk=',

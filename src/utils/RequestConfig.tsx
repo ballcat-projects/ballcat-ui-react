@@ -71,7 +71,7 @@ const customerResponseInterceptor: ResponseInterceptor = async (res, option) => 
 
           if (json && json.code !== 200) {
             // 登录接口, 通过是否存在token判断成功或失败
-            if (option.url === 'oauth/token' && json.access_token) {
+            if (option.url === 'oauth2/token' && json.access_token) {
               return response;
             }
 
