@@ -3,7 +3,7 @@ import { captchaGet, captchaValid } from '@/services/captcha';
 import I18n from '@/utils/I18nUtils';
 import type { CSSProperties, RefObject } from 'react';
 import React, { Component } from 'react';
-import './index.css';
+import './index.less';
 
 export * from './typings';
 
@@ -43,10 +43,10 @@ const defaultState = {
   trackArr: [],
   moveBtnStyles: {
     backgroundPosition: '-5px 11.79625%',
-    transform: 'translate(0px, 0px)',
+    transform: 'translate3d(0px, 0px, 0)',
   },
   imgDivStyles: {
-    transform: 'translate(0px, 0px)',
+    transform: 'translate3d(0px, 0px, 0)',
   },
   raw: {},
 };
@@ -186,8 +186,8 @@ export default class extends AbstractVerify<State> {
       moveX,
       trackArr,
       movePercent: moveX / (bgImgRef.current?.width || 1),
-      moveBtnStyles: { ...moveBtnStyles, transform: `translate(${moveX}px, 0px)` },
-      imgDivStyles: { transform: `translate(${moveX}px, 0px)` },
+      moveBtnStyles: { ...moveBtnStyles, transform: `translate3d(${moveX}px, 0px, 0)` },
+      imgDivStyles: { transform: `translate3d(${moveX}px, 0px, 0)` },
     });
   }
 
