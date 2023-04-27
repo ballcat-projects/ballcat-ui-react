@@ -17,11 +17,10 @@ import type { BodyProps, MergerSettingsType, SettingDrawerProps } from './typing
 import { LayoutSetting as LayoutSettingUtils } from '@/utils/Ballcat';
 
 export const getFormatMessage = (): ((data: { id: string; defaultMessage?: string }) => string) => {
-  const formatMessage = ({ id }: { id: string; defaultMessage?: string }): string => {
+  return ({ id }: { id: string; defaultMessage?: string }): string => {
     const locales = getLocales();
     return locales[id];
   };
-  return formatMessage;
 };
 
 const Body: React.FC<BodyProps> = ({ children, prefixCls, titleKey }) => (
@@ -182,7 +181,7 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
       }}
       bodyStyle={{ paddingBottom: '0' }}
       drawerStyle={{ height: '100%' }}
-      contentWrapperStyle={{ height: 'auto' }}
+      contentWrapperStyle={{ height: 'calc(100% - 2px)' }}
     >
       <div className={`${baseClassName}-drawer-content`}>
         <Body titleKey="pagestyle" prefixCls={baseClassName}>
@@ -234,12 +233,6 @@ const SettingDrawer: React.FC<SettingDrawerProps> = (props) => {
         </Body>
         <LayoutSetting settings={layoutSetting} changeSetting={changeSetting} />
         <Divider />
-
-        {/*<Body titleKey="regionalsettings" prefixCls={baseClassName}>*/}
-        {/*  <RegionalSetting settings={layoutSetting} changeSetting={changeSetting}/>*/}
-        {/*</Body>*/}
-
-        {/*<Divider/>*/}
 
         <Body titleKey="othersettings" prefixCls={baseClassName}>
           <List

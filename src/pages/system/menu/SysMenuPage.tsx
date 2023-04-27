@@ -14,7 +14,7 @@ import { ProFormRadio, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
 import { Button, Form as AntdForm, message, Modal, TreeSelect, Typography } from 'antd';
-import { FormInstance } from 'antd/es';
+import type { FormInstance } from 'antd/es';
 import { useRef, useState } from 'react';
 
 const isBtn = (data: SysMenuVo | any) => {
@@ -499,7 +499,10 @@ export default () => {
               valueType: 'option',
               render: (text, recoed, _, action) => {
                 return (
-                  <a key="editable" onClick={() => action?.startEditable?.(recoed.id)}>
+                  <a
+                    key={`editable-${recoed.id}`}
+                    onClick={() => action?.startEditable?.(recoed.id)}
+                  >
                     编辑
                   </a>
                 );

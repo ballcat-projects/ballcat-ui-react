@@ -136,11 +136,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       siderWidth={isContentFull ? 0 : undefined}
       headerHeight={isContentFull ? 0 : undefined}
       headerRender={(headerProps, defaultDom) => (isContentFull ? undefined : defaultDom)}
-      headerContentRender={(headerViewProps, defaultDom) => {
-        if (initialState?.settings?.splitMenus) {
-          return defaultDom;
-        }
-
+      headerContentRender={(headerViewProps) => {
         return (
           <Header.Left
             headerViewProps={headerViewProps}
@@ -186,7 +182,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         content={settings.waterMark ? initialState?.user?.info?.nickname : undefined}
         style={{ height: '100%' }}
       >
-        <ReactKeepAlive id={keepAliveProps.id} name={keepAliveProps.name}>
+        <ReactKeepAlive
+          key={`keep-alive-${keepAliveProps.id}`}
+          id={keepAliveProps.id}
+          name={keepAliveProps.name}
+        >
           {children}
         </ReactKeepAlive>
       </WaterMark>
