@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Input } from 'antd';
-import languages, { allTag } from '@/utils/languages';
+import languages, { allTag } from '@/config/languages';
 
 export type ItemLanguagesProps = {
   value?: string | Record<string, string>;

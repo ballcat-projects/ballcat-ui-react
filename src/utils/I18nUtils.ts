@@ -1,7 +1,7 @@
 import type { IntlShape } from 'react-intl';
 import { message } from 'antd';
 import type { ConfigOnClose } from 'antd/lib/message';
-import { settings } from './ConfigUtils';
+import settings from '@/config/ProjectConfig';
 import { setLocale } from 'umi';
 
 import zhCN from '@/locales/zh-CN';

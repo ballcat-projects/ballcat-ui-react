@@ -11,11 +11,12 @@ const caches: Record<string, LovConfig<any, any>> = {};
 
 const keys = Object.keys(lovMap);
 
+// eslint-disable-next-line no-restricted-syntax
 for (const key of keys) {
   caches[key] = lovMap[key];
 }
 
-export const Lov = <V, E = any>(props: LovProps<V, E>) => {
+export const Lov = <V extends string | number, E = any>(props: LovProps<V, E>) => {
   const { value, onChange, keyword, overwriteConfig } = props;
   const config = { ...caches[keyword], ...overwriteConfig } as LovConfig<V, E>;
 

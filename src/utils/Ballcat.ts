@@ -1,8 +1,8 @@
 import type { SysDictData, SysDictDataHash, SysDictDataItem } from '@/services/ballcat/system';
 import type { GLOBAL } from '@/typings';
-import type { ProjectSetting } from 'config/settings';
+import type { ProjectSetting } from '@/config/ProjectConfig';
+import settings from '@/config/ProjectConfig';
 import { history } from 'umi';
-import { settings } from './ConfigUtils';
 
 export const token_key = 'access-token';
 export const user_key = 'user';

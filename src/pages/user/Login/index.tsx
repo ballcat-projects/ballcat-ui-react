@@ -2,7 +2,7 @@ import VerifySlide from '@/components/Captcha';
 import type { LoginParams } from '@/services/ballcat/login';
 import { login } from '@/services/ballcat/login';
 import { Token, User } from '@/utils/Ballcat';
-import { settings } from '@/utils/ConfigUtils';
+import settings from '@/config/ProjectConfig';
 import { pwd } from '@/utils/Encrypt';
 import I18n from '@/utils/I18nUtils';
 import {
@@ -138,7 +138,7 @@ const Login: React.FC = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src="/logo.svg" />
+              <img alt="logo" className={styles.logo} src={settings.logo} />
               <span className={styles.title}>Ball Cat</span>
             </Link>
           </div>

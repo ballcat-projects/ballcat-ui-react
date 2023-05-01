@@ -6,7 +6,7 @@ import Page from '@/components/Page';
 import SysI18nCreate from '@/pages/i18n/SysI18nCreate';
 import type { SysI18nListVo, SysMenuDto, SysMenuQo, SysMenuVo } from '@/services/ballcat/system';
 import { i18n, menu } from '@/services/ballcat/system';
-import { settings } from '@/utils/ConfigUtils';
+import settings from '@/config/ProjectConfig';
 import I18n from '@/utils/I18nUtils';
 import TreeUtils from '@/utils/TreeUtils';
 import { DownOutlined, EditTwoTone, UpOutlined } from '@ant-design/icons';

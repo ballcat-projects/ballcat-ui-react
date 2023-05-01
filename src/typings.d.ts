@@ -1,4 +1,4 @@
-import type { ProjectSetting } from 'config/settings';
+import type { ProjectSetting } from '@/config/ProjectConfig';
 
 declare module 'slash2';
 declare module '*.css';

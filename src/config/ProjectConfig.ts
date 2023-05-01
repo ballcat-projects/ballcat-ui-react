@@ -1,4 +1,4 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
 export type ProjectSetting = LayoutSettings & {
   pwa?: boolean;
@@ -24,7 +24,7 @@ export type ProjectSetting = LayoutSettings & {
   };
 };
 
-const Settings: ProjectSetting = {
+const settings: ProjectSetting = {
   navTheme: 'dark',
   primaryColor: '#1890ff',
   layout: 'side',
@@ -46,4 +46,4 @@ const Settings: ProjectSetting = {
   },
 };
 
-export default Settings;
+export default settings;

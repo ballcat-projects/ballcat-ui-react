@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import MultiTab from '@/components/MultiTab';
 import { isLogin } from '@/utils/Ballcat';
-import { settings } from '@/utils/ConfigUtils';
+import settings from '@/config/ProjectConfig';
 import I18n from '@/utils/I18nUtils';
 import Notify from '@/utils/NotifyUtils';
 import type { ExpandRoute } from '@/utils/RouteUtils';

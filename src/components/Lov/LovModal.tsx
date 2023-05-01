@@ -102,10 +102,12 @@ const getRet = <V, E>(row: E, config: LovConfig<V, E>): V => {
   if (typeof config.ret === 'function') {
     return config.ret(row);
   }
-  return row[config.ret] as unknown as V;
+  return (row[config.ret] as unknown) as V;
 };
 
-const LovModal = <V, E = any>(props: LovModalProps<V, E> & LovConfig<V, E> & ModalProps) => {
+const LovModal = <V extends string | number, E = any>(
+  props: LovModalProps<V, E> & LovConfig<V, E> & ModalProps,
+) => {
   const config: LovConfig<V, E> = props;
 
   const {
@@ -230,7 +232,11 @@ const LovModal = <V, E = any>(props: LovModalProps<V, E> & LovConfig<V, E> & Mod
   }, [keyword]);
 
   useEffect(() => {
-    setShowData(value ? (value instanceof Array ? [...value] : [value]) : []);
+    if (value) {
+      setShowData(value instanceof Array ? [...value] : [value]);
+    } else {
+      setShowData([]);
+    }
   }, [value]);
 
   const style = { ...defaultModalStyle, ...modalStyle };

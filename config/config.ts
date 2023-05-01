@@ -3,7 +3,7 @@ import { defineConfig } from 'umi';
 import proxy from './proxy';
 import routes from './routes';
 
-import settings from './settings';
+import settings from '../src/config/ProjectConfig';
 
 const isStart = process.env.REACT_APP_ENV === 'start';
 
@@ -24,9 +24,8 @@ export default defineConfig({
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
   },
-  targets: {
-    ie: 11,
-  },
+  // 移除ie11支持
+  targets: {},
   // umi routes: https://umijs.org/docs/routing
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
@@ -45,6 +44,8 @@ export default defineConfig({
   fastRefresh: {},
   extraBabelPlugins: ['react-activation/babel'],
   ignoreMomentLocale: true,
+  // 速度快, 不支持低版本浏览器.
+  devtool: 'eval',
   // 不建议开启mfsu
   // mfsu: {},
   dynamicImport: {

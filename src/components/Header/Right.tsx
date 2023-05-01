@@ -11,7 +11,7 @@ import Avatar from './RightAvatar';
 // @ts-ignore
 import styles from './Right.less';
 import SettingDrawer from '@/components/SettingDrawer';
-import { settings } from '@/utils/ConfigUtils';
+import settings from '@/config/ProjectConfig';
 
 export default () => {
   const { initialState } = useModel('@@initialState');

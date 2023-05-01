@@ -2,8 +2,8 @@ import { PageLoading } from '@ant-design/pro-layout';
 import type { RequestConfig } from 'umi';
 import type { GLOBAL } from '@/typings';
 import { LayoutSetting, User } from '@/utils/Ballcat';
-import { settings } from '@/utils/ConfigUtils';
-import ProjectRequestConfig from '@/utils/RequestConfig';
+import settings from '@/config/ProjectConfig';
+import ProjectRequestConfig from '@/config/RequestConfig';
 import { AliveScope } from 'react-activation';
 import { StrictMode } from 'react';
 
@@ -29,7 +29,10 @@ export async function getInitialState(): Promise<GLOBAL.Is> {
 }
 
 export function rootContainer(container: any) {
+  // eslint-disable-next-line no-console
+  console?.log(process.env.msg);
   return (
+    // @ts-ignore
     <AliveScope>
       <StrictMode>{container}</StrictMode>
     </AliveScope>

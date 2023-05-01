@@ -1,32 +1,30 @@
-@captcha-img-url: '/captcha-tianai.png';
-
 .slider {
-  background-color: #fff;
-  width: 278px;
-  height: 285px;
   z-index: 999;
   box-sizing: border-box;
+  width: 278px;
+  height: 285px;
   padding: 9px;
+  background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 0 11px 0 #999;
   user-select: none;
 
   .content {
+    position: relative;
     width: 100%;
     height: 159px;
-    position: relative;
   }
 
   .bg-img-div {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
     transform: translate3d(0, 0, 0);
   }
 
   .slider-img-div {
-    height: 100%;
     position: absolute;
+    height: 100%;
     transform: translate3d(0, 0, 0);
   }
 
@@ -42,7 +40,7 @@
   .close-btn,
   .slider-move-track,
   .slider-move-btn {
-    background: url(@captcha-img-url) no-repeat;
+    background: url('./captcha-tianai.png') no-repeat;
   }
 
   .refresh-btn,
@@ -51,30 +49,30 @@
   }
 
   .slider-move {
-    height: 60px;
-    width: 100%;
-    margin: 11px 0;
     position: relative;
+    width: 100%;
+    height: 60px;
+    margin: 11px 0;
 
     .slider-move-track {
-      line-height: 38px;
-      font-size: 14px;
-      text-align: center;
-      white-space: nowrap;
       color: #88949d;
+      font-size: 14px;
+      line-height: 38px;
+      white-space: nowrap;
+      text-align: center;
       -moz-user-select: none;
       -webkit-user-select: none;
       user-select: none;
     }
 
     .slider-move-btn {
-      transform: translate3d(0, 0, 0);
-      background-position: -5px 11.79625%;
       position: absolute;
       top: -12px;
       left: 0;
       width: 66px;
       height: 66px;
+      background-position: -5px 11.79625%;
+      transform: translate3d(0, 0, 0);
     }
   }
 
@@ -85,14 +83,14 @@
   }
 
   .bottom {
-    height: 19px;
     width: 100%;
+    height: 19px;
 
     .close-btn {
       width: 20px;
       height: 20px;
-      background-position: 0 44.86874%;
       margin-right: 5px;
+      background-position: 0 44.86874%;
     }
 
     .refresh-btn {

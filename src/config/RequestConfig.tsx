@@ -10,7 +10,8 @@ import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi
  */
 const customerRequestInterceptor: RequestInterceptor = (url, options) => {
   // 处理请求地址
-  const newUrl = `/${process.env.request?.prefix || 'api'}/${
+  // @ts-ignore
+  const newUrl = `${process.env.request?.prefix || 'api'}/${
     url.startsWith('/') ? url.substring(1) : url
   }`;
   const headers: any = { ...options.headers };

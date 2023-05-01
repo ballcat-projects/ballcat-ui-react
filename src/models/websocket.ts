@@ -1,5 +1,5 @@
 import { isLogin, Token } from '@/utils/Ballcat';
-import { settings } from '@/utils/ConfigUtils';
+import settings from '@/config/ProjectConfig';
 import { useEffect, useState } from 'react';
 import { useModel } from 'umi';
 
