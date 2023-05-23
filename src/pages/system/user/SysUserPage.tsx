@@ -89,11 +89,11 @@ export default () => {
     },
     {
       title: '性别',
-      dataIndex: 'sex',
+      dataIndex: 'gender',
       align: 'center',
       hideInSearch: true,
       render: (dom, record) => {
-        return <DictTag code="gender" value={record.sex} />;
+        return <DictTag code="gender" value={record.gender} />;
       },
     },
     {
@@ -104,7 +104,7 @@ export default () => {
     },
     {
       title: '电话',
-      dataIndex: 'phone',
+      dataIndex: 'phoneNumber',
       align: 'center',
     },
     {
@@ -360,14 +360,14 @@ export default () => {
 
               <Col xs={24} sm={24} md={12}>
                 <FormDictRadio
-                  name="sex"
+                  name="gender"
                   label="性别"
                   code="gender"
                   dictProps={{ radioType: 'button' }}
                   initialValue={1}
                 />
 
-                <ProFormText name="phone" label="电话" />
+                <ProFormText name="phoneNumber" label="电话" />
 
                 <ProFormText name="email" label="邮箱" />
 
