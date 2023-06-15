@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import type { CaptchaProps } from '@/components/Captcha/typings';
 import { captchaGet, captchaValid } from '@/services/captcha';
 import I18n from '@/utils/I18nUtils';
@@ -69,7 +70,8 @@ const clearPreventDefault = (e: Event) => {
 const getCurrentCoordinate = (e: any) => {
   const event = e.touches && e.touches.length > 0 ? e.touches[0] : e;
 
-  let startX, startY;
+  let startX;
+  let startY;
   if (event.pageX) {
     startX = event.pageX;
     startY = event.pageY;
@@ -124,7 +126,7 @@ export default class extends AbstractVerify<State> {
           bgImgRef.current.src = res.captcha.backgroundImage;
         }
         if (sliderImgRef.current) {
-          sliderImgRef.current.src = res.captcha.sliderImage;
+          sliderImgRef.current.src = res.captcha.templateImage;
         }
 
         this.setState({ ...defaultState, id: res.id, raw: { ...res } });
@@ -136,11 +138,9 @@ export default class extends AbstractVerify<State> {
 
   listEventElements() {
     const elements: Element[] = [];
-    for (const collect of [document.getElementsByClassName('slider')]) {
-      if (collect.length < 1) {
-        continue;
-      }
-
+    const collect = document.getElementsByClassName('slider');
+    if (collect.length >= 1) {
+      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < collect.length; i++) {
         const element = collect.item(i);
         if (element) {
@@ -148,20 +148,19 @@ export default class extends AbstractVerify<State> {
         }
       }
     }
-
     return elements;
   }
 
   addEvent() {
-    for (const element of this.listEventElements()) {
+    this.listEventElements().forEach((element) => {
       element.addEventListener('touchmove', clearPreventDefault, false);
-    }
+    });
   }
 
   removeEvent() {
-    for (const element of this.listEventElements()) {
+    this.listEventElements().forEach((element) => {
       element.removeEventListener('touchmove', clearPreventDefault, false);
-    }
+    });
   }
 
   move(e: MouseEvent | TouchEvent | Touch) {
@@ -192,8 +191,18 @@ export default class extends AbstractVerify<State> {
   }
 
   up(e: MouseEvent | TouchEvent | Touch) {
-    const { id, startX, startY, startTime, trackArr, raw, bgImgRef, sliderImgRef, move, up } =
-      this.state;
+    const {
+      id,
+      startX,
+      startY,
+      startTime,
+      trackArr,
+      raw,
+      bgImgRef,
+      sliderImgRef,
+      move,
+      up,
+    } = this.state;
     const [pageX, pageY] = getCurrentCoordinate(e);
     const stopTime = new Date();
 
@@ -215,8 +224,8 @@ export default class extends AbstractVerify<State> {
         ...raw,
         bgImageWidth: raw?.backgroundImageWidth || bgImgRef.current?.width,
         bgImageHeight: raw?.backgroundImageHeight || bgImgRef.current?.height,
-        sliderImageWidth: raw?.sliderImageWidth || sliderImgRef.current?.width,
-        sliderImageHeight: raw?.sliderImageHeight || sliderImgRef.current?.height,
+        templateImageWidth: raw?.templateImageWidth || sliderImgRef.current?.width,
+        templateImageHeight: raw?.templateImageHeight || sliderImgRef.current?.height,
         startSlidingTime: startTime,
         entSlidingTime: stopTime,
         trackList: trackArr,
