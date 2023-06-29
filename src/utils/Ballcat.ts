@@ -85,20 +85,34 @@ export const Dict = {
 
     return { ...data, dictItems: items };
   },
-  getRealValue: (type: 1 | 2 | 3 | undefined, val: string): any => {
+  getRealValue: (type: 1 | 2 | 3 | undefined, value: string): any => {
     switch (type) {
-      case 3:
-        // 布尔值处理
-        if (val && (val.toLowerCase() === 'false' || val === '0')) {
+      case 3: {
+        if (!value) {
           return false;
         }
-        return Boolean(val);
+        const lowerValue = value.toLowerCase();
+        if (['0', 'false', 'n', 'no'].includes(lowerValue)) {
+          return false;
+        }
+        if (['1', 'true', 'y', 'yes', 'ok'].includes(lowerValue)) {
+          return true;
+        }
+
+        const number = Number(lowerValue);
+        if (!Number.isNaN(number)) {
+          // 大于0 为 true
+          return number > 0;
+        }
+
+        return Boolean(value);
+      }
       case 2:
         // 字符串
-        return String(val);
+        return String(value);
       default:
         // 数字
-        return Number(val);
+        return Number(value);
     }
   },
 };
