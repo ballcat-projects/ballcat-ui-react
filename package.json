@@ -8,6 +8,8 @@
     "start:uat": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=uat umi dev",
     "start:prod": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=prod umi dev",
     "build": "cross-env UMI_ENV=web umi build",
+    "build:uat": "cross-env UMI_ENV=uat umi build",
+    "build:prod": "cross-env UMI_ENV=prod umi build",
     "analyze": "cross-env ANALYZE=1 umi build",
     "deploy": "npm run site && npm run gh-pages",
     "dev": "npm run start",
