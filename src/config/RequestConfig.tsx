@@ -10,24 +10,22 @@ import type { RequestInterceptor, ResponseError, ResponseInterceptor } from 'umi
  */
 const customerRequestInterceptor: RequestInterceptor = (url, options) => {
   // 处理请求地址
-  // @ts-ignore
-  const newUrl = `${process.env.request?.prefix || 'api'}/${
-    url.startsWith('/') ? url.substring(1) : url
-  }`;
+  const envRequest = ((process.env.request as unknown) as Record<string, any>) || {};
+  const prefix = envRequest.prefix || '/api';
+  const suffix = url.startsWith('/') ? url.substring(1) : url;
+  const uri = `${prefix}/${suffix}`;
   const headers: any = { ...options.headers };
-
   // 添加token
   const token = Token.get();
   if (!headers.Authorization && token && isLogin()) {
     headers.Authorization = `Bearer ${token}`;
   }
-
   // 添加语言
   if (!headers['Accept-Language']) {
     headers['Accept-Language'] = I18n.getLocal();
   }
 
-  return { url: newUrl, options: { ...options, headers } };
+  return { url: uri, options: { ...options, headers } };
 };
 
 /**

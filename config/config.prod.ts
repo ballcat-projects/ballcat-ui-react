@@ -5,7 +5,7 @@ export default defineConfig({
     'process.env': {
       msg: '现在是 prod 环境!',
       request: {
-        prefix: 'api',
+        prefix: '/api',
       },
     },
   },
