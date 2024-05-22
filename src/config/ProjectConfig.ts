@@ -38,7 +38,7 @@ const settings: ProjectSetting = {
   i18n: true,
   websocket: true,
   defaultLocal: 'zh-CN',
-  waterMark: true,
+  waterMark: false,
   multiTab: true,
   storageOptions: {
     namespace: 'ballcat/',
