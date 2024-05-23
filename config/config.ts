@@ -51,55 +51,57 @@ export default defineConfig({
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },
-  chainWebpack: isStart
-    ? undefined
-    : function (config, { webpack }) {
-        config.merge({
-          optimization: {
-            splitChunks: {
-              chunks: 'all',
-              minSize: 30000,
-              // 共享该module的最小 chunk数量
-              minChunks: 2,
-              // 最多异步加载该模块
-              maxAsyncRequests: 10,
-              automaticNameDelimiter: '.',
-              // 根据被提取的 chunk 自动生成
-              name: true,
-              cacheGroups: {
-                antd: {
-                  name: 'antd',
-                  test({ resource }: any): boolean {
-                    return (
-                      /[\\/]node_modules[\\/]@ant-design[\\/]/.test(resource) ||
-                      /[\\/]node_modules[\\/]antd.*[\\/]/.test(resource)
-                    );
-                  },
-                  minChunks: 2,
-                  reuseExistingChunk: true,
-                  priority: 30,
-                },
-                antv: {
-                  name: 'antv',
-                  test({ resource }: any): boolean {
-                    return /[\\/]node_modules[\\/]@antv[\\/]/.test(resource);
-                  },
-                  minChunks: 2,
-                  reuseExistingChunk: true,
-                  priority: 20,
-                },
-                vendor: {
-                  name: 'vendors',
-                  test({ resource }: any): boolean {
-                    return /[\\/]node_modules[\\/]/.test(resource);
-                  },
-                  minChunks: 2,
-                  reuseExistingChunk: true,
-                  priority: 10,
-                },
+  chainWebpack: function (config, { webpack }) {
+    if (isStart) {
+      return;
+    }
+
+    config.merge({
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+          minSize: 30000,
+          // 共享该module的最小 chunk数量
+          minChunks: 2,
+          // 最多异步加载该模块
+          maxAsyncRequests: 10,
+          automaticNameDelimiter: '.',
+          // 根据被提取的 chunk 自动生成
+          name: true,
+          cacheGroups: {
+            antd: {
+              name: 'antd',
+              test({ resource }: any): boolean {
+                return (
+                  /[\\/]node_modules[\\/]@ant-design[\\/]/.test(resource) ||
+                  /[\\/]node_modules[\\/]antd.*[\\/]/.test(resource)
+                );
               },
+              minChunks: 2,
+              reuseExistingChunk: true,
+              priority: 30,
+            },
+            antv: {
+              name: 'antv',
+              test({ resource }: any): boolean {
+                return /[\\/]node_modules[\\/]@antv[\\/]/.test(resource);
+              },
+              minChunks: 2,
+              reuseExistingChunk: true,
+              priority: 20,
+            },
+            vendor: {
+              name: 'vendors',
+              test({ resource }: any): boolean {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              minChunks: 2,
+              reuseExistingChunk: true,
+              priority: 10,
             },
           },
-        });
+        },
       },
+    });
+  },
 });
