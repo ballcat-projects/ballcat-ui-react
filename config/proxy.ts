@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://admin.ballcat.cn/',
+      target: 'https://admin.ballcat.cn/',
       // 支持 websocket转发
       ws: true,
       changeOrigin: true,
