@@ -4,9 +4,9 @@
   "private": true,
   "description": "Ballcat",
   "scripts": {
-    "start": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=dev umi dev",
-    "start:uat": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=uat umi dev",
-    "start:prod": "cross-env PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=prod umi dev",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=dev umi dev",
+    "start:uat": "cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=uat umi dev",
+    "start:prod": "cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9002 HOST=0.0.0.0 REACT_APP_ENV=start UMI_ENV=prod umi dev",
     "build": "cross-env UMI_ENV=dev umi build",
     "build:uat": "cross-env UMI_ENV=uat umi build",
     "build:prod": "cross-env UMI_ENV=prod umi build",
